@@ -1,0 +1,92 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Brick &amp; Mortar Barber Shop · concept homepage</title>
+<meta name="description" content="Concept homepage for Brick &amp; Mortar Barber Shop, Indianapolis, IN.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#141414;--ink:#f3efe6;--muted:#b9b2a3;--accent:#c9a45c;--card:#1f1f1f;--line:#2c2c2c;--btn-ink:#141414}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 'Archivo',sans-serif;padding-bottom:84px;overflow-x:hidden}
+a{color:inherit}
+.banner{background:var(--accent);color:var(--btn-ink);font-size:13px;text-align:center;padding:8px 16px;font-weight:600}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+header.top{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.logo{font-family:'Archivo Black',sans-serif;font-size:20px;letter-spacing:.01em}
+.top nav a{text-decoration:none;margin-left:22px;color:var(--muted);font-size:15px}
+.top nav{display:none}
+.hero{background:radial-gradient(120% 80% at 80% 10%,#3a3226 0%,#141414 60%);padding:28px 0 56px;overflow:hidden}
+.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-size:14px}
+.dot{width:8px;height:8px;border-radius:50%;background:#9aa0a6}
+.dot.on{background:#2ea36b;box-shadow:0 0 0 4px rgba(46,163,107,.18)}
+h1{font-family:'Archivo Black',sans-serif;font-size:clamp(40px,11vw,88px);line-height:.98;letter-spacing:-.01em;margin:22px 0 16px}
+h1 span{display:block;overflow:hidden} h1 span i{display:block;font-style:normal;animation:rise 1s cubic-bezier(.2,.7,.2,1) both}
+h1 span:nth-child(2) i{animation-delay:.12s;color:var(--accent)}
+@keyframes rise{from{transform:translateY(105%)}to{transform:none}}
+.lead{font-size:18px;color:var(--muted);max-width:560px}
+.proof{margin-top:18px;font-size:15px} .stars{color:#e0a526;letter-spacing:2px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:12px;font-weight:700;text-decoration:none;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:700;cursor:pointer;transition:transform .12s}
+.btn.primary{background:var(--accent);color:var(--btn-ink);border-color:var(--accent)}
+.btn:active{transform:scale(.97)}
+section{padding:56px 0;border-top:1px solid var(--line)}
+h2{font-family:'Archivo Black',sans-serif;font-size:clamp(28px,6vw,44px);line-height:1.05;margin-bottom:8px}
+.kicker{text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--accent);font-weight:700;margin-bottom:10px}
+.muted{color:var(--muted)}
+.svc{list-style:none;margin-top:22px;display:grid;gap:10px}
+.svc li{display:flex;justify-content:space-between;gap:16px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.svc li span{display:block;color:var(--muted);font-size:14px} .svc em{font-style:normal;font-weight:700;white-space:nowrap}
+.note{font-size:13px;color:var(--muted);margin-top:10px}
+.steps{list-style:none;display:grid;gap:14px;margin-top:22px}
+.steps li{display:flex;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.n{flex:0 0 36px;height:36px;border-radius:50%;background:var(--accent);color:var(--btn-ink);display:grid;place-items:center;font-weight:700}
+.steps p{color:var(--muted);font-size:15px}
+.facts{list-style:none;display:grid;gap:8px;margin-top:16px} .facts li:before{content:"— ";color:var(--accent)}
+.visit{display:grid;gap:22px}
+.hours{border-collapse:collapse;width:100%;max-width:380px} .hours th{text-align:left;font-weight:500;padding:6px 0;color:var(--muted)} .hours td{text-align:right}
+.hours tr.today th,.hours tr.today td{color:var(--ink);font-weight:700}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
+footer{padding:36px 0 30px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+.bar{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--line);z-index:5}
+.bar a,.bar button{min-height:48px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:700 15px 'Archivo',sans-serif;display:grid;place-items:center;text-decoration:none;cursor:pointer}
+.bar .primary{background:var(--accent);color:var(--btn-ink);border-color:var(--accent)}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity .25s;z-index:9}
+.sheet.open{opacity:1;pointer-events:auto}
+.sheet .panel{background:var(--bg);width:100%;border-radius:20px 20px 0 0;padding:22px 20px 28px;transform:translateY(100%);transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.sheet.open .panel{transform:none}
+.opt{display:flex;align-items:center;min-height:52px;padding:0 16px;border:1px solid var(--line);border-radius:12px;margin-top:10px;text-decoration:none;font-weight:700;background:var(--card)}
+@media(min-width:900px){.top nav{display:block} .bar{display:none} body{padding-bottom:0} .svc{grid-template-columns:1fr 1fr} .steps{grid-template-columns:repeat(3,1fr)} .visit{grid-template-columns:1fr 1fr} .hero{padding:56px 0 96px} .sheet{align-items:center;justify-content:center} .sheet .panel{max-width:440px;border-radius:20px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<div class="banner">Concept preview made for Brick &amp; Mortar Barber Shop by Storefront Studio</div>
+<div class="hero"><div class="wrap">
+<header class="top"><div class="logo">Brick &amp; Mortar Barber Shop</div><nav><a href="#services">Services</a><a href="#visit">Visit</a><a href="tel:+13179291179">(317) 929-1179</a></nav></header>
+<div class="badge"><span class="dot" id="dot"></span><span id="open">Open Monday to Saturday</span></div>
+<h1><span><i>Clean cuts.</i></span><span><i>Straight razors.</i></span></h1>
+<p class="lead">Clean haircuts in any style and proper straight razor shaves, with one set of hours you can trust.</p>
+<p class="proof"><span class="stars" aria-hidden="true">★★★★★</span> <b>4.6</b> stars · 22 reviews</p>
+<div class="ctas"><button class="btn primary" data-sheet>Book a chair</button><a class="btn" href="tel:+13179291179">Call (317) 929-1179</a><a class="btn" href="https://www.google.com/maps/search/?api=1&query=Brick+%26+Mortar+Barber+Shop+906+Carrollton+Ave%2C+Ste+335%2C+Indianapolis%2C+IN+46202" target="_blank" rel="noopener">Directions</a></div>
+</div></div>
+<main class="wrap">
+<section id="services"><p class="kicker">Services</p><h2>Cuts and shaves</h2><ul class="svc"><li><div><b>Haircut</b><span>Any style</span></div><em>Sample</em></li><li><div><b>Straight razor shave</b><span>Hot towel, straight blade</span></div><em>Sample</em></li><li><div><b>Beard trim</b><span>Shape and line-up</span></div><em>Sample</em></li><li><div><b>Cut + shave</b><span>The full treatment</span></div><em>Sample</em></li></ul><p class="note">Sample prices. Final prices come from the shop. Cash only.</p></section>
+<section><p class="kicker">Your first visit</p><h2>How it works</h2><ol class="steps"><li><span class="n">1</span><div><b>Call ahead</b><p>Tap Call to hold a chair.</p></div></li><li><span class="n">2</span><div><b>Bring cash</b><p>We&#x27;re a cash-only shop.</p></div></li><li><span class="n">3</span><div><b>Find us</b><p>906 Carrollton Ave, Ste 335.</p></div></li></ol></section>
+<section><p class="kicker">Why people come back</p><h2>Why people come back</h2><ul class="facts"><li>4.6 stars</li><li>Straight razor shaves</li><li>One clear set of hours on every page</li></ul></section>
+<section id="visit" class="visit"><div><p class="kicker">Visit</p><h2>Find us</h2><p style="margin-top:12px">906 Carrollton Ave, Ste 335, Indianapolis, IN 46202</p><p><a href="tel:+13179291179">(317) 929-1179</a></p><div class="ctas"><a class="btn primary" href="https://www.google.com/maps/search/?api=1&query=Brick+%26+Mortar+Barber+Shop+906+Carrollton+Ave%2C+Ste+335%2C+Indianapolis%2C+IN+46202" target="_blank" rel="noopener">Open in Google Maps</a></div></div>
+<div class="card"><p class="kicker">Hours</p><p class="muted">Open Monday to Saturday. One set of hours, shown once, goes here.</p></div></section>
+</main>
+<footer class="wrap">Brick &amp; Mortar Barber Shop · 906 Carrollton Ave, Ste 335, Indianapolis, IN 46202 · <a href="tel:+13179291179">(317) 929-1179</a><br>Concept by Storefront Studio · huszageorge25-wq.github.io</footer>
+<nav class="bar"><a href="tel:+13179291179">Call</a><a href="https://www.google.com/maps/search/?api=1&query=Brick+%26+Mortar+Barber+Shop+906+Carrollton+Ave%2C+Ste+335%2C+Indianapolis%2C+IN+46202" target="_blank" rel="noopener">Directions</a><button class="primary" data-sheet>Book a chair</button></nav>
+<div class="sheet" id="sheet" role="dialog" aria-label="Book a chair"><div class="panel"><h2 style="font-size:28px">Book a chair</h2><p class="muted">Call and we&#x27;ll hold a spot.</p><a class="opt" href="tel:+13179291179">Call (317) 929-1179</a><a class="opt" href="#" data-close>Close</a></div></div>
+<script>
+const H=null;
+const D=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+function f(h){const hh=Math.floor(h),m=Math.round((h-hh)*60),s=hh<12?"am":"pm";return (hh%12||12)+(m?":"+String(m).padStart(2,"0"):"")+s}
+if(H){const now=new Date(new Date().toLocaleString("en-US",{timeZone:"America/New_York"}));const d=D[now.getDay()],t=now.getHours()+now.getMinutes()/60,x=H[d];
+document.querySelectorAll(".hours tr").forEach(r=>{if(r.firstChild.textContent===d)r.classList.add("today")});
+let msg;if(x&&t>=x[0]&&t<x[1]){msg="Open now · closes at "+f(x[1]);document.getElementById("dot").classList.add("on")}else{for(let i=0;i<8;i++){const dd=D[(now.getDay()+i)%7],y=H[dd];if(y&&(i>0||t<y[0])){msg="Closed · opens "+(i===0?"today":i===1?"tomorrow":dd)+" at "+f(y[0]);break}}}
+document.getElementById("open").textContent=msg||"See hours below";}
+const sh=document.getElementById("sheet");document.querySelectorAll("[data-sheet]").forEach(b=>b.onclick=()=>sh.classList.add("open"));
+sh.onclick=e=>{if(e.target===sh||e.target.hasAttribute("data-close")){e.preventDefault();sh.classList.remove("open")}};
+</script></body></html>
