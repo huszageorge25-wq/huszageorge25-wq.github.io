@@ -114,8 +114,14 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
 }
 @media (prefers-reduced-motion:reduce){.reveal,.ready .reveal,.hero img.kb,.ready .hero img.kb{opacity:1;transform:none;transition:none}}
 .hero-split header.top{color:var(--ink)}@media(max-width:860px){.hero-split header.top{color:#fff}}
-.anim-splitflap .board tr{transform:rotateX(90deg);transform-origin:top;opacity:0}
-.anim-splitflap .board.on tr{transform:none;opacity:1;transition:transform .45s cubic-bezier(.3,1.4,.5,1),opacity .2s}
+.anim-splitflap .board{perspective:800px}
+.anim-splitflap .board tr{transform:rotateX(-90deg);transform-origin:50% 0;opacity:0}
+.anim-splitflap .board.on tr{transform:none;opacity:1;transition:transform .5s cubic-bezier(.3,1.5,.5,1),opacity .15s}
+.anim-splitflap .board td,.anim-splitflap .board th{font-variant-numeric:tabular-nums;font-family:var(--display);letter-spacing:.02em}
+.anim-splitflap .board .hours-note{font-family:var(--display);font-size:1.4rem;line-height:1.3}
+.flap{display:inline-block;min-width:.62em;text-align:center}
+
+.hero img.kb{will-change:transform}
 
 .offer{--oa:color-mix(in srgb,var(--accent) 62%,var(--bg));background:var(--ink);color:var(--bg);padding:clamp(72px,10vw,120px) 0}
 .offer .for{margin:0 0 12px;font-weight:600;color:var(--oa)}
@@ -141,7 +147,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
 .hero-type .strip{position:relative}
 .photo-note{position:absolute;right:12px;bottom:12px;z-index:2;font-size:.75rem;background:rgba(0,0,0,.55);color:#fff;padding:4px 10px;border-radius:999px}
 @media(max-width:860px){.offer-grid{grid-template-columns:1fr}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.anim-razor h1{clip-path:none!important}.anim-stamp h1 .ln,.anim-splitflap .board tr,.stampbadge,.pinmap .pin,.pinmap .lab{opacity:1!important;transform:none!important}.stampbadge{transform:rotate(-12deg)!important}.ecg path,.stem path{stroke-dashoffset:0!important}.ecg .dot{opacity:1}}</style>
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.anim-razor .hl{clip-path:none!important}.anim-stamp h1 .ch,.anim-badge h1 .ch,.anim-splitflap .board tr,.stampbadge,.pinmap .pin,.pinmap .lab,.pinmap .trip,.stem .lf,.stem .bud{opacity:1!important;transform:none!important;filter:none!important}.stampbadge{transform:rotate(-12deg)!important}.ecg .trace{display:none}.stem .st,.strands path,.route .draw,.pinmap .trip{stroke-dashoffset:0!important}.medal::before{--sweep:360deg}.anim-shine h1{background:none;-webkit-text-fill-color:currentColor}.anim-razor h1::after,.anim-stamp h1::after{transform:none;width:min(340px,62%)}}</style>
 </head><body>
 <div class="banner">Concept preview made for Brick &amp; Mortar Barber Shop by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a> · <a href="#offer">See your offer</a></div>
 <main class="anim-splitflap">
@@ -192,19 +198,35 @@ Straight razors.</h1><p class="lede reveal d2">Any style of haircut and a proper
 })();
 
 (function(){
- if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('[data-on]').forEach(function(e){e.classList.add('on')});return}
- var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{threshold:.35});
- document.querySelectorAll('[data-on]').forEach(function(e){io.observe(e)});
- document.querySelectorAll('.anim-splitflap .board tr').forEach(function(r,i){r.style.transitionDelay=(i*.09)+'s'});
+ var RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches, S=window.__SITE__;
+ var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');e.target.dispatchEvent(new Event('inview'));io.unobserve(e.target)}})},{threshold:.35}):null;
+ document.querySelectorAll('[data-on],.medal,.bignum,.board').forEach(function(e){if(RM||!io){e.classList.add('on');e.dispatchEvent(new Event('inview'))}else io.observe(e)});
+ /* count-up ($25 medal) */
+ document.querySelectorAll('[data-count]').forEach(function(el){var to=+el.dataset.count,pre=el.dataset.prefix||'';
+  el.addEventListener('inview',function(){if(RM){el.textContent=pre+to;return}var t0=null;function f(t){t0=t0||t;var k=Math.min(1,(t-t0)/1300),e=1-Math.pow(1-k,3);el.textContent=pre+Math.round(to*e);if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)})});
+ /* split-flap */
+ var CH='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:';
+ document.querySelectorAll('.anim-splitflap .board').forEach(function(b){
+  b.querySelectorAll('tr').forEach(function(r,i){r.style.transitionDelay=(i*.09)+'s'});
+  b.addEventListener('inview',function(){if(RM)return;b.querySelectorAll('td,th,.hours-note').forEach(function(c,i){var fin=c.textContent,n=0,max=10+i;var iv=setInterval(function(){n++;if(n>=max){c.textContent=fin;clearInterval(iv);return}c.textContent=fin.replace(/[A-Za-z0-9]/g,function(x){return Math.random()<n/max?x:CH[Math.floor(Math.random()*CH.length)]})},45)})})});
+ /* scroll-linked progress (steps, razor hairline) + gentle hero parallax */
+ var steps=document.querySelector('.anim-progress .steps'), sp=document.querySelector('.anim-razor .sig-photo'), hero=document.querySelector('.hero img.kb');
+ function onScroll(){var vh=innerHeight;
+  if(steps){var r=steps.getBoundingClientRect(),p=Math.max(0,Math.min(1,(vh*.8-r.top)/(r.height+vh*.25)));steps.style.setProperty('--p',p);steps.querySelectorAll('li').forEach(function(li,i,a){li.classList.toggle('hit',p>=i/(a.length-1)-.02||innerWidth<860)})}
+  if(sp){var q=sp.getBoundingClientRect();sp.style.setProperty('--p',Math.max(0,Math.min(1,(vh-q.top)/(vh*.9))))}
+  if(hero&&!RM&&scrollY<vh*1.2)hero.style.translate='0 '+(scrollY*.12)+'px'}
+ addEventListener('scroll',onScroll,{passive:true});onScroll();
+ /* route walker */
+ document.querySelectorAll('.route').forEach(function(r){r.addEventListener('inview',function(){var m=r.querySelector('animateMotion');if(m&&m.beginElement&&!RM)m.beginElement();else{var w=r.querySelector('.walker');w&&w.setAttribute('transform','translate(486 60)')}})});
+ /* live countdown to closing */
  var left=document.querySelector('[data-left]');
- if(left&&window.__SITE__.hours){var S=window.__SITE__;
-  function tick(){var p=new Intl.DateTimeFormat('en-US',{timeZone:S.tz,weekday:'short',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date()),o={};p.forEach(function(x){o[x.type]=x.value});
-   var m=(+o.hour%24)*60+(+o.minute),h=S.hours[o.weekday];
+ if(left&&S.hours){function tick(){var p=new Intl.DateTimeFormat('en-US',{timeZone:S.tz,weekday:'short',hour:'numeric',minute:'numeric',second:'numeric',hour12:false}).formatToParts(new Date()),o={};p.forEach(function(x){o[x.type]=x.value});
+   var s=((+o.hour%24)*60+(+o.minute))*60+(+o.second),h=S.hours[o.weekday];
    if(!h){left.textContent='Closed today. Back tomorrow.';return}
-   var a=h.split('-'),s=a[0].split(':'),e=a[1].split(':'),sm=+s[0]*60+ +s[1],em=+e[0]*60+ +e[1];
-   if(m>=sm&&m<em){var d=em-m;left.textContent='Open for another '+Math.floor(d/60)+'h '+(d%60<10?'0':'')+(d%60)+'m today'}
-   else if(m<sm){left.textContent='Opening soon today'}else{left.textContent='Closed now. Back tomorrow.'}}
-  tick();setInterval(tick,30000)}
+   var a=h.split('-'),b=a[0].split(':'),c=a[1].split(':'),ss=(+b[0]*60+ +b[1])*60,es=(+c[0]*60+ +c[1])*60;
+   if(s>=ss&&s<es){var d=es-s,H=Math.floor(d/3600),M=Math.floor(d%3600/60),X=d%60;left.innerHTML='Chairs open for <b>'+H+':'+(M<10?'0':'')+M+':'+(X<10?'0':'')+X+'</b> more today'}
+   else if(s<ss){left.textContent='Opening later today'}else{left.textContent='Closed now. Back tomorrow.'}}
+  tick();setInterval(tick,1000)}
 })();
 </script>
 </body></html>

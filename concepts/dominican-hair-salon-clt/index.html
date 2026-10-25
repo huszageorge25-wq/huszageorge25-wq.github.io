@@ -114,9 +114,18 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
 }
 @media (prefers-reduced-motion:reduce){.reveal,.ready .reveal,.hero img.kb,.ready .hero img.kb{opacity:1;transform:none;transition:none}}
 
-.anim-shine h1{background:linear-gradient(110deg,currentColor 40%,var(--accent) 50%,currentColor 60%) 120% 0/250% 100% no-repeat;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#fff}
-.ready .anim-shine h1{animation:sheen 2.4s .5s cubic-bezier(.4,0,.2,1) 1 forwards}
-@keyframes sheen{to{background-position:-20% 0}}
+.anim-shine h1{background:linear-gradient(105deg,#fff 0 42%,#fff3e8 46%,var(--accent) 50%,#fff3e8 54%,#fff 58% 100%) 130% 0/260% 100% no-repeat;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.ready .anim-shine h1{animation:sheen 2.6s .6s cubic-bezier(.4,0,.2,1) forwards,sheen2 2.6s 9s cubic-bezier(.4,0,.2,1) infinite}
+@keyframes sheen{to{background-position:-30% 0}}
+@keyframes sheen2{0%{background-position:130% 0}40%,100%{background-position:-30% 0}}
+.strands{position:absolute;inset:auto 0 0 0;height:60%;width:100%;z-index:-1;pointer-events:none;opacity:.7}
+.strands path{fill:none;stroke:var(--accent);stroke-width:1.4;stroke-dasharray:900;stroke-dashoffset:900}
+.ready .strands path{stroke-dashoffset:0;transition:stroke-dashoffset 3.2s cubic-bezier(.4,0,.2,1)}
+.ready .strands path:nth-child(2){transition-delay:.3s}.ready .strands path:nth-child(3){transition-delay:.6s}
+.ready .strands{animation:flow 9s 3.4s ease-in-out infinite}
+@keyframes flow{50%{transform:translateY(-10px) scaleY(1.04)}}
+
+.hero img.kb{will-change:transform}
 
 .offer{--oa:color-mix(in srgb,var(--accent) 62%,var(--bg));background:var(--ink);color:var(--bg);padding:clamp(72px,10vw,120px) 0}
 .offer .for{margin:0 0 12px;font-weight:600;color:var(--oa)}
@@ -142,12 +151,12 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
 .hero-type .strip{position:relative}
 .photo-note{position:absolute;right:12px;bottom:12px;z-index:2;font-size:.75rem;background:rgba(0,0,0,.55);color:#fff;padding:4px 10px;border-radius:999px}
 @media(max-width:860px){.offer-grid{grid-template-columns:1fr}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.anim-razor h1{clip-path:none!important}.anim-stamp h1 .ln,.anim-splitflap .board tr,.stampbadge,.pinmap .pin,.pinmap .lab{opacity:1!important;transform:none!important}.stampbadge{transform:rotate(-12deg)!important}.ecg path,.stem path{stroke-dashoffset:0!important}.ecg .dot{opacity:1}}</style>
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.anim-razor .hl{clip-path:none!important}.anim-stamp h1 .ch,.anim-badge h1 .ch,.anim-splitflap .board tr,.stampbadge,.pinmap .pin,.pinmap .lab,.pinmap .trip,.stem .lf,.stem .bud{opacity:1!important;transform:none!important;filter:none!important}.stampbadge{transform:rotate(-12deg)!important}.ecg .trace{display:none}.stem .st,.strands path,.route .draw,.pinmap .trip{stroke-dashoffset:0!important}.medal::before{--sweep:360deg}.anim-shine h1{background:none;-webkit-text-fill-color:currentColor}.anim-razor h1::after,.anim-stamp h1::after{transform:none;width:min(340px,62%)}}</style>
 </head><body>
 <div class="banner">Concept preview made for Dominican Hair Salon CLT by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a> · <a href="#offer">See your offer</a></div>
 <main class="anim-shine">
 <div class="hero hero-full"><header class="top"><div class="wrap nav"><a class="brand" href="#">Dominican Hair Salon CLT</a><nav class="links" aria-label="Main"><a class="hide-m" href="#menu">Services</a><a class="hide-m" href="#visit">Visit</a><a class="btn small" href="tel:+19802370350">Book a visit</a></nav></div></header><div class="bg"><img class="kb" src="https://images.pexels.com/photos/3065209/pexels-photo-3065209.jpeg?auto=compress&cs=tinysrgb&w=2000" alt="" fetchpriority="high"><span class="photo-note">Sample photo · your own photos go here</span></div><div class="wrap copy"><h1 class="reveal">Silky blowouts
-on South Tryon.</h1><p class="lede reveal d2">Dominican blowouts, silk presses and styling in south Charlotte, trusted by hundreds of clients.</p><div class="actions reveal d2"><a class="btn" href="tel:+19802370350">Book a visit</a><a class="btn ghost" href="tel:+19802370350">Call (980) 237-0350</a></div><div class="proof reveal d3"><span><span class="stars" aria-hidden="true">★★★★☆</span> 4.4 from 472 reviews</span><span class="open" data-open><i></i><span>Hours</span></span></div></div></div>
+on South Tryon.</h1><p class="lede reveal d2">Dominican blowouts, silk presses and styling in south Charlotte, trusted by hundreds of clients.</p><div class="actions reveal d2"><a class="btn" href="tel:+19802370350">Book a visit</a><a class="btn ghost" href="tel:+19802370350">Call (980) 237-0350</a></div><div class="proof reveal d3"><span><span class="stars" aria-hidden="true">★★★★☆</span> 4.4 from 472 reviews</span><span class="open" data-open><i></i><span>Hours</span></span></div></div><svg class="strands" viewBox="0 0 600 400" preserveAspectRatio="none" aria-hidden="true"><path d="M-20 300 C120 220 220 360 360 260 S560 160 640 220"/><path d="M-20 330 C140 250 240 380 380 290 S560 200 640 250"/><path d="M-20 270 C110 200 210 330 350 230 S560 130 640 190"/></svg></div>
 <section class="sig-wrap"><div class="wrap"><div class="sig sig-photo"><img src="https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="" loading="lazy"><div><h2>The blowout that moves.</h2><p class="sig-body">Washed, set and blown out the Dominican way: smooth, full of movement and made to last.</p></div></div></div></section>
 <section id="menu" class="panel"><div class="wrap two"><div><h2>Services</h2><p class="sig-body">Every visit starts with a conversation about the look you want.</p><a class="btn" href="tel:+19802370350">Book a visit</a></div><div><ul class="menu"><li class="np"><div><h3>Wash and blowout</h3><p>The Dominican blowout</p></div></li><li class="np"><div><h3>Silk press</h3><p>Smooth and shiny</p></div></li><li class="np"><div><h3>Color</h3><p>Single process</p></div></li><li class="np"><div><h3>Treatments</h3><p>Deep conditioning</p></div></li></ul><p class="fine">Prices depend on hair length and the look you want. Ask the salon.</p></div></div></section>
 <section id="offer" class="offer"><div class="wrap">
@@ -193,19 +202,35 @@ on South Tryon.</h1><p class="lede reveal d2">Dominican blowouts, silk presses a
 })();
 
 (function(){
- if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('[data-on]').forEach(function(e){e.classList.add('on')});return}
- var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{threshold:.35});
- document.querySelectorAll('[data-on]').forEach(function(e){io.observe(e)});
- document.querySelectorAll('.anim-splitflap .board tr').forEach(function(r,i){r.style.transitionDelay=(i*.09)+'s'});
+ var RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches, S=window.__SITE__;
+ var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');e.target.dispatchEvent(new Event('inview'));io.unobserve(e.target)}})},{threshold:.35}):null;
+ document.querySelectorAll('[data-on],.medal,.bignum,.board').forEach(function(e){if(RM||!io){e.classList.add('on');e.dispatchEvent(new Event('inview'))}else io.observe(e)});
+ /* count-up ($25 medal) */
+ document.querySelectorAll('[data-count]').forEach(function(el){var to=+el.dataset.count,pre=el.dataset.prefix||'';
+  el.addEventListener('inview',function(){if(RM){el.textContent=pre+to;return}var t0=null;function f(t){t0=t0||t;var k=Math.min(1,(t-t0)/1300),e=1-Math.pow(1-k,3);el.textContent=pre+Math.round(to*e);if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)})});
+ /* split-flap */
+ var CH='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:';
+ document.querySelectorAll('.anim-splitflap .board').forEach(function(b){
+  b.querySelectorAll('tr').forEach(function(r,i){r.style.transitionDelay=(i*.09)+'s'});
+  b.addEventListener('inview',function(){if(RM)return;b.querySelectorAll('td,th,.hours-note').forEach(function(c,i){var fin=c.textContent,n=0,max=10+i;var iv=setInterval(function(){n++;if(n>=max){c.textContent=fin;clearInterval(iv);return}c.textContent=fin.replace(/[A-Za-z0-9]/g,function(x){return Math.random()<n/max?x:CH[Math.floor(Math.random()*CH.length)]})},45)})})});
+ /* scroll-linked progress (steps, razor hairline) + gentle hero parallax */
+ var steps=document.querySelector('.anim-progress .steps'), sp=document.querySelector('.anim-razor .sig-photo'), hero=document.querySelector('.hero img.kb');
+ function onScroll(){var vh=innerHeight;
+  if(steps){var r=steps.getBoundingClientRect(),p=Math.max(0,Math.min(1,(vh*.8-r.top)/(r.height+vh*.25)));steps.style.setProperty('--p',p);steps.querySelectorAll('li').forEach(function(li,i,a){li.classList.toggle('hit',p>=i/(a.length-1)-.02||innerWidth<860)})}
+  if(sp){var q=sp.getBoundingClientRect();sp.style.setProperty('--p',Math.max(0,Math.min(1,(vh-q.top)/(vh*.9))))}
+  if(hero&&!RM&&scrollY<vh*1.2)hero.style.translate='0 '+(scrollY*.12)+'px'}
+ addEventListener('scroll',onScroll,{passive:true});onScroll();
+ /* route walker */
+ document.querySelectorAll('.route').forEach(function(r){r.addEventListener('inview',function(){var m=r.querySelector('animateMotion');if(m&&m.beginElement&&!RM)m.beginElement();else{var w=r.querySelector('.walker');w&&w.setAttribute('transform','translate(486 60)')}})});
+ /* live countdown to closing */
  var left=document.querySelector('[data-left]');
- if(left&&window.__SITE__.hours){var S=window.__SITE__;
-  function tick(){var p=new Intl.DateTimeFormat('en-US',{timeZone:S.tz,weekday:'short',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date()),o={};p.forEach(function(x){o[x.type]=x.value});
-   var m=(+o.hour%24)*60+(+o.minute),h=S.hours[o.weekday];
+ if(left&&S.hours){function tick(){var p=new Intl.DateTimeFormat('en-US',{timeZone:S.tz,weekday:'short',hour:'numeric',minute:'numeric',second:'numeric',hour12:false}).formatToParts(new Date()),o={};p.forEach(function(x){o[x.type]=x.value});
+   var s=((+o.hour%24)*60+(+o.minute))*60+(+o.second),h=S.hours[o.weekday];
    if(!h){left.textContent='Closed today. Back tomorrow.';return}
-   var a=h.split('-'),s=a[0].split(':'),e=a[1].split(':'),sm=+s[0]*60+ +s[1],em=+e[0]*60+ +e[1];
-   if(m>=sm&&m<em){var d=em-m;left.textContent='Open for another '+Math.floor(d/60)+'h '+(d%60<10?'0':'')+(d%60)+'m today'}
-   else if(m<sm){left.textContent='Opening soon today'}else{left.textContent='Closed now. Back tomorrow.'}}
-  tick();setInterval(tick,30000)}
+   var a=h.split('-'),b=a[0].split(':'),c=a[1].split(':'),ss=(+b[0]*60+ +b[1])*60,es=(+c[0]*60+ +c[1])*60;
+   if(s>=ss&&s<es){var d=es-s,H=Math.floor(d/3600),M=Math.floor(d%3600/60),X=d%60;left.innerHTML='Chairs open for <b>'+H+':'+(M<10?'0':'')+M+':'+(X<10?'0':'')+X+'</b> more today'}
+   else if(s<ss){left.textContent='Opening later today'}else{left.textContent='Closed now. Back tomorrow.'}}
+  tick();setInterval(tick,1000)}
 })();
 </script>
 </body></html>

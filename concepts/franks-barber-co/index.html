@@ -114,14 +114,28 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
 }
 @media (prefers-reduced-motion:reduce){.reveal,.ready .reveal,.hero img.kb,.ready .hero img.kb{opacity:1;transform:none;transition:none}}
 .hero-split header.top{color:var(--ink)}@media(max-width:860px){.hero-split header.top{color:#fff}}
-.stampbadge{position:absolute;right:clamp(16px,4vw,48px);top:clamp(90px,14vh,140px);width:150px;height:150px;z-index:3;opacity:0;transform:rotate(-140deg) scale(.4)}
-.ready .stampbadge{opacity:1;transform:rotate(-12deg) scale(1);transition:transform 1s .6s cubic-bezier(.3,1.5,.5,1),opacity .3s .6s}
-.stampbadge svg{width:100%;height:100%;animation:spin 30s linear infinite}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.anim-badge h1{white-space:normal}
+.anim-badge h1 .ln{display:block}
+.anim-badge h1 .ch{display:inline-block;opacity:0;transform:translateY(.4em)}
+.ready .anim-badge h1 .ch{opacity:1;transform:none;transition:opacity .35s calc(var(--i)*20ms),transform .5s cubic-bezier(.2,.8,.2,1) calc(var(--i)*20ms)}
+.stampbadge{position:absolute;right:clamp(16px,4vw,56px);top:clamp(96px,14vh,150px);width:156px;height:156px;z-index:3;opacity:0;transform:scale(2.6) rotate(-30deg);filter:blur(6px)}
+.ready .stampbadge{animation:slam .55s 1.1s cubic-bezier(.5,0,.75,0) forwards}
+@keyframes slam{to{opacity:1;transform:scale(1) rotate(-12deg);filter:none}}
+.stampbadge .burst{position:absolute;inset:0;border-radius:50%;border:3px solid var(--accent);opacity:0}
+.ready .stampbadge .burst{animation:burst .8s 1.62s ease-out}
+@keyframes burst{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.9)}}
+.ready .hero .copy{animation:thud .35s 1.62s}
+@keyframes thud{25%{transform:translate(2px,3px)}50%{transform:translate(-2px,-1px)}75%{transform:translate(1px,1px)}}
+.stampbadge svg{width:100%;height:100%;animation:spin 32s linear 2.4s infinite}
 .stampbadge text{font-family:var(--display);font-weight:var(--dw);font-size:15px;letter-spacing:2px;fill:var(--on)}
-.stampbadge .core{position:absolute;inset:34px;border-radius:50%;background:var(--accent);color:var(--on);display:grid;place-items:center;font-family:var(--display);font-weight:var(--dw);font-size:1.7rem;line-height:1}
+.stampbadge .core{position:absolute;inset:34px;border-radius:50%;background:var(--ink);color:var(--accent);display:grid;place-items:center;font-family:var(--display);font-weight:var(--dw);font-size:1.8rem;line-height:1}
 .stampbadge circle.ring{fill:var(--accent)}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:860px){.stampbadge{width:112px;height:112px;top:auto;bottom:16px;right:16px}.stampbadge .core{inset:26px;font-size:1.25rem}}
+.hero-split .copy{position:relative}
+@media(max-width:860px){.stampbadge{width:110px;height:110px;top:-56px;right:16px}.stampbadge .core{inset:25px;font-size:1.25rem}}
+
+.hero img.kb{will-change:transform}
 
 .offer{--oa:color-mix(in srgb,var(--accent) 62%,var(--bg));background:var(--ink);color:var(--bg);padding:clamp(72px,10vw,120px) 0}
 .offer .for{margin:0 0 12px;font-weight:600;color:var(--oa)}
@@ -147,12 +161,12 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
 .hero-type .strip{position:relative}
 .photo-note{position:absolute;right:12px;bottom:12px;z-index:2;font-size:.75rem;background:rgba(0,0,0,.55);color:#fff;padding:4px 10px;border-radius:999px}
 @media(max-width:860px){.offer-grid{grid-template-columns:1fr}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.anim-razor h1{clip-path:none!important}.anim-stamp h1 .ln,.anim-splitflap .board tr,.stampbadge,.pinmap .pin,.pinmap .lab{opacity:1!important;transform:none!important}.stampbadge{transform:rotate(-12deg)!important}.ecg path,.stem path{stroke-dashoffset:0!important}.ecg .dot{opacity:1}}</style>
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.anim-razor .hl{clip-path:none!important}.anim-stamp h1 .ch,.anim-badge h1 .ch,.anim-splitflap .board tr,.stampbadge,.pinmap .pin,.pinmap .lab,.pinmap .trip,.stem .lf,.stem .bud{opacity:1!important;transform:none!important;filter:none!important}.stampbadge{transform:rotate(-12deg)!important}.ecg .trace{display:none}.stem .st,.strands path,.route .draw,.pinmap .trip{stroke-dashoffset:0!important}.medal::before{--sweep:360deg}.anim-shine h1{background:none;-webkit-text-fill-color:currentColor}.anim-razor h1::after,.anim-stamp h1::after{transform:none;width:min(340px,62%)}}</style>
 </head><body>
 <div class="banner">Concept preview made for Franks Barber Co. by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a> · <a href="#offer">See your offer</a></div>
 <main class="anim-badge">
-<div class="hero hero-split"><header class="top"><div class="wrap nav"><a class="brand" href="#">Franks Barber Co.</a><nav class="links" aria-label="Main"><a class="hide-m" href="#menu">Services</a><a class="hide-m" href="#visit">Visit</a><a class="btn small" href="https://booksy.com/en-us/1749195_franks-barber-co_barber-shop_123099_nashville-davidson" target="_blank" rel="noopener">Book on Booksy</a></nav></div></header><div class="copy"><h1 class="reveal">Where the
-big dogs go.</h1><p class="lede reveal d2">A new barbershop on 17th Ave N, near Germantown and Midtown, with a perfect rating so far.</p><div class="actions reveal d2"><a class="btn" href="https://booksy.com/en-us/1749195_franks-barber-co_barber-shop_123099_nashville-davidson" target="_blank" rel="noopener">Book on Booksy</a><a class="btn ghost" href="tel:+16156693588">Call (615) 669-3588</a></div><div class="proof reveal d3"><span><span class="stars" aria-hidden="true">★★★★★</span> 5.0 from 19 reviews</span><span class="open" data-open><i></i><span>Hours</span></span></div><div class="stampbadge" aria-hidden="true"><svg viewBox="0 0 150 150"><circle class="ring" cx="75" cy="75" r="74"/><defs><path id="c" d="M75 75 m-56 0 a56 56 0 1 1 112 0 a56 56 0 1 1 -112 0"/></defs><text><textPath href="#c">NEW ON 17TH AVE N · FIVE STARS SO FAR · </textPath></text></svg><div class="core">5.0</div></div></div><div class="pic"><img class="kb" src="https://images.pexels.com/photos/1836983/pexels-photo-1836983.jpeg?auto=compress&cs=tinysrgb&w=2000" alt="" fetchpriority="high"><span class="photo-note">Sample photo · your own photos go here</span></div></div>
+<div class="hero hero-split"><header class="top"><div class="wrap nav"><a class="brand" href="#">Franks Barber Co.</a><nav class="links" aria-label="Main"><a class="hide-m" href="#menu">Services</a><a class="hide-m" href="#visit">Visit</a><a class="btn small" href="https://booksy.com/en-us/1749195_franks-barber-co_barber-shop_123099_nashville-davidson" target="_blank" rel="noopener">Book on Booksy</a></nav></div></header><div class="copy"><h1 class="reveal"><span class="sr">Where the
+big dogs go.</span><span class="ln" aria-hidden="true"><span class="ch" style="--i:0">W</span><span class="ch" style="--i:1">h</span><span class="ch" style="--i:2">e</span><span class="ch" style="--i:3">r</span><span class="ch" style="--i:4">e</span><span class="ch" style="--i:5">&nbsp;</span><span class="ch" style="--i:6">t</span><span class="ch" style="--i:7">h</span><span class="ch" style="--i:8">e</span></span><span class="ln" aria-hidden="true"><span class="ch" style="--i:9">b</span><span class="ch" style="--i:10">i</span><span class="ch" style="--i:11">g</span><span class="ch" style="--i:12">&nbsp;</span><span class="ch" style="--i:13">d</span><span class="ch" style="--i:14">o</span><span class="ch" style="--i:15">g</span><span class="ch" style="--i:16">s</span><span class="ch" style="--i:17">&nbsp;</span><span class="ch" style="--i:18">g</span><span class="ch" style="--i:19">o</span><span class="ch" style="--i:20">.</span></span></h1><p class="lede reveal d2">A new barbershop on 17th Ave N, near Germantown and Midtown, with a perfect rating so far.</p><div class="actions reveal d2"><a class="btn" href="https://booksy.com/en-us/1749195_franks-barber-co_barber-shop_123099_nashville-davidson" target="_blank" rel="noopener">Book on Booksy</a><a class="btn ghost" href="tel:+16156693588">Call (615) 669-3588</a></div><div class="proof reveal d3"><span><span class="stars" aria-hidden="true">★★★★★</span> 5.0 from 19 reviews</span><span class="open" data-open><i></i><span>Hours</span></span></div><div class="stampbadge" aria-hidden="true"><span class="burst"></span><svg viewBox="0 0 150 150"><circle class="ring" cx="75" cy="75" r="74"/><defs><path id="c" d="M75 75 m-56 0 a56 56 0 1 1 112 0 a56 56 0 1 1 -112 0"/></defs><text><textPath href="#c">NEW ON 17TH AVE N · FIVE STARS SO FAR · </textPath></text></svg><div class="core">5.0</div></div></div><div class="pic"><img class="kb" src="https://images.pexels.com/photos/1836983/pexels-photo-1836983.jpeg?auto=compress&cs=tinysrgb&w=2000" alt="" fetchpriority="high"><span class="photo-note">Sample photo · your own photos go here</span></div></div>
 <section class="sig-wrap"><div class="wrap"><div class="sig sig-photo"><img src="https://images.pexels.com/photos/3992874/pexels-photo-3992874.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="" loading="lazy"><div><h2>New shop. Same barber.</h2><p class="sig-body">Franks is new on 17th Ave N, and every review so far is five stars. Book a time online in under a minute.</p></div></div></div></section>
 <section id="menu" class="panel"><div class="wrap two"><div><h2>Cuts and shaves</h2><p class="sig-body">Walk out sharp. Every cut is finished with care, whatever the style.</p><a class="btn" href="https://booksy.com/en-us/1749195_franks-barber-co_barber-shop_123099_nashville-davidson" target="_blank" rel="noopener">Book on Booksy</a></div><div><ul class="menu"><li class="np"><div><h3>Haircut</h3><p>Classic or modern</p></div></li><li class="np"><div><h3>Skin fade</h3><p>Sharp and clean</p></div></li><li class="np"><div><h3>Beard trim</h3><p>Shape and line-up</p></div></li><li class="np"><div><h3>Cut + beard</h3><p>The full refresh</p></div></li></ul><p class="fine">Ask the shop for current prices.</p></div></div></section>
 <section id="offer" class="offer"><div class="wrap">
@@ -198,19 +212,35 @@ big dogs go.</h1><p class="lede reveal d2">A new barbershop on 17th Ave N, near 
 })();
 
 (function(){
- if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('[data-on]').forEach(function(e){e.classList.add('on')});return}
- var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{threshold:.35});
- document.querySelectorAll('[data-on]').forEach(function(e){io.observe(e)});
- document.querySelectorAll('.anim-splitflap .board tr').forEach(function(r,i){r.style.transitionDelay=(i*.09)+'s'});
+ var RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches, S=window.__SITE__;
+ var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');e.target.dispatchEvent(new Event('inview'));io.unobserve(e.target)}})},{threshold:.35}):null;
+ document.querySelectorAll('[data-on],.medal,.bignum,.board').forEach(function(e){if(RM||!io){e.classList.add('on');e.dispatchEvent(new Event('inview'))}else io.observe(e)});
+ /* count-up ($25 medal) */
+ document.querySelectorAll('[data-count]').forEach(function(el){var to=+el.dataset.count,pre=el.dataset.prefix||'';
+  el.addEventListener('inview',function(){if(RM){el.textContent=pre+to;return}var t0=null;function f(t){t0=t0||t;var k=Math.min(1,(t-t0)/1300),e=1-Math.pow(1-k,3);el.textContent=pre+Math.round(to*e);if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)})});
+ /* split-flap */
+ var CH='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:';
+ document.querySelectorAll('.anim-splitflap .board').forEach(function(b){
+  b.querySelectorAll('tr').forEach(function(r,i){r.style.transitionDelay=(i*.09)+'s'});
+  b.addEventListener('inview',function(){if(RM)return;b.querySelectorAll('td,th,.hours-note').forEach(function(c,i){var fin=c.textContent,n=0,max=10+i;var iv=setInterval(function(){n++;if(n>=max){c.textContent=fin;clearInterval(iv);return}c.textContent=fin.replace(/[A-Za-z0-9]/g,function(x){return Math.random()<n/max?x:CH[Math.floor(Math.random()*CH.length)]})},45)})})});
+ /* scroll-linked progress (steps, razor hairline) + gentle hero parallax */
+ var steps=document.querySelector('.anim-progress .steps'), sp=document.querySelector('.anim-razor .sig-photo'), hero=document.querySelector('.hero img.kb');
+ function onScroll(){var vh=innerHeight;
+  if(steps){var r=steps.getBoundingClientRect(),p=Math.max(0,Math.min(1,(vh*.8-r.top)/(r.height+vh*.25)));steps.style.setProperty('--p',p);steps.querySelectorAll('li').forEach(function(li,i,a){li.classList.toggle('hit',p>=i/(a.length-1)-.02||innerWidth<860)})}
+  if(sp){var q=sp.getBoundingClientRect();sp.style.setProperty('--p',Math.max(0,Math.min(1,(vh-q.top)/(vh*.9))))}
+  if(hero&&!RM&&scrollY<vh*1.2)hero.style.translate='0 '+(scrollY*.12)+'px'}
+ addEventListener('scroll',onScroll,{passive:true});onScroll();
+ /* route walker */
+ document.querySelectorAll('.route').forEach(function(r){r.addEventListener('inview',function(){var m=r.querySelector('animateMotion');if(m&&m.beginElement&&!RM)m.beginElement();else{var w=r.querySelector('.walker');w&&w.setAttribute('transform','translate(486 60)')}})});
+ /* live countdown to closing */
  var left=document.querySelector('[data-left]');
- if(left&&window.__SITE__.hours){var S=window.__SITE__;
-  function tick(){var p=new Intl.DateTimeFormat('en-US',{timeZone:S.tz,weekday:'short',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date()),o={};p.forEach(function(x){o[x.type]=x.value});
-   var m=(+o.hour%24)*60+(+o.minute),h=S.hours[o.weekday];
+ if(left&&S.hours){function tick(){var p=new Intl.DateTimeFormat('en-US',{timeZone:S.tz,weekday:'short',hour:'numeric',minute:'numeric',second:'numeric',hour12:false}).formatToParts(new Date()),o={};p.forEach(function(x){o[x.type]=x.value});
+   var s=((+o.hour%24)*60+(+o.minute))*60+(+o.second),h=S.hours[o.weekday];
    if(!h){left.textContent='Closed today. Back tomorrow.';return}
-   var a=h.split('-'),s=a[0].split(':'),e=a[1].split(':'),sm=+s[0]*60+ +s[1],em=+e[0]*60+ +e[1];
-   if(m>=sm&&m<em){var d=em-m;left.textContent='Open for another '+Math.floor(d/60)+'h '+(d%60<10?'0':'')+(d%60)+'m today'}
-   else if(m<sm){left.textContent='Opening soon today'}else{left.textContent='Closed now. Back tomorrow.'}}
-  tick();setInterval(tick,30000)}
+   var a=h.split('-'),b=a[0].split(':'),c=a[1].split(':'),ss=(+b[0]*60+ +b[1])*60,es=(+c[0]*60+ +c[1])*60;
+   if(s>=ss&&s<es){var d=es-s,H=Math.floor(d/3600),M=Math.floor(d%3600/60),X=d%60;left.innerHTML='Chairs open for <b>'+H+':'+(M<10?'0':'')+M+':'+(X<10?'0':'')+X+'</b> more today'}
+   else if(s<ss){left.textContent='Opening later today'}else{left.textContent='Closed now. Back tomorrow.'}}
+  tick();setInterval(tick,1000)}
 })();
 </script>
 </body></html>

@@ -114,13 +114,19 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
 }
 @media (prefers-reduced-motion:reduce){.reveal,.ready .reveal,.hero img.kb,.ready .hero img.kb{opacity:1;transform:none;transition:none}}
 .hero-split header.top{color:var(--ink)}@media(max-width:860px){.hero-split header.top{color:#fff}}
-.route{width:100%;max-width:640px;height:auto;margin:0 0 28px}
-.route .path{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round;stroke-dasharray:8 10}
-.route .draw{fill:none;stroke:var(--bg);stroke-width:7;stroke-dasharray:700;stroke-dashoffset:0}
-.route.on .draw{stroke-dashoffset:-700;transition:stroke-dashoffset 2.6s cubic-bezier(.4,0,.2,1)}
-.route .bld{fill:var(--panel);stroke:color-mix(in srgb,var(--ink) 25%,transparent)}
+.route{width:100%;max-width:680px;height:auto;margin:0 0 28px;overflow:visible}
+.route .path{fill:none;stroke:color-mix(in srgb,var(--ink) 18%,transparent);stroke-width:4;stroke-linecap:round;stroke-dasharray:2 10}
+.route .draw{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:100}
+.route.on .draw{stroke-dashoffset:0;transition:stroke-dashoffset 2.8s cubic-bezier(.4,0,.2,1)}
+.route .bld{fill:var(--panel);stroke:color-mix(in srgb,var(--ink) 22%,transparent)}
+.route .lot{fill:none;stroke:color-mix(in srgb,var(--ink) 30%,transparent);stroke-dasharray:4 4}
 .route text{font-family:var(--body);font-size:13px;fill:var(--muted)}
-.route .goal{fill:var(--accent)}
+.route .walker{fill:var(--accent);stroke:var(--bg);stroke-width:3}
+.route .gate line{stroke:var(--ink);stroke-width:4;stroke-linecap:round}
+.route .gate{transform-box:fill-box;transform-origin:50% 0}
+.route.on .gate{transform:rotate(-70deg);transition:transform .6s 2.7s cubic-bezier(.3,1.5,.5,1)}
+
+.hero img.kb{will-change:transform}
 
 .offer{--oa:color-mix(in srgb,var(--accent) 62%,var(--bg));background:var(--ink);color:var(--bg);padding:clamp(72px,10vw,120px) 0}
 .offer .for{margin:0 0 12px;font-weight:600;color:var(--oa)}
@@ -146,13 +152,13 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
 .hero-type .strip{position:relative}
 .photo-note{position:absolute;right:12px;bottom:12px;z-index:2;font-size:.75rem;background:rgba(0,0,0,.55);color:#fff;padding:4px 10px;border-radius:999px}
 @media(max-width:860px){.offer-grid{grid-template-columns:1fr}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.anim-razor h1{clip-path:none!important}.anim-stamp h1 .ln,.anim-splitflap .board tr,.stampbadge,.pinmap .pin,.pinmap .lab{opacity:1!important;transform:none!important}.stampbadge{transform:rotate(-12deg)!important}.ecg path,.stem path{stroke-dashoffset:0!important}.ecg .dot{opacity:1}}</style>
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.anim-razor .hl{clip-path:none!important}.anim-stamp h1 .ch,.anim-badge h1 .ch,.anim-splitflap .board tr,.stampbadge,.pinmap .pin,.pinmap .lab,.pinmap .trip,.stem .lf,.stem .bud{opacity:1!important;transform:none!important;filter:none!important}.stampbadge{transform:rotate(-12deg)!important}.ecg .trace{display:none}.stem .st,.strands path,.route .draw,.pinmap .trip{stroke-dashoffset:0!important}.medal::before{--sweep:360deg}.anim-shine h1{background:none;-webkit-text-fill-color:currentColor}.anim-razor h1::after,.anim-stamp h1::after{transform:none;width:min(340px,62%)}}</style>
 </head><body>
 <div class="banner">Concept preview made for Salon Cypress by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a> · <a href="#offer">See your offer</a></div>
 <main class="anim-route">
 <div class="hero hero-split"><header class="top"><div class="wrap nav"><a class="brand" href="#">Salon Cypress</a><nav class="links" aria-label="Main"><a class="hide-m" href="#menu">Services</a><a class="hide-m" href="#visit">Visit</a><a class="btn small" href="https://www.phorest.com/salon/saloncypress" target="_blank" rel="noopener">Book online</a></nav></div></header><div class="copy"><h1 class="reveal">Lived-in color,
 tucked away.</h1><p class="lede reveal d2">Blonding, dimensional brunettes and extensions in Tampa Heights, just north of E. Columbus Dr.</p><div class="actions reveal d2"><a class="btn" href="https://www.phorest.com/salon/saloncypress" target="_blank" rel="noopener">Book online</a><a class="btn ghost" href="tel:+18135122332">Call (813) 512-2332</a></div><div class="proof reveal d3"><span><span class="stars" aria-hidden="true">★★★★★</span> 5.0 from 230 reviews</span><span class="open" data-open><i></i><span>Hours</span></span></div></div><div class="pic"><img class="kb" src="https://images.pexels.com/photos/3065171/pexels-photo-3065171.jpeg?auto=compress&cs=tinysrgb&w=2000" alt="" fetchpriority="high"><span class="photo-note">Sample photo · your own photos go here</span></div></div>
-<section class="sig-wrap"><div class="wrap"><div class="sig sig-steps"><h2>The entrance is at the back.</h2><p class="sig-body">Here&#x27;s the easy way in.</p><svg class="route" data-on viewBox="0 0 640 220" role="img" aria-label="Map: from N. Florida Ave, around to the lot behind the building, through the back gate"><rect class="bld" x="250" y="40" width="220" height="110" rx="6"/><text x="300" y="100">Salon Cypress</text><text x="20" y="200">N. Florida Ave</text><text x="490" y="200">Fenced lot</text><text x="486" y="30">Back gate</text><path class="path" d="M30 175 H560 V60 H480"/><path class="draw" d="M30 175 H560 V60 H480"/><circle class="goal" cx="476" cy="60" r="9"/></svg><ol class="steps" data-on><li><span class="n">1</span><div><h3>Head to 2746 N. Florida Ave.</h3><p>Just north of E. Columbus Dr., between E. Euclid and E. Gladys.</p></div></li><li><span class="n">2</span><div><h3>Park behind the building</h3><p>Use the large fenced lot or the side streets. Please don&#x27;t block driveways.</p></div></li><li><span class="n">3</span><div><h3>Back gate, up the ramp</h3><p>The main entrance is through the back gate and up the ramp.</p></div></li></ol><a class="btn ghost" href="https://www.google.com/maps/search/?api=1&query=Salon%20Cypress%202746%20N.%20Florida%20Ave%20Tampa%2C%20FL%2033602" target="_blank" rel="noopener">Open in Google Maps</a></div></div></section>
+<section class="sig-wrap"><div class="wrap"><div class="sig sig-steps"><h2>The entrance is at the back.</h2><p class="sig-body">Here&#x27;s the easy way in.</p><svg class="route" data-on viewBox="0 0 640 220" role="img" aria-label="Map: from N. Florida Ave, around to the fenced lot behind the building, through the back gate"><rect class="bld" x="250" y="40" width="220" height="110" rx="8"/><text x="292" y="100">Salon Cypress</text><rect class="lot" x="500" y="80" width="120" height="80" rx="6"/><text x="512" y="125">Fenced lot</text><text x="20" y="206">N. Florida Ave</text><text x="440" y="30">Back gate</text><path class="path" d="M30 175 H560 V60 H486"/><path class="draw" pathLength="100" d="M30 175 H560 V60 H486"/><g class="gate"><line x1="478" y1="48" x2="478" y2="72"/></g><circle class="walker" r="8"><animateMotion begin="indefinite" dur="2.8s" fill="freeze" path="M30 175 H560 V60 H486" calcMode="spline" keyTimes="0;1" keySplines=".4 0 .2 1"/></circle></svg><ol class="steps" data-on><li><span class="n">1</span><div><h3>Head to 2746 N. Florida Ave.</h3><p>Just north of E. Columbus Dr., between E. Euclid and E. Gladys.</p></div></li><li><span class="n">2</span><div><h3>Park behind the building</h3><p>Use the large fenced lot or the side streets. Please don&#x27;t block driveways.</p></div></li><li><span class="n">3</span><div><h3>Back gate, up the ramp</h3><p>The main entrance is through the back gate and up the ramp.</p></div></li></ol><a class="btn ghost" href="https://www.google.com/maps/search/?api=1&query=Salon%20Cypress%202746%20N.%20Florida%20Ave%20Tampa%2C%20FL%2033602" target="_blank" rel="noopener">Open in Google Maps</a></div></div></section>
 <section id="menu" class="panel"><div class="wrap two"><div><h2>Services</h2><p class="sig-body">Every visit starts with a conversation about the look you want.</p><a class="btn" href="https://www.phorest.com/salon/saloncypress" target="_blank" rel="noopener">Book online</a></div><div><ul class="menu"><li class="np"><div><h3>Blonding</h3><p>Traditional and lived-in</p></div></li><li class="np"><div><h3>Haircolor</h3><p>Dimensional brunettes</p></div></li><li class="np"><div><h3>Haircuts</h3><p>Cut and style</p></div></li><li class="np"><div><h3>Extensions</h3><p>Consultation first</p></div></li></ul><p class="fine">Prices depend on hair length and the look you want. Ask the salon.</p></div></div></section>
 <section id="offer" class="offer"><div class="wrap">
 <p class="for">For the owner of Salon Cypress</p>
@@ -197,19 +203,35 @@ tucked away.</h1><p class="lede reveal d2">Blonding, dimensional brunettes and e
 })();
 
 (function(){
- if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('[data-on]').forEach(function(e){e.classList.add('on')});return}
- var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{threshold:.35});
- document.querySelectorAll('[data-on]').forEach(function(e){io.observe(e)});
- document.querySelectorAll('.anim-splitflap .board tr').forEach(function(r,i){r.style.transitionDelay=(i*.09)+'s'});
+ var RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches, S=window.__SITE__;
+ var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');e.target.dispatchEvent(new Event('inview'));io.unobserve(e.target)}})},{threshold:.35}):null;
+ document.querySelectorAll('[data-on],.medal,.bignum,.board').forEach(function(e){if(RM||!io){e.classList.add('on');e.dispatchEvent(new Event('inview'))}else io.observe(e)});
+ /* count-up ($25 medal) */
+ document.querySelectorAll('[data-count]').forEach(function(el){var to=+el.dataset.count,pre=el.dataset.prefix||'';
+  el.addEventListener('inview',function(){if(RM){el.textContent=pre+to;return}var t0=null;function f(t){t0=t0||t;var k=Math.min(1,(t-t0)/1300),e=1-Math.pow(1-k,3);el.textContent=pre+Math.round(to*e);if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)})});
+ /* split-flap */
+ var CH='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:';
+ document.querySelectorAll('.anim-splitflap .board').forEach(function(b){
+  b.querySelectorAll('tr').forEach(function(r,i){r.style.transitionDelay=(i*.09)+'s'});
+  b.addEventListener('inview',function(){if(RM)return;b.querySelectorAll('td,th,.hours-note').forEach(function(c,i){var fin=c.textContent,n=0,max=10+i;var iv=setInterval(function(){n++;if(n>=max){c.textContent=fin;clearInterval(iv);return}c.textContent=fin.replace(/[A-Za-z0-9]/g,function(x){return Math.random()<n/max?x:CH[Math.floor(Math.random()*CH.length)]})},45)})})});
+ /* scroll-linked progress (steps, razor hairline) + gentle hero parallax */
+ var steps=document.querySelector('.anim-progress .steps'), sp=document.querySelector('.anim-razor .sig-photo'), hero=document.querySelector('.hero img.kb');
+ function onScroll(){var vh=innerHeight;
+  if(steps){var r=steps.getBoundingClientRect(),p=Math.max(0,Math.min(1,(vh*.8-r.top)/(r.height+vh*.25)));steps.style.setProperty('--p',p);steps.querySelectorAll('li').forEach(function(li,i,a){li.classList.toggle('hit',p>=i/(a.length-1)-.02||innerWidth<860)})}
+  if(sp){var q=sp.getBoundingClientRect();sp.style.setProperty('--p',Math.max(0,Math.min(1,(vh-q.top)/(vh*.9))))}
+  if(hero&&!RM&&scrollY<vh*1.2)hero.style.translate='0 '+(scrollY*.12)+'px'}
+ addEventListener('scroll',onScroll,{passive:true});onScroll();
+ /* route walker */
+ document.querySelectorAll('.route').forEach(function(r){r.addEventListener('inview',function(){var m=r.querySelector('animateMotion');if(m&&m.beginElement&&!RM)m.beginElement();else{var w=r.querySelector('.walker');w&&w.setAttribute('transform','translate(486 60)')}})});
+ /* live countdown to closing */
  var left=document.querySelector('[data-left]');
- if(left&&window.__SITE__.hours){var S=window.__SITE__;
-  function tick(){var p=new Intl.DateTimeFormat('en-US',{timeZone:S.tz,weekday:'short',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date()),o={};p.forEach(function(x){o[x.type]=x.value});
-   var m=(+o.hour%24)*60+(+o.minute),h=S.hours[o.weekday];
+ if(left&&S.hours){function tick(){var p=new Intl.DateTimeFormat('en-US',{timeZone:S.tz,weekday:'short',hour:'numeric',minute:'numeric',second:'numeric',hour12:false}).formatToParts(new Date()),o={};p.forEach(function(x){o[x.type]=x.value});
+   var s=((+o.hour%24)*60+(+o.minute))*60+(+o.second),h=S.hours[o.weekday];
    if(!h){left.textContent='Closed today. Back tomorrow.';return}
-   var a=h.split('-'),s=a[0].split(':'),e=a[1].split(':'),sm=+s[0]*60+ +s[1],em=+e[0]*60+ +e[1];
-   if(m>=sm&&m<em){var d=em-m;left.textContent='Open for another '+Math.floor(d/60)+'h '+(d%60<10?'0':'')+(d%60)+'m today'}
-   else if(m<sm){left.textContent='Opening soon today'}else{left.textContent='Closed now. Back tomorrow.'}}
-  tick();setInterval(tick,30000)}
+   var a=h.split('-'),b=a[0].split(':'),c=a[1].split(':'),ss=(+b[0]*60+ +b[1])*60,es=(+c[0]*60+ +c[1])*60;
+   if(s>=ss&&s<es){var d=es-s,H=Math.floor(d/3600),M=Math.floor(d%3600/60),X=d%60;left.innerHTML='Chairs open for <b>'+H+':'+(M<10?'0':'')+M+':'+(X<10?'0':'')+X+'</b> more today'}
+   else if(s<ss){left.textContent='Opening later today'}else{left.textContent='Closed now. Back tomorrow.'}}
+  tick();setInterval(tick,1000)}
 })();
 </script>
 </body></html>

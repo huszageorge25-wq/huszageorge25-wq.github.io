@@ -114,12 +114,18 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
 }
 @media (prefers-reduced-motion:reduce){.reveal,.ready .reveal,.hero img.kb,.ready .hero img.kb{opacity:1;transform:none;transition:none}}
 
-.ecg{display:block;width:min(420px,80%);height:56px;margin:4px 0 18px}
-.ecg path{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:900;stroke-dashoffset:900}
-.ready .ecg path{stroke-dashoffset:0;transition:stroke-dashoffset 1.8s .3s cubic-bezier(.4,0,.2,1)}
-.ecg .dot{fill:var(--accent);transform-box:fill-box;transform-origin:center;opacity:0}
-.ready .ecg .dot{animation:beat 1.2s 2s 3 both}
-@keyframes beat{0%{opacity:1;transform:scale(1)}15%{transform:scale(1.6)}30%{transform:scale(1)}45%{transform:scale(1.35)}60%,100%{opacity:1;transform:scale(1)}}
+.ecg{display:block;width:min(440px,82%);height:60px;margin:2px 0 20px;overflow:visible}
+.ecg path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ecg .base{stroke:color-mix(in srgb,currentColor 22%,transparent);stroke-width:2}
+.ecg .trace{stroke:var(--accent);stroke-width:3.2;stroke-dasharray:90 620;stroke-dashoffset:90;filter:drop-shadow(0 0 6px var(--accent));opacity:0}
+.ready .ecg .trace{opacity:1;animation:trace 2.4s .4s linear infinite}
+@keyframes trace{to{stroke-dashoffset:-620}}
+.ecg .heart path{fill:var(--accent)}
+.ecg .heart{transform-box:fill-box;transform-origin:center}
+.ready .ecg .heart{animation:beat 2.4s 1.6s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1)}8%{transform:scale(1.45)}16%{transform:scale(1)}24%{transform:scale(1.25)}32%{transform:scale(1)}}
+
+.hero img.kb{will-change:transform}
 
 .offer{--oa:color-mix(in srgb,var(--accent) 62%,var(--bg));background:var(--ink);color:var(--bg);padding:clamp(72px,10vw,120px) 0}
 .offer .for{margin:0 0 12px;font-weight:600;color:var(--oa)}
@@ -145,12 +151,12 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
 .hero-type .strip{position:relative}
 .photo-note{position:absolute;right:12px;bottom:12px;z-index:2;font-size:.75rem;background:rgba(0,0,0,.55);color:#fff;padding:4px 10px;border-radius:999px}
 @media(max-width:860px){.offer-grid{grid-template-columns:1fr}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.anim-razor h1{clip-path:none!important}.anim-stamp h1 .ln,.anim-splitflap .board tr,.stampbadge,.pinmap .pin,.pinmap .lab{opacity:1!important;transform:none!important}.stampbadge{transform:rotate(-12deg)!important}.ecg path,.stem path{stroke-dashoffset:0!important}.ecg .dot{opacity:1}}</style>
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.anim-razor .hl{clip-path:none!important}.anim-stamp h1 .ch,.anim-badge h1 .ch,.anim-splitflap .board tr,.stampbadge,.pinmap .pin,.pinmap .lab,.pinmap .trip,.stem .lf,.stem .bud{opacity:1!important;transform:none!important;filter:none!important}.stampbadge{transform:rotate(-12deg)!important}.ecg .trace{display:none}.stem .st,.strands path,.route .draw,.pinmap .trip{stroke-dashoffset:0!important}.medal::before{--sweep:360deg}.anim-shine h1{background:none;-webkit-text-fill-color:currentColor}.anim-razor h1::after,.anim-stamp h1::after{transform:none;width:min(340px,62%)}}</style>
 </head><body>
 <div class="banner">Concept preview made for Black Heart Barber Company by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a> · <a href="#offer">See your offer</a></div>
 <main class="anim-pulse">
 <div class="hero hero-full"><header class="top"><div class="wrap nav"><a class="brand" href="#">Black Heart Barber Company</a><nav class="links" aria-label="Main"><a class="hide-m" href="#menu">Services</a><a class="hide-m" href="#visit">Visit</a><a class="btn small" href="tel:+16159395157">Book a chair</a></nav></div></header><div class="bg"><img class="kb" src="https://images.pexels.com/photos/7697357/pexels-photo-7697357.jpeg?auto=compress&cs=tinysrgb&w=2000" alt="" fetchpriority="high"><span class="photo-note">Sample photo · your own photos go here</span></div><div class="wrap copy"><h1 class="reveal">East Nashville,
-cut sharp.</h1><svg class="ecg" viewBox="0 0 420 56" aria-hidden="true"><path d="M2 30 H120 L134 30 L144 8 L156 50 L168 18 L178 30 H262 L272 30 L280 20 L288 30 H392"/><path class="dot" d="M398 30 m-10 -4 a6 6 0 0 1 10 -3 a6 6 0 0 1 10 3 c0 6 -10 12 -10 12 c0 0 -10 -6 -10 -12z"/></svg><p class="lede reveal d2">A neighborhood barbershop on 9th Street. Great with grown-ups, even better with kids.</p><div class="actions reveal d2"><a class="btn" href="tel:+16159395157">Book a chair</a><a class="btn ghost" href="tel:+16159395157">Call (615) 939-5157</a></div><div class="proof reveal d3"><span><span class="stars" aria-hidden="true">★★★★★</span> 4.9 from 146 reviews</span><span class="open" data-open><i></i><span>Hours</span></span></div></div></div>
+cut sharp.</h1><svg class="ecg" viewBox="0 0 420 60" aria-hidden="true"><path class="base" d="M0 30 H110 L122 30 L132 6 L146 54 L158 16 L168 30 H250 L258 30 L266 22 L274 30 H420"/><path class="trace" d="M0 30 H110 L122 30 L132 6 L146 54 L158 16 L168 30 H250 L258 30 L266 22 L274 30 H420"/><g class="heart"><path d="M405 24 a6 6 0 0 1 10 -4 a6 6 0 0 1 10 4 c0 7 -10 14 -10 14 c0 0 -10 -7 -10 -14z" transform="translate(-10 4)"/></g></svg><p class="lede reveal d2">A neighborhood barbershop on 9th Street. Great with grown-ups, even better with kids.</p><div class="actions reveal d2"><a class="btn" href="tel:+16159395157">Book a chair</a><a class="btn ghost" href="tel:+16159395157">Call (615) 939-5157</a></div><div class="proof reveal d3"><span><span class="stars" aria-hidden="true">★★★★★</span> 4.9 from 146 reviews</span><span class="open" data-open><i></i><span>Hours</span></span></div></div></div>
 <section class="sig-wrap"><div class="wrap"><div class="sig sig-photo"><img src="https://images.pexels.com/photos/1570807/pexels-photo-1570807.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="" loading="lazy"><div><h2>Bring the kids. Seriously.</h2><p class="sig-body">Reviews keep saying the same thing: the barbers here are great with kids. First haircut, fidgety haircut, every haircut.</p></div></div></div></section>
 <section id="menu" class="panel"><div class="wrap two"><div><h2>Cuts and shaves</h2><p class="sig-body">Walk out sharp. Every cut is finished with care, whatever the style.</p><a class="btn" href="tel:+16159395157">Book a chair</a></div><div><ul class="menu"><li class="np"><div><h3>Haircut</h3><p>Classic or modern</p></div></li><li class="np"><div><h3>Kids cut</h3><p>Patient with little ones</p></div></li><li class="np"><div><h3>Beard trim</h3><p>Shape and line-up</p></div></li><li class="np"><div><h3>Cut + beard</h3><p>The full refresh</p></div></li></ul><p class="fine">Ask the shop for current prices.</p></div></div></section>
 <section id="offer" class="offer"><div class="wrap">
@@ -196,19 +202,35 @@ cut sharp.</h1><svg class="ecg" viewBox="0 0 420 56" aria-hidden="true"><path d=
 })();
 
 (function(){
- if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('[data-on]').forEach(function(e){e.classList.add('on')});return}
- var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{threshold:.35});
- document.querySelectorAll('[data-on]').forEach(function(e){io.observe(e)});
- document.querySelectorAll('.anim-splitflap .board tr').forEach(function(r,i){r.style.transitionDelay=(i*.09)+'s'});
+ var RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches, S=window.__SITE__;
+ var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');e.target.dispatchEvent(new Event('inview'));io.unobserve(e.target)}})},{threshold:.35}):null;
+ document.querySelectorAll('[data-on],.medal,.bignum,.board').forEach(function(e){if(RM||!io){e.classList.add('on');e.dispatchEvent(new Event('inview'))}else io.observe(e)});
+ /* count-up ($25 medal) */
+ document.querySelectorAll('[data-count]').forEach(function(el){var to=+el.dataset.count,pre=el.dataset.prefix||'';
+  el.addEventListener('inview',function(){if(RM){el.textContent=pre+to;return}var t0=null;function f(t){t0=t0||t;var k=Math.min(1,(t-t0)/1300),e=1-Math.pow(1-k,3);el.textContent=pre+Math.round(to*e);if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)})});
+ /* split-flap */
+ var CH='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:';
+ document.querySelectorAll('.anim-splitflap .board').forEach(function(b){
+  b.querySelectorAll('tr').forEach(function(r,i){r.style.transitionDelay=(i*.09)+'s'});
+  b.addEventListener('inview',function(){if(RM)return;b.querySelectorAll('td,th,.hours-note').forEach(function(c,i){var fin=c.textContent,n=0,max=10+i;var iv=setInterval(function(){n++;if(n>=max){c.textContent=fin;clearInterval(iv);return}c.textContent=fin.replace(/[A-Za-z0-9]/g,function(x){return Math.random()<n/max?x:CH[Math.floor(Math.random()*CH.length)]})},45)})})});
+ /* scroll-linked progress (steps, razor hairline) + gentle hero parallax */
+ var steps=document.querySelector('.anim-progress .steps'), sp=document.querySelector('.anim-razor .sig-photo'), hero=document.querySelector('.hero img.kb');
+ function onScroll(){var vh=innerHeight;
+  if(steps){var r=steps.getBoundingClientRect(),p=Math.max(0,Math.min(1,(vh*.8-r.top)/(r.height+vh*.25)));steps.style.setProperty('--p',p);steps.querySelectorAll('li').forEach(function(li,i,a){li.classList.toggle('hit',p>=i/(a.length-1)-.02||innerWidth<860)})}
+  if(sp){var q=sp.getBoundingClientRect();sp.style.setProperty('--p',Math.max(0,Math.min(1,(vh-q.top)/(vh*.9))))}
+  if(hero&&!RM&&scrollY<vh*1.2)hero.style.translate='0 '+(scrollY*.12)+'px'}
+ addEventListener('scroll',onScroll,{passive:true});onScroll();
+ /* route walker */
+ document.querySelectorAll('.route').forEach(function(r){r.addEventListener('inview',function(){var m=r.querySelector('animateMotion');if(m&&m.beginElement&&!RM)m.beginElement();else{var w=r.querySelector('.walker');w&&w.setAttribute('transform','translate(486 60)')}})});
+ /* live countdown to closing */
  var left=document.querySelector('[data-left]');
- if(left&&window.__SITE__.hours){var S=window.__SITE__;
-  function tick(){var p=new Intl.DateTimeFormat('en-US',{timeZone:S.tz,weekday:'short',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date()),o={};p.forEach(function(x){o[x.type]=x.value});
-   var m=(+o.hour%24)*60+(+o.minute),h=S.hours[o.weekday];
+ if(left&&S.hours){function tick(){var p=new Intl.DateTimeFormat('en-US',{timeZone:S.tz,weekday:'short',hour:'numeric',minute:'numeric',second:'numeric',hour12:false}).formatToParts(new Date()),o={};p.forEach(function(x){o[x.type]=x.value});
+   var s=((+o.hour%24)*60+(+o.minute))*60+(+o.second),h=S.hours[o.weekday];
    if(!h){left.textContent='Closed today. Back tomorrow.';return}
-   var a=h.split('-'),s=a[0].split(':'),e=a[1].split(':'),sm=+s[0]*60+ +s[1],em=+e[0]*60+ +e[1];
-   if(m>=sm&&m<em){var d=em-m;left.textContent='Open for another '+Math.floor(d/60)+'h '+(d%60<10?'0':'')+(d%60)+'m today'}
-   else if(m<sm){left.textContent='Opening soon today'}else{left.textContent='Closed now. Back tomorrow.'}}
-  tick();setInterval(tick,30000)}
+   var a=h.split('-'),b=a[0].split(':'),c=a[1].split(':'),ss=(+b[0]*60+ +b[1])*60,es=(+c[0]*60+ +c[1])*60;
+   if(s>=ss&&s<es){var d=es-s,H=Math.floor(d/3600),M=Math.floor(d%3600/60),X=d%60;left.innerHTML='Chairs open for <b>'+H+':'+(M<10?'0':'')+M+':'+(X<10?'0':'')+X+'</b> more today'}
+   else if(s<ss){left.textContent='Opening later today'}else{left.textContent='Closed now. Back tomorrow.'}}
+  tick();setInterval(tick,1000)}
 })();
 </script>
 </body></html>

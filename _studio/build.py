@@ -10,12 +10,18 @@ from its entry in sites.py. Only real facts go into sites.py.
 import html, json, os, sys, urllib.parse
 sys.path.insert(0, os.path.dirname(__file__))
 from sites import SITES, PX
-from extras import anim_of, headline_html, hero_extra, sig_extra, offer_html, ANIM_CSS, ANIM_JS, OFFER_CSS, REDUCED
+from extras import offer_html, OFFER_CSS
+from anims import anim_of, headline_html, hero_extra, sig_extra, ANIM_CSS, ANIM_JS, REDUCED, COMMON_CSS
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 E = lambda s: html.escape(str(s), quote=True)
 DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 DAYN = {"Mon": "Monday", "Tue": "Tuesday", "Wed": "Wednesday", "Thu": "Thursday", "Fri": "Friday", "Sat": "Saturday", "Sun": "Sunday"}
+
+
+def img(x, w):
+    """Pexels id (int) for concepts, or a path/URL string for a client's own photo."""
+    return PX.format(x, w) if isinstance(x, int) else x
 
 
 def tel(p):
@@ -81,12 +87,12 @@ def signature_block(s):
         b = f'<div class="loc"><h3>{E(n)}</h3><p>{E(ad)}</p><a href="tel:{tel(ph)}">{E(ph)}</a></div>'
         return f'<div class="sig sig-locs"><h2>{E(g["title"])}</h2><p class="sig-body">{E(g["body"])}</p>{xx}<div class="locs">{a}{b}</div></div>'
     if t == "salute":
-        return f'<div class="sig sig-big"><div class="bignum">$25</div><div><h2>{E(g["title"])}</h2><p class="sig-body">{E(g["body"])}</p></div></div>'
+        return f'<div class="sig sig-big"><div class="bignum"><span class="medal" data-count="25" data-prefix="$">$25</span></div><div><h2>{E(g["title"])}</h2><p class="sig-body">{E(g["body"])}</p></div></div>'
     if t == "clock":
         return f'<div class="sig sig-big"><div><div class="bignum" data-clock>9pm</div>{xx}</div><div><h2>{E(g["title"])}</h2><p class="sig-body">{E(g["body"])}</p></div></div>'
     if t == "board":
         return f'<div class="sig sig-board"><h2>{E(g["title"])}</h2><p class="sig-body">{E(g["body"])}</p><div class="board" data-on>{hours_block(s)}</div></div>'
-    photo = PX.format(s["theme"]["photo2"], 1200)
+    photo = img(s["theme"]["photo2"], 1200)
     return f'<div class="sig sig-photo"><img src="{photo}" alt="" loading="lazy"><div><h2>{E(g["title"])}</h2><p class="sig-body">{E(g["body"])}</p></div></div>'
 
 
@@ -226,7 +232,7 @@ def page(s):
     on = "#111111" if lum < 128 and t["accent"] in ("#D4A72C", "#FF8A3D", "#F0B53C", "#E8A27C") else ("#FFFFFF" if lum >= 128 or t["accent"] in ("#D7263D",) else "#111111")
     if t["accent"] in ("#D7263D", "#8E1B1B", "#A4472F", "#5E7A5A", "#2F5D46", "#0F7A72", "#B4643A"):
         on = "#FFFFFF"
-    hero_img = PX.format(t["photo"], 2000)
+    hero_img = img(t["photo"], 2000)
     book_href = s["book_url"] or f"tel:{tel(s['phone'])}"
     book_attr = ' target="_blank" rel="noopener"' if s["book_url"] else ""
     call = f'<a class="btn ghost" href="tel:{tel(s["phone"])}">Call {E(s["phone"])}</a>'
@@ -237,11 +243,11 @@ def page(s):
     copy = f'<h1 class="reveal">{headline_html(s, a)}</h1>{hero_extra(s, a) if a == "pulse" else ""}<p class="lede reveal d2">{E(s["lede"])}</p><div class="actions reveal d2">{main}{call}</div>{proof}'
     nav = f'<header class="top"><div class="wrap nav"><a class="brand" href="#">{E(s["name"])}</a><nav class="links" aria-label="Main"><a class="hide-m" href="#menu">Services</a><a class="hide-m" href="#visit">Visit</a><a class="btn small" href="{E(book_href)}"{book_attr}>{E(s["cta"])}</a></nav></div></header>'
     if t["hero"] == "full":
-        hero = f'<div class="hero hero-full">{nav}<div class="bg"><img class="kb" src="{hero_img}" alt="" fetchpriority="high">{"" if live else '<span class="photo-note">Sample photo · your own photos go here</span>'}</div><div class="wrap copy">{copy}</div>{hero_extra(s, a) if a in ("badge","grow") else ""}</div>'
+        hero = f'<div class="hero hero-full">{nav}<div class="bg"><img class="kb" src="{hero_img}" alt="" fetchpriority="high">{"" if live else '<span class="photo-note">Sample photo · your own photos go here</span>'}</div><div class="wrap copy">{copy}</div>{hero_extra(s, a) if a in ("badge","grow","shine") else ""}</div>'
     elif t["hero"] == "split":
-        hero = f'<div class="hero hero-split">{nav}<div class="copy">{copy}{hero_extra(s, a) if a in ("badge","grow") else ""}</div><div class="pic"><img class="kb" src="{hero_img}" alt="" fetchpriority="high">{"" if live else '<span class="photo-note">Sample photo · your own photos go here</span>'}</div></div>'
+        hero = f'<div class="hero hero-split">{nav}<div class="copy">{copy}{hero_extra(s, a) if a in ("badge","grow","shine") else ""}</div><div class="pic"><img class="kb" src="{hero_img}" alt="" fetchpriority="high">{"" if live else '<span class="photo-note">Sample photo · your own photos go here</span>'}</div></div>'
     else:
-        hero = f'<div class="hero hero-type">{nav}<div class="wrap copy">{copy}{hero_extra(s, a) if a in ("badge","grow") else ""}</div><div class="strip"><img class="kb" src="{hero_img}" alt="" fetchpriority="high">{"" if live else '<span class="photo-note">Sample photo · your own photos go here</span>'}</div></div>'
+        hero = f'<div class="hero hero-type">{nav}<div class="wrap copy">{copy}{hero_extra(s, a) if a in ("badge","grow","shine") else ""}</div><div class="strip"><img class="kb" src="{hero_img}" alt="" fetchpriority="high">{"" if live else '<span class="photo-note">Sample photo · your own photos go here</span>'}</div></div>'
     menu_title = {"barber": "Cuts and shaves", "salon": "Services", "dental": "Care for every age"}[s["kind"]]
     menu_intro = s.get("menu_intro") or {"barber": "Walk out sharp. Every cut is finished with care, whatever the style.",
                                          "salon": "Every visit starts with a conversation about the look you want.",
@@ -259,7 +265,7 @@ def page(s):
 {"" if live else '<meta name="robots" content="noindex">'}<meta name="description" content="{E(s['lede'])}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{fonts}">
-<style>:root{{--bg:{t['bg']};--ink:{t['ink']};--muted:{t['muted']};--accent:{t['accent']};--panel:{t['panel']};--on:{on};--display:{t['display']};--body:{t['body']};--dw:{t.get('dweight',700)};--ds:{t.get('dstretch','100%')};--tr:{t.get('tracking','0')};--r:{t.get('radius','18px')}}}{CSS}{hero_color_fix}{ANIM_CSS.get(a, "")}{OFFER_CSS}{REDUCED}</style>
+<style>:root{{--bg:{t['bg']};--ink:{t['ink']};--muted:{t['muted']};--accent:{t['accent']};--panel:{t['panel']};--on:{on};--display:{t['display']};--body:{t['body']};--dw:{t.get('dweight',700)};--ds:{t.get('dstretch','100%')};--tr:{t.get('tracking','0')};--r:{t.get('radius','18px')}}}{CSS}{hero_color_fix}{ANIM_CSS.get(a, "")}{COMMON_CSS}{OFFER_CSS}{REDUCED}</style>
 </head><body>
 {"" if live else f'<div class="banner">Concept preview made for {E(s["name"])} by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a> · <a href="#offer">See your offer</a></div>'}
 <main class="anim-{a}">
@@ -280,7 +286,7 @@ def main():
     for s in SITES:
         if want and s["slug"] not in want:
             continue
-        out = os.path.join(ROOT, os.environ.get("OUT", "concepts"), s["slug"])
+        out = os.path.join(ROOT, os.environ.get("OUT", "" if s.get("client") else "concepts"), s["slug"])
         os.makedirs(out, exist_ok=True)
         with open(os.path.join(out, "index.html"), "w") as f:
             f.write(page(s))
