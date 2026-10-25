@@ -101,7 +101,7 @@ a{color:inherit}
 .wrap{width:min(1180px,100% - 40px);margin-inline:auto}
 .banner{background:var(--ink);color:var(--bg);font-size:.8125rem;text-align:center;padding:8px 16px}
 .banner a{color:inherit}
-header.top{position:absolute;inset:auto 0 auto 0;z-index:5}
+header.top{position:absolute;top:0;left:0;right:0;z-index:5}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 0}
 .brand{font-family:var(--display);font-weight:var(--dw);font-stretch:var(--ds);font-size:1.25rem;letter-spacing:var(--tr);text-decoration:none;line-height:1}
 .nav .links{display:flex;gap:28px;align-items:center;font-size:.95rem}
