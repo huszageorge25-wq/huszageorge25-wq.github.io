@@ -91,7 +91,7 @@ SITES = [
     headline="Two shops.\nOne standard.", lede="Clean cuts in Broad Ripple and Fletcher Place. Pick your shop, pick your time.",
     cta="Book on Setmore", book_url="https://thebarberstudio.setmore.com/",
     services=[("Haircut","The signature cut","$40"),("Beard trim","Shape and line-up",None),("Haircut + beard","The full refresh",None),("Kids cut","For the little ones",None)],
-    signature=dict(type="locations", title="Pick your shop.", body="Same barbers' standard, two neighborhoods."),
+    signature=dict(type="locations", title="Pick your shop.", body="Same standard, two neighborhoods. Book whichever is closer."),
     theme=dict(bg="#EEF0F1", ink="#16202A", muted="#5F6B76", accent="#B4643A", panel="#E1E5E8",
                display="'Manrope'", body="'Manrope'", fonts="Manrope:wght@400;500;700;800",
                hero="type", photo=3998429, photo2=7697648, tracking="-0.04em", dweight=800),

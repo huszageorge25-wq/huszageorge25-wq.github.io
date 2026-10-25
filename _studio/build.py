@@ -58,10 +58,10 @@ def services_block(s):
     unit = "salon" if s["kind"] == "salon" else ("office" if s["kind"] == "dental" else "shop")
     items = []
     for name, note, price in s["services"]:
-        p = E(price) if price else "Ask us"
-        items.append(f'<li><div><h3>{E(name)}</h3><p>{E(note)}</p></div><span class="dots" aria-hidden="true"></span><strong>{p}</strong></li>')
-    known = any(p for _, _, p in s["services"])
-    foot = ("Prices marked “Ask us” are confirmed by the " + unit + ".") if known or s["kind"] != "dental" else "Ask about your insurance when you call."
+        tail = f'<span class="dots" aria-hidden="true"></span><strong>{E(price)}</strong>' if price else ""
+        items.append(f'<li class="{"" if price else "np"}"><div><h3>{E(name)}</h3><p>{E(note)}</p></div>{tail}</li>')
+    foot = {"barber": "Ask the shop for current prices.", "salon": "Prices depend on hair length and the look you want. Ask the salon.",
+            "dental": "Ask about your insurance when you call."}[s["kind"]]
     if s.get("cash_only"):
         foot += " Cash only."
     return f'<ul class="menu">{"".join(items)}</ul><p class="fine">{E(foot)}</p>'
@@ -91,6 +91,8 @@ def signature_block(s):
 
 CSS = r"""
 *,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+.menu li.np{grid-template-columns:1fr}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body),system-ui,sans-serif;font-size:1.0625rem;line-height:1.6;-webkit-font-smoothing:antialiased}
 img{display:block;max-width:100%}
@@ -238,6 +240,9 @@ def page(s):
     else:
         hero = f'<div class="hero hero-type">{nav}<div class="wrap copy">{copy}</div><div class="strip"><img class="kb" src="{hero_img}" alt="" fetchpriority="high"></div></div>'
     menu_title = {"barber": "Cuts and shaves", "salon": "Services", "dental": "Care for every age"}[s["kind"]]
+    menu_intro = s.get("menu_intro") or {"barber": "Walk out sharp. Every cut is finished with care, whatever the style.",
+                                         "salon": "Every visit starts with a conversation about the look you want.",
+                                         "dental": "From first checkups to same-week help when something hurts."}[s["kind"]]
     second = ""
     if s.get("phone2"):
         n, ph, ad = s["phone2"]
@@ -257,11 +262,11 @@ def page(s):
 <main>
 {hero}
 <section class="sig-wrap"><div class="wrap">{signature_block(s)}</div></section>
-<section id="menu" class="panel"><div class="wrap two"><div><h2>{menu_title}</h2><p class="sig-body">{E(s['lede'])}</p>{main}</div><div>{services_block(s)}</div></div></section>
+<section id="menu" class="panel"><div class="wrap two"><div><h2>{menu_title}</h2><p class="sig-body">{E(menu_intro)}</p>{main}</div><div>{services_block(s)}</div></div></section>
 <section id="visit"><div class="wrap visit"><div><h2>Visit</h2><address>{E(s['name'])}<br>{E(s['address'])}<br>{E(s['city'])}</address><a class="phone" href="tel:{tel(s['phone'])}">{E(s['phone'])}</a>{second}<div class="actions"><a class="btn" href="{maps(s)}" target="_blank" rel="noopener">Get directions</a>{call}</div></div><div><h2>Hours</h2>{badge}<div style="height:16px"></div>{hours_block(s)}</div></div></section>
 </main>
 <footer><div class="wrap"><span>{E(s['name'])} · {E(s['address'])}, {E(s['city'])}</span><span>Concept by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a></span></div></footer>
-<nav class="bar" aria-label="Quick actions"><a href="tel:{tel(s['phone'])}">Call</a><a href="{maps(s)}" target="_blank" rel="noopener">Directions</a><a class="main" href="{E(book_href)}"{book_attr}>{E(s['cta'])}</a></nav>
+<nav class="bar" aria-label="Quick actions"><a href="tel:{tel(s['phone'])}">Call</a><a href="{maps(s)}" target="_blank" rel="noopener">Directions</a><a class="main" href="{E(book_href)}"{book_attr}>{"Book" if len(s['cta'])>13 else E(s['cta'])}</a></nav>
 <script>window.__SITE__={data};{JS}</script>
 </body></html>"""
 
