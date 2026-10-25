@@ -113,14 +113,71 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
  .menu .dots{display:none}
 }
 @media (prefers-reduced-motion:reduce){.reveal,.ready .reveal,.hero img.kb,.ready .hero img.kb{opacity:1;transform:none;transition:none}}
-</style>
+
+.pinmap{position:relative;height:140px;margin:0 0 28px;border-radius:var(--r);background:var(--panel);overflow:hidden}
+.pinmap .road{position:absolute;left:6%;right:6%;top:58%;height:4px;background:color-mix(in srgb,var(--ink) 18%,transparent);border-radius:4px}
+.pinmap .pin{position:absolute;top:58%;width:22px;height:22px;margin:-30px 0 0 -11px;border-radius:50% 50% 50% 0;background:var(--accent);transform:translateY(-120px) rotate(-45deg);opacity:0}
+.pinmap .pin::after{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--bg)}
+.pinmap.on .pin{transform:translateY(0) rotate(-45deg);opacity:1;transition:transform .7s cubic-bezier(.3,1.6,.5,1),opacity .2s}
+.pinmap.on .pin.b{transition-delay:.35s}
+.pinmap .lab{position:absolute;top:66%;transform:translateX(-50%);font-weight:600;font-size:.9rem;opacity:0}
+.pinmap.on .lab{opacity:1;transition:opacity .4s .9s}
+
+.offer{--oa:color-mix(in srgb,var(--accent) 62%,var(--bg));background:var(--ink);color:var(--bg);padding:clamp(72px,10vw,120px) 0}
+.offer .for{margin:0 0 12px;font-weight:600;color:var(--oa)}
+.offer h2{max-width:16ch}
+.offer-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,5vw,72px);margin-top:28px}
+.price{display:flex;align-items:baseline;gap:18px}
+.price .was{font-size:1.6rem;text-decoration:line-through;opacity:.55}
+.price .now{font-family:var(--display);font-weight:var(--dw);font-stretch:var(--ds);letter-spacing:var(--tr);font-size:clamp(4rem,10vw,7rem);line-height:1;color:var(--oa)}
+.terms{margin:6px 0 22px;opacity:.85}
+.inc{list-style:none;padding:0;margin:0 0 22px}
+.inc li{padding:10px 0 10px 30px;position:relative;border-bottom:1px solid color-mix(in srgb,var(--bg) 14%,transparent)}
+.inc li::before{content:"";position:absolute;left:4px;top:18px;width:12px;height:7px;border-left:2.5px solid var(--oa);border-bottom:2.5px solid var(--oa);transform:rotate(-45deg)}
+.guarantee{font-size:1.1rem}
+.payback{opacity:.85}
+.fixes{background:color-mix(in srgb,var(--bg) 8%,transparent);border-radius:var(--r);padding:24px;margin-bottom:22px}
+.fixes h3{margin:0 0 10px;font-size:1.05rem}
+.fixes ul{margin:0;padding-left:18px;opacity:.9}
+.fixes li{margin:6px 0}
+.act .btn{width:100%;margin-bottom:12px}
+.btn.big{min-height:60px;font-size:1.05rem}
+.offer .btn.ghost{color:var(--bg)}
+.small{font-size:.9rem;opacity:.75}
+.hero-type .strip{position:relative}
+.photo-note{position:absolute;right:12px;bottom:12px;z-index:2;font-size:.75rem;background:rgba(0,0,0,.55);color:#fff;padding:4px 10px;border-radius:999px}
+@media(max-width:860px){.offer-grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.anim-razor h1{clip-path:none!important}.anim-stamp h1 .ln,.anim-splitflap .board tr,.stampbadge,.pinmap .pin,.pinmap .lab{opacity:1!important;transform:none!important}.stampbadge{transform:rotate(-12deg)!important}.ecg path,.stem path{stroke-dashoffset:0!important}.ecg .dot{opacity:1}}</style>
 </head><body>
-<div class="banner">Concept preview made for The Barber Studio by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a></div>
-<main>
+<div class="banner">Concept preview made for The Barber Studio by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a> · <a href="#offer">See your offer</a></div>
+<main class="anim-pins">
 <div class="hero hero-type"><header class="top"><div class="wrap nav"><a class="brand" href="#">The Barber Studio</a><nav class="links" aria-label="Main"><a class="hide-m" href="#menu">Services</a><a class="hide-m" href="#visit">Visit</a><a class="btn small" href="https://thebarberstudio.setmore.com/" target="_blank" rel="noopener">Book on Setmore</a></nav></div></header><div class="wrap copy"><h1 class="reveal">Two shops.
-One standard.</h1><p class="lede reveal d2">Clean cuts in Broad Ripple and Fletcher Place. Pick your shop, pick your time.</p><div class="actions reveal d2"><a class="btn" href="https://thebarberstudio.setmore.com/" target="_blank" rel="noopener">Book on Setmore</a><a class="btn ghost" href="tel:+13175062597">Call (317) 506-2597</a></div><div class="proof reveal d3"><span><span class="stars" aria-hidden="true">★★★★★</span> 4.8 from 96 reviews</span><span class="open" data-open><i></i><span>Hours</span></span></div></div><div class="strip"><img class="kb" src="https://images.pexels.com/photos/3998429/pexels-photo-3998429.jpeg?auto=compress&cs=tinysrgb&w=2000" alt="" fetchpriority="high"></div></div>
-<section class="sig-wrap"><div class="wrap"><div class="sig sig-locs"><h2>Pick your shop.</h2><p class="sig-body">Same standard, two neighborhoods. Book whichever is closer.</p><div class="locs"><div class="loc"><h3>Broad Ripple</h3><p>6323 Guilford Ave</p><a href="tel:+13175062597">(317) 506-2597</a></div><div class="loc"><h3>Fletcher Place</h3><p>435 Virginia Ave</p><a href="tel:+14633248780">(463) 324-8780</a></div></div></div></div></section>
+One standard.</h1><p class="lede reveal d2">Clean cuts in Broad Ripple and Fletcher Place. Pick your shop, pick your time.</p><div class="actions reveal d2"><a class="btn" href="https://thebarberstudio.setmore.com/" target="_blank" rel="noopener">Book on Setmore</a><a class="btn ghost" href="tel:+13175062597">Call (317) 506-2597</a></div><div class="proof reveal d3"><span><span class="stars" aria-hidden="true">★★★★★</span> 4.8 from 96 reviews</span><span class="open" data-open><i></i><span>Hours</span></span></div></div><div class="strip"><img class="kb" src="https://images.pexels.com/photos/3998429/pexels-photo-3998429.jpeg?auto=compress&cs=tinysrgb&w=2000" alt="" fetchpriority="high"><span class="photo-note">Sample photo · your own photos go here</span></div></div>
+<section class="sig-wrap"><div class="wrap"><div class="sig sig-locs"><h2>Pick your shop.</h2><p class="sig-body">Same standard, two neighborhoods. Book whichever is closer.</p><div class="pinmap" data-on aria-hidden="true"><div class="road"></div><div class="pin" style="left:24%"></div><div class="lab" style="left:24%">Broad Ripple</div><div class="pin b" style="left:76%"></div><div class="lab" style="left:76%">Fletcher Place</div></div><div class="locs"><div class="loc"><h3>Broad Ripple</h3><p>6323 Guilford Ave</p><a href="tel:+13175062597">(317) 506-2597</a></div><div class="loc"><h3>Fletcher Place</h3><p>435 Virginia Ave</p><a href="tel:+14633248780">(463) 324-8780</a></div></div></div></div></section>
 <section id="menu" class="panel"><div class="wrap two"><div><h2>Cuts and shaves</h2><p class="sig-body">Walk out sharp. Every cut is finished with care, whatever the style.</p><a class="btn" href="https://thebarberstudio.setmore.com/" target="_blank" rel="noopener">Book on Setmore</a></div><div><ul class="menu"><li class=""><div><h3>Haircut</h3><p>The signature cut</p></div><span class="dots" aria-hidden="true"></span><strong>$40</strong></li><li class="np"><div><h3>Beard trim</h3><p>Shape and line-up</p></div></li><li class="np"><div><h3>Haircut + beard</h3><p>The full refresh</p></div></li><li class="np"><div><h3>Kids cut</h3><p>For the little ones</p></div></li></ul><p class="fine">Ask the shop for current prices.</p></div></div></section>
+<section id="offer" class="offer"><div class="wrap">
+<p class="for">For the owner of The Barber Studio</p>
+<h2>Make this your real website. Live today.</h2>
+<div class="offer-grid">
+<div class="deal">
+<div class="price"><span class="was">$1,200</span><span class="now">$960</span></div>
+<p class="terms">Founding client price, for our first 10 clients. 10 of 10 spots left.</p>
+<ul class="inc">
+<li>This design, finished with your own photos, logo, services and prices</li>
+<li>Built for phones first: tap to call, directions and booking</li>
+<li>Live the same day when your details arrive by 12 pm Eastern on a weekday</li>
+<li>Two rounds of changes included</li>
+<li>Half to start ($480), half only when you love it</li>
+</ul>
+<p class="guarantee"><strong>Don't love the first design? Your deposit comes back.</strong> You risk nothing.</p>
+<p class="payback">At $40 a cut, the whole site costs about 24 cuts. One extra a day pays it back in a few weeks.</p>
+</div>
+<div class="act">
+<div class="fixes"><h3>What this fixes on your current site</h3><ul><li>No website of your own yet, only the Setmore booking page</li><li>Google searchers can&#x27;t see your work or both locations</li></ul></div>
+<a class="btn big" href="tel:+16149679783">Call my assistant · +1 (614) 967-9783</a>
+<a class="btn ghost big" href="mailto:huszageorge25@gmail.com?subject=Yes%20-%20The%20Barber%20Studio%20website">Email George: “yes”</a>
+<p class="small">The assistant is an AI that answers 24/7 and can set everything up. Or just reply “yes” to my email. Need more pages or online booking? Ask about Standard: $1,600 for founding clients (regular $2,000). Optional care plan $79/month.</p>
+</div></div></div></section>
 <section id="visit"><div class="wrap visit"><div><h2>Visit</h2><address>The Barber Studio<br>6323 Guilford Ave (Broad Ripple)<br>Indianapolis, IN</address><a class="phone" href="tel:+13175062597">(317) 506-2597</a><p><strong>Fletcher Place</strong><br>435 Virginia Ave · <a href="tel:+14633248780">(463) 324-8780</a></p><div class="actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=The%20Barber%20Studio%206323%20Guilford%20Ave%20%28Broad%20Ripple%29%20Indianapolis%2C%20IN" target="_blank" rel="noopener">Get directions</a><a class="btn ghost" href="tel:+13175062597">Call (317) 506-2597</a></div></div><div><h2>Hours</h2><span class="open" data-open><i></i><span>Hours</span></span><div style="height:16px"></div><p class="hours-note">Open slots update live on the booking page.</p></div></div></section>
 </main>
 <footer><div class="wrap"><span>The Barber Studio · 6323 Guilford Ave (Broad Ripple), Indianapolis, IN</span><span>Concept by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a></span></div></footer>
@@ -138,6 +195,22 @@ One standard.</h1><p class="lede reveal d2">Clean cuts in Broad Ripple and Fletc
   if(n.m>=sm&&n.m<em){open=true;txt='Open now · until '+fmt(a[1])}else if(n.m<sm){txt='Opens today at '+fmt(a[0])}else{txt='Closed now'}}
  badge.forEach(function(b){b.querySelector('span').textContent=txt;b.classList.toggle('is-open',open)});
  function fmt(t){var q=t.split(':'),H=+q[0],M=+q[1];return (H%12||12)+(M?':'+(M<10?'0':'')+M:'')+(H<12?'am':'pm')}
+})();
+
+(function(){
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('[data-on]').forEach(function(e){e.classList.add('on')});return}
+ var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{threshold:.35});
+ document.querySelectorAll('[data-on]').forEach(function(e){io.observe(e)});
+ document.querySelectorAll('.anim-splitflap .board tr').forEach(function(r,i){r.style.transitionDelay=(i*.09)+'s'});
+ var left=document.querySelector('[data-left]');
+ if(left&&window.__SITE__.hours){var S=window.__SITE__;
+  function tick(){var p=new Intl.DateTimeFormat('en-US',{timeZone:S.tz,weekday:'short',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date()),o={};p.forEach(function(x){o[x.type]=x.value});
+   var m=(+o.hour%24)*60+(+o.minute),h=S.hours[o.weekday];
+   if(!h){left.textContent='Closed today. Back tomorrow.';return}
+   var a=h.split('-'),s=a[0].split(':'),e=a[1].split(':'),sm=+s[0]*60+ +s[1],em=+e[0]*60+ +e[1];
+   if(m>=sm&&m<em){var d=em-m;left.textContent='Open for another '+Math.floor(d/60)+'h '+(d%60<10?'0':'')+(d%60)+'m today'}
+   else if(m<sm){left.textContent='Opening soon today'}else{left.textContent='Closed now. Back tomorrow.'}}
+  tick();setInterval(tick,30000)}
 })();
 </script>
 </body></html>

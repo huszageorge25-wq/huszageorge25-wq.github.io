@@ -6,7 +6,7 @@ PX = "https://images.pexels.com/photos/{0}/pexels-photo-{0}.jpeg?auto=compress&c
 
 SITES = [
   dict(
-    slug="legends-barber-shop", name="Legends Barber Shop", kind="barber", tz="America/Indiana/Indianapolis",
+    slug="legends-barber-shop", fixes=["The Instagram icon sends people to Wix's Instagram, not yours", 'The About link just reloads the homepage', 'The footer still says 2021'], name="Legends Barber Shop", kind="barber", tz="America/Indiana/Indianapolis",
     phone="(317) 361-4018", address="8923 S Meridian St, Unit A-7", city="Indianapolis, IN 46217",
     rating=4.6, reviews=246, hours=None, hours_note="By appointment. Call for today's openings.",
     cash_only=True,
@@ -22,7 +22,7 @@ SITES = [
                hero="full", photo=7697642, photo2=3998429, tracking="0.01em", dweight=900),
   ),
   dict(
-    slug="fountain-square-barber-shop", name="Fountain Square Barber Shop", kind="barber", tz="America/Indiana/Indianapolis",
+    slug="fountain-square-barber-shop", fixes=['The call button dials 123-456-7890, not your shop', "Social icons go to the template company's pages", "Phone visitors can't pinch to zoom"], name="Fountain Square Barber Shop", kind="barber", tz="America/Indiana/Indianapolis",
     phone="(317) 231-0138", address="1115 Prospect St", city="Indianapolis, IN 46203",
     rating=4.8, reviews=None, hours={"Mon":"9:00-21:00","Tue":"9:00-21:00","Wed":"9:00-21:00","Thu":"9:00-21:00","Fri":"9:00-21:00","Sat":"9:00-18:00","Sun":"9:00-18:00"},
     headline="Open till nine.\nRight on Prospect.", lede="Fresh cuts in Fountain Square, seven days a week and late on weeknights, so you can come straight from work.",
@@ -34,7 +34,7 @@ SITES = [
                hero="split", photo=1570807, photo2=7518738, tracking="-0.03em", dweight=800),
   ),
   dict(
-    slug="reds-classic-barber-shop", name="Red's Classic Barber Shop", kind="barber", tz="America/Indiana/Indianapolis",
+    slug="reds-classic-barber-shop", fixes=['Haircut, beard trim and razor shave are all titled “Deluxe Steam Towel Facial”', 'The gallery and reviews sections are empty', "Your street address isn't on the site"], name="Red's Classic Barber Shop", kind="barber", tz="America/Indiana/Indianapolis",
     phone="(317) 636-7337", address="22 E Washington St, Suite 100", city="Indianapolis, IN 46204",
     rating=4.5, reviews=None, hours=None, hours_note="Open 7 days. Call for today's hours.",
     headline="The famous\nrazor finish.", lede="A classic downtown barbershop on Washington St. Every cut ends with the razor.",
@@ -47,7 +47,7 @@ SITES = [
                hero="type", photo=2881253, photo2=1813272, tracking="-0.01em", dweight=400),
   ),
   dict(
-    slug="brick-and-mortar-barber-shop", name="Brick & Mortar Barber Shop", kind="barber", tz="America/Indiana/Indianapolis",
+    slug="brick-and-mortar-barber-shop", fixes=['Saturday says 10–5 at the top and 10–3 in the footer', "Several images don't load"], name="Brick & Mortar Barber Shop", kind="barber", tz="America/Indiana/Indianapolis",
     phone="(317) 929-1179", address="906 Carrollton Ave, Ste 335", city="Indianapolis, IN 46202",
     rating=4.6, reviews=22, hours=None, hours_note="Monday to Saturday. One set of hours, shown in one place, once the shop confirms them.",
     cash_only=True,
@@ -60,7 +60,7 @@ SITES = [
                hero="split", photo=7518738, photo2=3998429, tracking="-0.02em", dweight=900, dstretch="125%"),
   ),
   dict(
-    slug="black-heart-barber-company", name="Black Heart Barber Company", kind="barber", tz="America/Chicago",
+    slug="black-heart-barber-company", fixes=["The main photos don't load", 'No hours or prices anywhere on the site'], name="Black Heart Barber Company", kind="barber", tz="America/Chicago",
     phone="(615) 939-5157", address="9 S 9th St, Suite 1", city="Nashville, TN 37206",
     rating=4.9, reviews=146, hours={"Mon":None,"Tue":"9:00-19:00","Wed":"9:00-19:00","Thu":"9:00-19:00","Fri":"9:00-19:00","Sat":"9:00-17:00","Sun":None},
     headline="East Nashville,\ncut sharp.", lede="A neighborhood barbershop on 9th Street. Great with grown-ups, even better with kids.",
@@ -72,7 +72,7 @@ SITES = [
                hero="full", photo=7697357, photo2=1570807, tracking="-0.02em", dweight=800),
   ),
   dict(
-    slug="franks-barber-co", name="Franks Barber Co.", kind="barber", tz="America/Chicago",
+    slug="franks-barber-co", owner='Ethan', fixes=['No service list or prices', 'Both Follow links lead nowhere'], name="Franks Barber Co.", kind="barber", tz="America/Chicago",
     phone="(615) 669-3588", address="808 17th Ave N, Suite 10", city="Nashville, TN 37203",
     rating=5.0, reviews=19, hours={"Mon":None,"Tue":"9:00-15:00","Wed":"9:00-18:00","Thu":"9:00-18:00","Fri":"9:00-18:00","Sat":"10:00-15:00","Sun":None},
     headline="Where the\nbig dogs go.", lede="A new barbershop on 17th Ave N, near Germantown and Midtown, with a perfect rating so far.",
@@ -84,7 +84,7 @@ SITES = [
                hero="split", photo=1836983, photo2=3992874, tracking="-0.03em", dweight=900),
   ),
   dict(
-    slug="the-barber-studio", name="The Barber Studio", kind="barber", tz="America/Indiana/Indianapolis",
+    slug="the-barber-studio", avg_price=40, fixes=['No website of your own yet, only the Setmore booking page', "Google searchers can't see your work or both locations"], name="The Barber Studio", kind="barber", tz="America/Indiana/Indianapolis",
     phone="(317) 506-2597", address="6323 Guilford Ave (Broad Ripple)", city="Indianapolis, IN",
     phone2=("Fletcher Place", "(463) 324-8780", "435 Virginia Ave"),
     rating=4.8, reviews=96, hours=None, hours_note="Open slots update live on the booking page.",
@@ -97,7 +97,7 @@ SITES = [
                hero="type", photo=3998429, photo2=7697648, tracking="-0.04em", dweight=800),
   ),
   dict(
-    slug="pur-salon", name="Pur Salon", kind="salon", tz="America/New_York",
+    slug="pur-salon", fixes=['The “Our Products” buttons open nothing', 'The August back-to-school special is still showing'], name="Pur Salon", kind="salon", tz="America/New_York",
     phone="(704) 588-8004", address="14130 Rivergate Pkwy, Ste 150", city="Charlotte, NC 28273",
     rating=4.7, reviews=642, hours={"Mon":"12:00-19:00","Tue":"10:00-18:00","Wed":"10:00-18:00","Thu":"10:00-18:00","Fri":"10:00-18:00","Sat":"9:00-18:00","Sun":"12:00-17:00"},
     headline="Steele Creek's\nAveda salon.", lede="An independent Aveda salon, open seven days, with more than six hundred reviews behind it.",
@@ -109,7 +109,7 @@ SITES = [
                hero="split", photo=3065170, photo2=3993449, tracking="-0.01em", dweight=500),
   ),
   dict(
-    slug="dominican-hair-salon-clt", name="Dominican Hair Salon CLT", kind="salon", tz="America/New_York",
+    slug="dominican-hair-salon-clt", fixes=['Template leftovers show, including a placeholder GoDaddy email', 'The reviews section is empty', 'No service list or prices'], name="Dominican Hair Salon CLT", kind="salon", tz="America/New_York",
     phone="(980) 237-0350", address="9107 South Tryon St, Ste H", city="Charlotte, NC 28273",
     rating=4.4, reviews=472, hours=None, hours_note="Call for today's hours.",
     headline="Silky blowouts\non South Tryon.", lede="Dominican blowouts, silk presses and styling in south Charlotte, trusted by hundreds of clients.",
@@ -121,7 +121,7 @@ SITES = [
                hero="full", photo=3065209, photo2=3993449, tracking="-0.01em", dweight=400),
   ),
   dict(
-    slug="salon-cypress", name="Salon Cypress", kind="salon", tz="America/New_York",
+    slug="salon-cypress", fixes=['No hours or prices on the site', 'Two different booking links', 'The footer still says 2024'], name="Salon Cypress", kind="salon", tz="America/New_York",
     phone="(813) 512-2332", address="2746 N. Florida Ave", city="Tampa, FL 33602",
     rating=5.0, reviews=230, hours=None, hours_note="By appointment. Please call ahead or book online.",
     headline="Lived-in color,\ntucked away.", lede="Blonding, dimensional brunettes and extensions in Tampa Heights, just north of E. Columbus Dr.",
@@ -136,7 +136,7 @@ SITES = [
                hero="split", photo=3065171, photo2=3993449, tracking="-0.01em", dweight=400),
   ),
   dict(
-    slug="beard-family-dentistry", name="Beard Family Dentistry", kind="dental", tz="America/New_York",
+    slug="beard-family-dentistry", owner='Dr. Beard', fixes=['The About link goes to an unfinished template page', "The site still says “over 28 years” though you've been on Karl Rd since 1993", 'Several images are empty'], name="Beard Family Dentistry", kind="dental", tz="America/New_York",
     phone="(614) 447-2244", address="4536 Karl Rd", city="Columbus, OH",
     rating=5.0, reviews=149, hours=None, hours_note="Call for this week's hours, including Sunday dates.",
     headline="Unhurried care\nfor the whole family.", lede="Family dentistry on Karl Road since 1993, with Sunday appointments twice a month for busy weeks.",

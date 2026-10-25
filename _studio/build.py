@@ -10,6 +10,7 @@ from its entry in sites.py. Only real facts go into sites.py.
 import html, json, os, sys, urllib.parse
 sys.path.insert(0, os.path.dirname(__file__))
 from sites import SITES, PX
+from extras import anim_of, headline_html, hero_extra, sig_extra, offer_html, ANIM_CSS, ANIM_JS, OFFER_CSS, REDUCED
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 E = lambda s: html.escape(str(s), quote=True)
@@ -68,23 +69,23 @@ def services_block(s):
 
 
 def signature_block(s):
-    g = s["signature"]; t = g["type"]
+    g = s["signature"]; t = g["type"]; a = anim_of(s); xx = sig_extra(s, a)
     if t in ("steps", "directions"):
         lis = "".join(f'<li><span class="n">{i}</span><div><h3>{E(a)}</h3><p>{E(b)}</p></div></li>' for i, (a, b) in enumerate(g["steps"], 1))
         extra = f'<a class="btn ghost" href="{maps(s)}" target="_blank" rel="noopener">Open in Google Maps</a>' if t == "directions" else ""
         intro = f'<p class="sig-body">{E(g.get("body",""))}</p>' if g.get("body") else ""
-        return f'<div class="sig sig-steps"><h2>{E(g["title"])}</h2>{intro}<ol class="steps">{lis}</ol>{extra}</div>'
+        return f'<div class="sig sig-steps"><h2>{E(g["title"])}</h2>{intro}{xx}<ol class="steps" data-on>{lis}</ol>{extra}</div>'
     if t == "locations":
         a = f'<div class="loc"><h3>Broad Ripple</h3><p>{E(s["address"].replace(" (Broad Ripple)",""))}</p><a href="tel:{tel(s["phone"])}">{E(s["phone"])}</a></div>'
         n, ph, ad = s["phone2"]
         b = f'<div class="loc"><h3>{E(n)}</h3><p>{E(ad)}</p><a href="tel:{tel(ph)}">{E(ph)}</a></div>'
-        return f'<div class="sig sig-locs"><h2>{E(g["title"])}</h2><p class="sig-body">{E(g["body"])}</p><div class="locs">{a}{b}</div></div>'
+        return f'<div class="sig sig-locs"><h2>{E(g["title"])}</h2><p class="sig-body">{E(g["body"])}</p>{xx}<div class="locs">{a}{b}</div></div>'
     if t == "salute":
         return f'<div class="sig sig-big"><div class="bignum">$25</div><div><h2>{E(g["title"])}</h2><p class="sig-body">{E(g["body"])}</p></div></div>'
     if t == "clock":
-        return f'<div class="sig sig-big"><div class="bignum" data-clock>9pm</div><div><h2>{E(g["title"])}</h2><p class="sig-body">{E(g["body"])}</p></div></div>'
+        return f'<div class="sig sig-big"><div><div class="bignum" data-clock>9pm</div>{xx}</div><div><h2>{E(g["title"])}</h2><p class="sig-body">{E(g["body"])}</p></div></div>'
     if t == "board":
-        return f'<div class="sig sig-board"><h2>{E(g["title"])}</h2><p class="sig-body">{E(g["body"])}</p><div class="board">{hours_block(s)}</div></div>'
+        return f'<div class="sig sig-board"><h2>{E(g["title"])}</h2><p class="sig-body">{E(g["body"])}</p><div class="board" data-on>{hours_block(s)}</div></div>'
     photo = PX.format(s["theme"]["photo2"], 1200)
     return f'<div class="sig sig-photo"><img src="{photo}" alt="" loading="lazy"><div><h2>{E(g["title"])}</h2><p class="sig-body">{E(g["body"])}</p></div></div>'
 
@@ -231,14 +232,15 @@ def page(s):
     main = f'<a class="btn" href="{E(book_href)}"{book_attr}>{E(s["cta"])}</a>'
     badge = '<span class="open" data-open><i></i><span>Hours</span></span>'
     proof = f'<div class="proof reveal d3"><span><span class="stars" aria-hidden="true">{stars(s["rating"])}</span> {E(rating_line(s))}</span>{badge}</div>'
-    copy = f'<h1 class="reveal">{E(s["headline"])}</h1><p class="lede reveal d2">{E(s["lede"])}</p><div class="actions reveal d2">{main}{call}</div>{proof}'
+    a = anim_of(s)
+    copy = f'<h1 class="reveal">{headline_html(s, a)}</h1>{hero_extra(s, a) if a == "pulse" else ""}<p class="lede reveal d2">{E(s["lede"])}</p><div class="actions reveal d2">{main}{call}</div>{proof}'
     nav = f'<header class="top"><div class="wrap nav"><a class="brand" href="#">{E(s["name"])}</a><nav class="links" aria-label="Main"><a class="hide-m" href="#menu">Services</a><a class="hide-m" href="#visit">Visit</a><a class="btn small" href="{E(book_href)}"{book_attr}>{E(s["cta"])}</a></nav></div></header>'
     if t["hero"] == "full":
-        hero = f'<div class="hero hero-full">{nav}<div class="bg"><img class="kb" src="{hero_img}" alt="" fetchpriority="high"></div><div class="wrap copy">{copy}</div></div>'
+        hero = f'<div class="hero hero-full">{nav}<div class="bg"><img class="kb" src="{hero_img}" alt="" fetchpriority="high"><span class="photo-note">Sample photo · your own photos go here</span></div><div class="wrap copy">{copy}</div>{hero_extra(s, a) if a in ("badge","grow") else ""}</div>'
     elif t["hero"] == "split":
-        hero = f'<div class="hero hero-split">{nav}<div class="copy">{copy}</div><div class="pic"><img class="kb" src="{hero_img}" alt="" fetchpriority="high"></div></div>'
+        hero = f'<div class="hero hero-split">{nav}<div class="copy">{copy}{hero_extra(s, a) if a in ("badge","grow") else ""}</div><div class="pic"><img class="kb" src="{hero_img}" alt="" fetchpriority="high"><span class="photo-note">Sample photo · your own photos go here</span></div></div>'
     else:
-        hero = f'<div class="hero hero-type">{nav}<div class="wrap copy">{copy}</div><div class="strip"><img class="kb" src="{hero_img}" alt="" fetchpriority="high"></div></div>'
+        hero = f'<div class="hero hero-type">{nav}<div class="wrap copy">{copy}{hero_extra(s, a) if a in ("badge","grow") else ""}</div><div class="strip"><img class="kb" src="{hero_img}" alt="" fetchpriority="high"><span class="photo-note">Sample photo · your own photos go here</span></div></div>'
     menu_title = {"barber": "Cuts and shaves", "salon": "Services", "dental": "Care for every age"}[s["kind"]]
     menu_intro = s.get("menu_intro") or {"barber": "Walk out sharp. Every cut is finished with care, whatever the style.",
                                          "salon": "Every visit starts with a conversation about the look you want.",
@@ -256,18 +258,19 @@ def page(s):
 <meta name="robots" content="noindex"><meta name="description" content="{E(s['lede'])}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{fonts}">
-<style>:root{{--bg:{t['bg']};--ink:{t['ink']};--muted:{t['muted']};--accent:{t['accent']};--panel:{t['panel']};--on:{on};--display:{t['display']};--body:{t['body']};--dw:{t.get('dweight',700)};--ds:{t.get('dstretch','100%')};--tr:{t.get('tracking','0')};--r:{t.get('radius','18px')}}}{CSS}{hero_color_fix}</style>
+<style>:root{{--bg:{t['bg']};--ink:{t['ink']};--muted:{t['muted']};--accent:{t['accent']};--panel:{t['panel']};--on:{on};--display:{t['display']};--body:{t['body']};--dw:{t.get('dweight',700)};--ds:{t.get('dstretch','100%')};--tr:{t.get('tracking','0')};--r:{t.get('radius','18px')}}}{CSS}{hero_color_fix}{ANIM_CSS.get(a, "")}{OFFER_CSS}{REDUCED}</style>
 </head><body>
-<div class="banner">Concept preview made for {E(s['name'])} by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a></div>
-<main>
+<div class="banner">Concept preview made for {E(s['name'])} by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a> · <a href="#offer">See your offer</a></div>
+<main class="anim-{a}">
 {hero}
 <section class="sig-wrap"><div class="wrap">{signature_block(s)}</div></section>
 <section id="menu" class="panel"><div class="wrap two"><div><h2>{menu_title}</h2><p class="sig-body">{E(menu_intro)}</p>{main}</div><div>{services_block(s)}</div></div></section>
+{offer_html(s)}
 <section id="visit"><div class="wrap visit"><div><h2>Visit</h2><address>{E(s['name'])}<br>{E(s['address'])}<br>{E(s['city'])}</address><a class="phone" href="tel:{tel(s['phone'])}">{E(s['phone'])}</a>{second}<div class="actions"><a class="btn" href="{maps(s)}" target="_blank" rel="noopener">Get directions</a>{call}</div></div><div><h2>Hours</h2>{badge}<div style="height:16px"></div>{hours_block(s)}</div></div></section>
 </main>
 <footer><div class="wrap"><span>{E(s['name'])} · {E(s['address'])}, {E(s['city'])}</span><span>Concept by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a></span></div></footer>
 <nav class="bar" aria-label="Quick actions"><a href="tel:{tel(s['phone'])}">Call</a><a href="{maps(s)}" target="_blank" rel="noopener">Directions</a><a class="main" href="{E(book_href)}"{book_attr}>{"Book" if len(s['cta'])>13 else E(s['cta'])}</a></nav>
-<script>window.__SITE__={data};{JS}</script>
+<script>window.__SITE__={data};{JS}{ANIM_JS}</script>
 </body></html>"""
 
 

@@ -113,14 +113,69 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
  .menu .dots{display:none}
 }
 @media (prefers-reduced-motion:reduce){.reveal,.ready .reveal,.hero img.kb,.ready .hero img.kb{opacity:1;transform:none;transition:none}}
-</style>
+
+.ecg{display:block;width:min(420px,80%);height:56px;margin:4px 0 18px}
+.ecg path{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:900;stroke-dashoffset:900}
+.ready .ecg path{stroke-dashoffset:0;transition:stroke-dashoffset 1.8s .3s cubic-bezier(.4,0,.2,1)}
+.ecg .dot{fill:var(--accent);transform-box:fill-box;transform-origin:center;opacity:0}
+.ready .ecg .dot{animation:beat 1.2s 2s 3 both}
+@keyframes beat{0%{opacity:1;transform:scale(1)}15%{transform:scale(1.6)}30%{transform:scale(1)}45%{transform:scale(1.35)}60%,100%{opacity:1;transform:scale(1)}}
+
+.offer{--oa:color-mix(in srgb,var(--accent) 62%,var(--bg));background:var(--ink);color:var(--bg);padding:clamp(72px,10vw,120px) 0}
+.offer .for{margin:0 0 12px;font-weight:600;color:var(--oa)}
+.offer h2{max-width:16ch}
+.offer-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,5vw,72px);margin-top:28px}
+.price{display:flex;align-items:baseline;gap:18px}
+.price .was{font-size:1.6rem;text-decoration:line-through;opacity:.55}
+.price .now{font-family:var(--display);font-weight:var(--dw);font-stretch:var(--ds);letter-spacing:var(--tr);font-size:clamp(4rem,10vw,7rem);line-height:1;color:var(--oa)}
+.terms{margin:6px 0 22px;opacity:.85}
+.inc{list-style:none;padding:0;margin:0 0 22px}
+.inc li{padding:10px 0 10px 30px;position:relative;border-bottom:1px solid color-mix(in srgb,var(--bg) 14%,transparent)}
+.inc li::before{content:"";position:absolute;left:4px;top:18px;width:12px;height:7px;border-left:2.5px solid var(--oa);border-bottom:2.5px solid var(--oa);transform:rotate(-45deg)}
+.guarantee{font-size:1.1rem}
+.payback{opacity:.85}
+.fixes{background:color-mix(in srgb,var(--bg) 8%,transparent);border-radius:var(--r);padding:24px;margin-bottom:22px}
+.fixes h3{margin:0 0 10px;font-size:1.05rem}
+.fixes ul{margin:0;padding-left:18px;opacity:.9}
+.fixes li{margin:6px 0}
+.act .btn{width:100%;margin-bottom:12px}
+.btn.big{min-height:60px;font-size:1.05rem}
+.offer .btn.ghost{color:var(--bg)}
+.small{font-size:.9rem;opacity:.75}
+.hero-type .strip{position:relative}
+.photo-note{position:absolute;right:12px;bottom:12px;z-index:2;font-size:.75rem;background:rgba(0,0,0,.55);color:#fff;padding:4px 10px;border-radius:999px}
+@media(max-width:860px){.offer-grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.anim-razor h1{clip-path:none!important}.anim-stamp h1 .ln,.anim-splitflap .board tr,.stampbadge,.pinmap .pin,.pinmap .lab{opacity:1!important;transform:none!important}.stampbadge{transform:rotate(-12deg)!important}.ecg path,.stem path{stroke-dashoffset:0!important}.ecg .dot{opacity:1}}</style>
 </head><body>
-<div class="banner">Concept preview made for Black Heart Barber Company by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a></div>
-<main>
-<div class="hero hero-full"><header class="top"><div class="wrap nav"><a class="brand" href="#">Black Heart Barber Company</a><nav class="links" aria-label="Main"><a class="hide-m" href="#menu">Services</a><a class="hide-m" href="#visit">Visit</a><a class="btn small" href="tel:+16159395157">Book a chair</a></nav></div></header><div class="bg"><img class="kb" src="https://images.pexels.com/photos/7697357/pexels-photo-7697357.jpeg?auto=compress&cs=tinysrgb&w=2000" alt="" fetchpriority="high"></div><div class="wrap copy"><h1 class="reveal">East Nashville,
-cut sharp.</h1><p class="lede reveal d2">A neighborhood barbershop on 9th Street. Great with grown-ups, even better with kids.</p><div class="actions reveal d2"><a class="btn" href="tel:+16159395157">Book a chair</a><a class="btn ghost" href="tel:+16159395157">Call (615) 939-5157</a></div><div class="proof reveal d3"><span><span class="stars" aria-hidden="true">★★★★★</span> 4.9 from 146 reviews</span><span class="open" data-open><i></i><span>Hours</span></span></div></div></div>
+<div class="banner">Concept preview made for Black Heart Barber Company by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a> · <a href="#offer">See your offer</a></div>
+<main class="anim-pulse">
+<div class="hero hero-full"><header class="top"><div class="wrap nav"><a class="brand" href="#">Black Heart Barber Company</a><nav class="links" aria-label="Main"><a class="hide-m" href="#menu">Services</a><a class="hide-m" href="#visit">Visit</a><a class="btn small" href="tel:+16159395157">Book a chair</a></nav></div></header><div class="bg"><img class="kb" src="https://images.pexels.com/photos/7697357/pexels-photo-7697357.jpeg?auto=compress&cs=tinysrgb&w=2000" alt="" fetchpriority="high"><span class="photo-note">Sample photo · your own photos go here</span></div><div class="wrap copy"><h1 class="reveal">East Nashville,
+cut sharp.</h1><svg class="ecg" viewBox="0 0 420 56" aria-hidden="true"><path d="M2 30 H120 L134 30 L144 8 L156 50 L168 18 L178 30 H262 L272 30 L280 20 L288 30 H392"/><path class="dot" d="M398 30 m-10 -4 a6 6 0 0 1 10 -3 a6 6 0 0 1 10 3 c0 6 -10 12 -10 12 c0 0 -10 -6 -10 -12z"/></svg><p class="lede reveal d2">A neighborhood barbershop on 9th Street. Great with grown-ups, even better with kids.</p><div class="actions reveal d2"><a class="btn" href="tel:+16159395157">Book a chair</a><a class="btn ghost" href="tel:+16159395157">Call (615) 939-5157</a></div><div class="proof reveal d3"><span><span class="stars" aria-hidden="true">★★★★★</span> 4.9 from 146 reviews</span><span class="open" data-open><i></i><span>Hours</span></span></div></div></div>
 <section class="sig-wrap"><div class="wrap"><div class="sig sig-photo"><img src="https://images.pexels.com/photos/1570807/pexels-photo-1570807.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="" loading="lazy"><div><h2>Bring the kids. Seriously.</h2><p class="sig-body">Reviews keep saying the same thing: the barbers here are great with kids. First haircut, fidgety haircut, every haircut.</p></div></div></div></section>
 <section id="menu" class="panel"><div class="wrap two"><div><h2>Cuts and shaves</h2><p class="sig-body">Walk out sharp. Every cut is finished with care, whatever the style.</p><a class="btn" href="tel:+16159395157">Book a chair</a></div><div><ul class="menu"><li class="np"><div><h3>Haircut</h3><p>Classic or modern</p></div></li><li class="np"><div><h3>Kids cut</h3><p>Patient with little ones</p></div></li><li class="np"><div><h3>Beard trim</h3><p>Shape and line-up</p></div></li><li class="np"><div><h3>Cut + beard</h3><p>The full refresh</p></div></li></ul><p class="fine">Ask the shop for current prices.</p></div></div></section>
+<section id="offer" class="offer"><div class="wrap">
+<p class="for">For the owner of Black Heart Barber Company</p>
+<h2>Make this your real website. Live today.</h2>
+<div class="offer-grid">
+<div class="deal">
+<div class="price"><span class="was">$1,200</span><span class="now">$960</span></div>
+<p class="terms">Founding client price, for our first 10 clients. 10 of 10 spots left.</p>
+<ul class="inc">
+<li>This design, finished with your own photos, logo, services and prices</li>
+<li>Built for phones first: tap to call, directions and booking</li>
+<li>Live the same day when your details arrive by 12 pm Eastern on a weekday</li>
+<li>Two rounds of changes included</li>
+<li>Half to start ($480), half only when you love it</li>
+</ul>
+<p class="guarantee"><strong>Don't love the first design? Your deposit comes back.</strong> You risk nothing.</p>
+
+</div>
+<div class="act">
+<div class="fixes"><h3>What this fixes on your current site</h3><ul><li>The main photos don&#x27;t load</li><li>No hours or prices anywhere on the site</li></ul></div>
+<a class="btn big" href="tel:+16149679783">Call my assistant · +1 (614) 967-9783</a>
+<a class="btn ghost big" href="mailto:huszageorge25@gmail.com?subject=Yes%20-%20Black%20Heart%20Barber%20Company%20website">Email George: “yes”</a>
+<p class="small">The assistant is an AI that answers 24/7 and can set everything up. Or just reply “yes” to my email. Need more pages or online booking? Ask about Standard: $1,600 for founding clients (regular $2,000). Optional care plan $79/month.</p>
+</div></div></div></section>
 <section id="visit"><div class="wrap visit"><div><h2>Visit</h2><address>Black Heart Barber Company<br>9 S 9th St, Suite 1<br>Nashville, TN 37206</address><a class="phone" href="tel:+16159395157">(615) 939-5157</a><div class="actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=Black%20Heart%20Barber%20Company%209%20S%209th%20St%2C%20Suite%201%20Nashville%2C%20TN%2037206" target="_blank" rel="noopener">Get directions</a><a class="btn ghost" href="tel:+16159395157">Call (615) 939-5157</a></div></div><div><h2>Hours</h2><span class="open" data-open><i></i><span>Hours</span></span><div style="height:16px"></div><table class="hours"><tr data-day="Mon"><th scope="row">Monday</th><td>Closed</td></tr><tr data-day="Tue"><th scope="row">Tuesday</th><td>9am – 7pm</td></tr><tr data-day="Wed"><th scope="row">Wednesday</th><td>9am – 7pm</td></tr><tr data-day="Thu"><th scope="row">Thursday</th><td>9am – 7pm</td></tr><tr data-day="Fri"><th scope="row">Friday</th><td>9am – 7pm</td></tr><tr data-day="Sat"><th scope="row">Saturday</th><td>9am – 5pm</td></tr><tr data-day="Sun"><th scope="row">Sunday</th><td>Closed</td></tr></table></div></div></section>
 </main>
 <footer><div class="wrap"><span>Black Heart Barber Company · 9 S 9th St, Suite 1, Nashville, TN 37206</span><span>Concept by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a></span></div></footer>
@@ -138,6 +193,22 @@ cut sharp.</h1><p class="lede reveal d2">A neighborhood barbershop on 9th Street
   if(n.m>=sm&&n.m<em){open=true;txt='Open now · until '+fmt(a[1])}else if(n.m<sm){txt='Opens today at '+fmt(a[0])}else{txt='Closed now'}}
  badge.forEach(function(b){b.querySelector('span').textContent=txt;b.classList.toggle('is-open',open)});
  function fmt(t){var q=t.split(':'),H=+q[0],M=+q[1];return (H%12||12)+(M?':'+(M<10?'0':'')+M:'')+(H<12?'am':'pm')}
+})();
+
+(function(){
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('[data-on]').forEach(function(e){e.classList.add('on')});return}
+ var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{threshold:.35});
+ document.querySelectorAll('[data-on]').forEach(function(e){io.observe(e)});
+ document.querySelectorAll('.anim-splitflap .board tr').forEach(function(r,i){r.style.transitionDelay=(i*.09)+'s'});
+ var left=document.querySelector('[data-left]');
+ if(left&&window.__SITE__.hours){var S=window.__SITE__;
+  function tick(){var p=new Intl.DateTimeFormat('en-US',{timeZone:S.tz,weekday:'short',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date()),o={};p.forEach(function(x){o[x.type]=x.value});
+   var m=(+o.hour%24)*60+(+o.minute),h=S.hours[o.weekday];
+   if(!h){left.textContent='Closed today. Back tomorrow.';return}
+   var a=h.split('-'),s=a[0].split(':'),e=a[1].split(':'),sm=+s[0]*60+ +s[1],em=+e[0]*60+ +e[1];
+   if(m>=sm&&m<em){var d=em-m;left.textContent='Open for another '+Math.floor(d/60)+'h '+(d%60<10?'0':'')+(d%60)+'m today'}
+   else if(m<sm){left.textContent='Opening soon today'}else{left.textContent='Closed now. Back tomorrow.'}}
+  tick();setInterval(tick,30000)}
 })();
 </script>
 </body></html>

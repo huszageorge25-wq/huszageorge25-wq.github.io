@@ -113,14 +113,66 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
  .menu .dots{display:none}
 }
 @media (prefers-reduced-motion:reduce){.reveal,.ready .reveal,.hero img.kb,.ready .hero img.kb{opacity:1;transform:none;transition:none}}
-.hero-split header.top{color:var(--ink)}@media(max-width:860px){.hero-split header.top{color:#fff}}</style>
+.hero-split header.top{color:var(--ink)}@media(max-width:860px){.hero-split header.top{color:#fff}}
+.anim-countdown .bignum{animation:neon 1.6s steps(1) 1 both}
+@keyframes neon{0%{opacity:.15}8%{opacity:1}12%{opacity:.3}18%{opacity:1}30%{opacity:.5}34%,100%{opacity:1}}
+.left{display:block;font-family:var(--display);font-weight:var(--dw);font-size:clamp(1.4rem,2.6vw,2rem);margin-top:6px;color:var(--ink);font-variant-numeric:tabular-nums}
+
+.offer{--oa:color-mix(in srgb,var(--accent) 62%,var(--bg));background:var(--ink);color:var(--bg);padding:clamp(72px,10vw,120px) 0}
+.offer .for{margin:0 0 12px;font-weight:600;color:var(--oa)}
+.offer h2{max-width:16ch}
+.offer-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,5vw,72px);margin-top:28px}
+.price{display:flex;align-items:baseline;gap:18px}
+.price .was{font-size:1.6rem;text-decoration:line-through;opacity:.55}
+.price .now{font-family:var(--display);font-weight:var(--dw);font-stretch:var(--ds);letter-spacing:var(--tr);font-size:clamp(4rem,10vw,7rem);line-height:1;color:var(--oa)}
+.terms{margin:6px 0 22px;opacity:.85}
+.inc{list-style:none;padding:0;margin:0 0 22px}
+.inc li{padding:10px 0 10px 30px;position:relative;border-bottom:1px solid color-mix(in srgb,var(--bg) 14%,transparent)}
+.inc li::before{content:"";position:absolute;left:4px;top:18px;width:12px;height:7px;border-left:2.5px solid var(--oa);border-bottom:2.5px solid var(--oa);transform:rotate(-45deg)}
+.guarantee{font-size:1.1rem}
+.payback{opacity:.85}
+.fixes{background:color-mix(in srgb,var(--bg) 8%,transparent);border-radius:var(--r);padding:24px;margin-bottom:22px}
+.fixes h3{margin:0 0 10px;font-size:1.05rem}
+.fixes ul{margin:0;padding-left:18px;opacity:.9}
+.fixes li{margin:6px 0}
+.act .btn{width:100%;margin-bottom:12px}
+.btn.big{min-height:60px;font-size:1.05rem}
+.offer .btn.ghost{color:var(--bg)}
+.small{font-size:.9rem;opacity:.75}
+.hero-type .strip{position:relative}
+.photo-note{position:absolute;right:12px;bottom:12px;z-index:2;font-size:.75rem;background:rgba(0,0,0,.55);color:#fff;padding:4px 10px;border-radius:999px}
+@media(max-width:860px){.offer-grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.anim-razor h1{clip-path:none!important}.anim-stamp h1 .ln,.anim-splitflap .board tr,.stampbadge,.pinmap .pin,.pinmap .lab{opacity:1!important;transform:none!important}.stampbadge{transform:rotate(-12deg)!important}.ecg path,.stem path{stroke-dashoffset:0!important}.ecg .dot{opacity:1}}</style>
 </head><body>
-<div class="banner">Concept preview made for Fountain Square Barber Shop by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a></div>
-<main>
+<div class="banner">Concept preview made for Fountain Square Barber Shop by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a> · <a href="#offer">See your offer</a></div>
+<main class="anim-countdown">
 <div class="hero hero-split"><header class="top"><div class="wrap nav"><a class="brand" href="#">Fountain Square Barber Shop</a><nav class="links" aria-label="Main"><a class="hide-m" href="#menu">Services</a><a class="hide-m" href="#visit">Visit</a><a class="btn small" href="tel:+13172310138">Grab a chair</a></nav></div></header><div class="copy"><h1 class="reveal">Open till nine.
-Right on Prospect.</h1><p class="lede reveal d2">Fresh cuts in Fountain Square, seven days a week and late on weeknights, so you can come straight from work.</p><div class="actions reveal d2"><a class="btn" href="tel:+13172310138">Grab a chair</a><a class="btn ghost" href="tel:+13172310138">Call (317) 231-0138</a></div><div class="proof reveal d3"><span><span class="stars" aria-hidden="true">★★★★★</span> 4.8 on Google</span><span class="open" data-open><i></i><span>Hours</span></span></div></div><div class="pic"><img class="kb" src="https://images.pexels.com/photos/1570807/pexels-photo-1570807.jpeg?auto=compress&cs=tinysrgb&w=2000" alt="" fetchpriority="high"></div></div>
-<section class="sig-wrap"><div class="wrap"><div class="sig sig-big"><div class="bignum" data-clock>9pm</div><div><h2>Still cutting after work.</h2><p class="sig-body">Monday to Friday until 9pm, weekends until 6pm. The badge up top tells you if we&#x27;re open right now.</p></div></div></div></section>
+Right on Prospect.</h1><p class="lede reveal d2">Fresh cuts in Fountain Square, seven days a week and late on weeknights, so you can come straight from work.</p><div class="actions reveal d2"><a class="btn" href="tel:+13172310138">Grab a chair</a><a class="btn ghost" href="tel:+13172310138">Call (317) 231-0138</a></div><div class="proof reveal d3"><span><span class="stars" aria-hidden="true">★★★★★</span> 4.8 on Google</span><span class="open" data-open><i></i><span>Hours</span></span></div></div><div class="pic"><img class="kb" src="https://images.pexels.com/photos/1570807/pexels-photo-1570807.jpeg?auto=compress&cs=tinysrgb&w=2000" alt="" fetchpriority="high"><span class="photo-note">Sample photo · your own photos go here</span></div></div>
+<section class="sig-wrap"><div class="wrap"><div class="sig sig-big"><div><div class="bignum" data-clock>9pm</div><span class="left" data-left aria-live="polite"></span></div><div><h2>Still cutting after work.</h2><p class="sig-body">Monday to Friday until 9pm, weekends until 6pm. The badge up top tells you if we&#x27;re open right now.</p></div></div></div></section>
 <section id="menu" class="panel"><div class="wrap two"><div><h2>Cuts and shaves</h2><p class="sig-body">Walk out sharp. Every cut is finished with care, whatever the style.</p><a class="btn" href="tel:+13172310138">Grab a chair</a></div><div><ul class="menu"><li class="np"><div><h3>Haircut</h3><p>Classic or modern</p></div></li><li class="np"><div><h3>Skin fade</h3><p>Sharp and clean</p></div></li><li class="np"><div><h3>Beard trim</h3><p>Shape and line-up</p></div></li><li class="np"><div><h3>Kids cut</h3><p>For the little ones</p></div></li></ul><p class="fine">Ask the shop for current prices.</p></div></div></section>
+<section id="offer" class="offer"><div class="wrap">
+<p class="for">For the owner of Fountain Square Barber Shop</p>
+<h2>Make this your real website. Live today.</h2>
+<div class="offer-grid">
+<div class="deal">
+<div class="price"><span class="was">$1,200</span><span class="now">$960</span></div>
+<p class="terms">Founding client price, for our first 10 clients. 10 of 10 spots left.</p>
+<ul class="inc">
+<li>This design, finished with your own photos, logo, services and prices</li>
+<li>Built for phones first: tap to call, directions and booking</li>
+<li>Live the same day when your details arrive by 12 pm Eastern on a weekday</li>
+<li>Two rounds of changes included</li>
+<li>Half to start ($480), half only when you love it</li>
+</ul>
+<p class="guarantee"><strong>Don't love the first design? Your deposit comes back.</strong> You risk nothing.</p>
+
+</div>
+<div class="act">
+<div class="fixes"><h3>What this fixes on your current site</h3><ul><li>The call button dials 123-456-7890, not your shop</li><li>Social icons go to the template company&#x27;s pages</li><li>Phone visitors can&#x27;t pinch to zoom</li></ul></div>
+<a class="btn big" href="tel:+16149679783">Call my assistant · +1 (614) 967-9783</a>
+<a class="btn ghost big" href="mailto:huszageorge25@gmail.com?subject=Yes%20-%20Fountain%20Square%20Barber%20Shop%20website">Email George: “yes”</a>
+<p class="small">The assistant is an AI that answers 24/7 and can set everything up. Or just reply “yes” to my email. Need more pages or online booking? Ask about Standard: $1,600 for founding clients (regular $2,000). Optional care plan $79/month.</p>
+</div></div></div></section>
 <section id="visit"><div class="wrap visit"><div><h2>Visit</h2><address>Fountain Square Barber Shop<br>1115 Prospect St<br>Indianapolis, IN 46203</address><a class="phone" href="tel:+13172310138">(317) 231-0138</a><div class="actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=Fountain%20Square%20Barber%20Shop%201115%20Prospect%20St%20Indianapolis%2C%20IN%2046203" target="_blank" rel="noopener">Get directions</a><a class="btn ghost" href="tel:+13172310138">Call (317) 231-0138</a></div></div><div><h2>Hours</h2><span class="open" data-open><i></i><span>Hours</span></span><div style="height:16px"></div><table class="hours"><tr data-day="Mon"><th scope="row">Monday</th><td>9am – 9pm</td></tr><tr data-day="Tue"><th scope="row">Tuesday</th><td>9am – 9pm</td></tr><tr data-day="Wed"><th scope="row">Wednesday</th><td>9am – 9pm</td></tr><tr data-day="Thu"><th scope="row">Thursday</th><td>9am – 9pm</td></tr><tr data-day="Fri"><th scope="row">Friday</th><td>9am – 9pm</td></tr><tr data-day="Sat"><th scope="row">Saturday</th><td>9am – 6pm</td></tr><tr data-day="Sun"><th scope="row">Sunday</th><td>9am – 6pm</td></tr></table></div></div></section>
 </main>
 <footer><div class="wrap"><span>Fountain Square Barber Shop · 1115 Prospect St, Indianapolis, IN 46203</span><span>Concept by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a></span></div></footer>
@@ -138,6 +190,22 @@ Right on Prospect.</h1><p class="lede reveal d2">Fresh cuts in Fountain Square, 
   if(n.m>=sm&&n.m<em){open=true;txt='Open now · until '+fmt(a[1])}else if(n.m<sm){txt='Opens today at '+fmt(a[0])}else{txt='Closed now'}}
  badge.forEach(function(b){b.querySelector('span').textContent=txt;b.classList.toggle('is-open',open)});
  function fmt(t){var q=t.split(':'),H=+q[0],M=+q[1];return (H%12||12)+(M?':'+(M<10?'0':'')+M:'')+(H<12?'am':'pm')}
+})();
+
+(function(){
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('[data-on]').forEach(function(e){e.classList.add('on')});return}
+ var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{threshold:.35});
+ document.querySelectorAll('[data-on]').forEach(function(e){io.observe(e)});
+ document.querySelectorAll('.anim-splitflap .board tr').forEach(function(r,i){r.style.transitionDelay=(i*.09)+'s'});
+ var left=document.querySelector('[data-left]');
+ if(left&&window.__SITE__.hours){var S=window.__SITE__;
+  function tick(){var p=new Intl.DateTimeFormat('en-US',{timeZone:S.tz,weekday:'short',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date()),o={};p.forEach(function(x){o[x.type]=x.value});
+   var m=(+o.hour%24)*60+(+o.minute),h=S.hours[o.weekday];
+   if(!h){left.textContent='Closed today. Back tomorrow.';return}
+   var a=h.split('-'),s=a[0].split(':'),e=a[1].split(':'),sm=+s[0]*60+ +s[1],em=+e[0]*60+ +e[1];
+   if(m>=sm&&m<em){var d=em-m;left.textContent='Open for another '+Math.floor(d/60)+'h '+(d%60<10?'0':'')+(d%60)+'m today'}
+   else if(m<sm){left.textContent='Opening soon today'}else{left.textContent='Closed now. Back tomorrow.'}}
+  tick();setInterval(tick,30000)}
 })();
 </script>
 </body></html>
