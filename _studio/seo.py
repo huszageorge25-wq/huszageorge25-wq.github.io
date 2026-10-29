@@ -156,8 +156,8 @@ def cta_band(h="See your new website today.", p="Tell us your business name and 
 <p class="note" style="color:#8E9096">The phone line is an AI assistant, available 24/7. Or email <a href="mailto:{MAIL}">{MAIL}</a>.</p></div></div>"""
 
 def footer():
-    ind = "".join(f'<li><a href="/websites-for/{i["slug"]}/">Websites for {E(i["name"].lower())}</a></li>' for i in INDUSTRIES[:10])
-    ind2 = "".join(f'<li><a href="/websites-for/{i["slug"]}/">Websites for {E(i["name"].lower())}</a></li>' for i in INDUSTRIES[10:])
+    ind = "".join(f'<li><a href="/websites-for/{i["slug"]}/">Websites for {E(i["name"].lower())}</a></li>' for i in INDUSTRIES[:8])
+    ind2 = "".join(f'<li><a href="/websites-for/{i["slug"]}/">Websites for {E(i["name"].lower())}</a></li>' for i in INDUSTRIES[8:15]) + f'<li><a href="/websites-for/"><b>All {len(INDUSTRIES)} industries</b></a></li><li><a href="/serving-all-50-states/">Serving all 50 states</a></li>'
     gd = "".join(f'<li><a href="/guides/{g["slug"]}/">{E(g["title"])}</a></li>' for g in GUIDES)
     return f"""<footer><div class="wrap"><div class="cols">
 <div><h3>Industries</h3><ul>{ind}</ul></div><div><h3>&nbsp;</h3><ul>{ind2}</ul></div>
@@ -184,6 +184,8 @@ def industry_page(i):
     feats = "".join(f"<li>{E(f)}</li>" for f in i["features"])
     probs = "".join(f'<div class="card"><p>{E(p)}</p></div>' for p in i["problems"])
     searches = ", ".join(f"“{s}”" for s in i["search"])
+    kw = [f"{i['one']} website", f"{i['one']} website design", f"web design for {i['name'].lower()}", f"website for {i['owner']}", f"small business website for {i['name'].lower()}", f"{i['one']} website cost", f"mobile website for {i['name'].lower()}", f"local SEO for {i['name'].lower()}"]
+    kwl = "".join(f"<li>{E(k)}</li>" for k in kw)
     others = "".join(f'<li><a href="/websites-for/{o["slug"]}/">{E(o["name"])}</a></li>' for o in INDUSTRIES if o is not i)
     body = f"""{cr}
 <main><header class="hero wrap"><h1>Websites for {E(i['name'].lower())} that bring in customers.</h1>
@@ -194,13 +196,15 @@ def industry_page(i):
 <section><div class="wrap"><h2>Problems we fix most often</h2><div class="grid">{probs}</div></div></section>
 <section><div class="wrap prose"><h2>Built to show up when people search</h2>
 <p>Customers looking for a {E(i['one'])} type things like {E(searches)} into Google. We build every page so search engines can read your name, address, phone, hours and services clearly, load it fast on phones, and add the structured data Google uses for local results.</p>
+<p>Owners usually find us by searching for things like:</p><ul class="ticks" style="margin-bottom:16px">{kwl}</ul>
 <p>On the Standard plan we also walk you through your Google Business Profile, the listing that shows on Google Maps, so your website and your profile tell the same story.</p></div></section>
 {pricing_block()}
 <section><div class="wrap"><h2>Questions {E(i['owner'])} ask</h2>{faq_html(faqs)}</div></section>
 {cta_band()}
 <section><div class="wrap"><h2>Other industries we build for</h2><ul class="links">{others}</ul></div></section>
 </main>"""
-    write(path, head(title, desc, path, [ORG, service, crld, faq_ld(faqs)]) + body + footer())
+    page = {"@type": "WebPage", "@id": BASE + path, "url": BASE + path, "name": title, "keywords": ", ".join(kw + i["search"]), "about": {"@id": BASE + "/#business"}, "inLanguage": "en-US"}
+    write(path, head(title, desc, path, [ORG, page, service, crld, faq_ld(faqs)]) + body + footer())
     return path
 
 def industries_hub():
@@ -318,6 +322,26 @@ def referral_page():
     write(path, head("Referral Program: A Free Month for Every Owner You Introduce | Storefront Studio", "Refer a local business owner to Storefront Studio. When they become a client, you get a free month of the website care plan.", path, [ORG, crld]) + body + footer())
     return path
 
+STATES = "Alabama Alaska Arizona Arkansas California Colorado Connecticut Delaware Florida Georgia Hawaii Idaho Illinois Indiana Iowa Kansas Kentucky Louisiana Maine Maryland Massachusetts Michigan Minnesota Mississippi Missouri Montana Nebraska Nevada New_Hampshire New_Jersey New_Mexico New_York North_Carolina North_Dakota Ohio Oklahoma Oregon Pennsylvania Rhode_Island South_Carolina South_Dakota Tennessee Texas Utah Vermont Virginia Washington West_Virginia Wisconsin Wyoming".replace("_", " ").split()
+def states_page():
+    path = "/serving-all-50-states/"
+    cr, crld = crumbs([("Home", "/"), ("Serving all 50 states", path)])
+    tz = [("Eastern (New York, Florida, Ohio, Georgia)", "12 pm", "same evening"), ("Central (Texas, Illinois, Tennessee, Missouri)", "11 am", "same evening"), ("Mountain (Colorado, Utah, New Mexico; Arizona 9 am in summer)", "10 am", "same evening"), ("Pacific (California, Washington, Oregon)", "9 am", "same evening"), ("Alaska and Hawaii", "8 am Alaska, 7 am Hawaii (6 am in summer)", "same day, your time")]
+    rows = "".join(f"<tr><td>{E(a)}</td><td>{E(b)}</td><td>{E(c)}</td></tr>" for a, b, c in tz)
+    st = "".join(f"<li>Websites for small businesses in {E(x)}</li>" for x in STATES)
+    inds = "".join(f'<li><a href="/websites-for/{i["slug"]}/">{E(i["name"])}</a></li>' for i in INDUSTRIES)
+    body = f"""{cr}<main><header class="hero wrap"><h1>Websites for local businesses in all 50 states.</h1>
+<p class="lede">We work remotely with owners anywhere in the US, by email, phone and video. Same fixed prices everywhere, a free concept first, and launch the same day in your time zone.</p>
+<div class="ctas"><a class="btn primary" href="/#contact">Get my free concept</a><a class="btn quiet" href="tel:{TEL}">Call {TEL_TXT}</a></div></header>
+<section><div class="wrap"><h2>Same-day launch in your time zone</h2>
+<table style="width:100%;border-collapse:collapse;background:var(--paper);border:1px solid var(--hair);border-radius:16px;overflow:hidden;font-size:15px"><thead><tr style="text-align:left"><th style="padding:12px">Time zone</th><th style="padding:12px">Send your details by</th><th style="padding:12px">Live</th></tr></thead><tbody>{rows}</tbody></table>
+<p class="note">Weekdays. Connecting a domain you already own can take a few extra hours.</p></div></section>
+<section><div class="wrap"><h2>States we serve</h2><ul class="links">{st}</ul></div></section>
+<section><div class="wrap"><h2>Industries we build for</h2><ul class="links">{inds}</ul></div></section>{cta_band()}</main>"""
+    css = "<style>td,th{padding:12px;border-top:1px solid var(--hair)}</style>"
+    write(path, head("Small Business Websites in All 50 States, Live the Same Day | Storefront Studio", "Fixed-price websites for local businesses across the United States, from New York to California. Free concept first, live the same day in your time zone.", path, [ORG, crld]).replace("</head>", css + "</head>") + body + footer())
+    return path
+
 def not_found():
     body = f"""<main><header class="hero wrap"><h1>This page isn't here.</h1><p class="lede">It may have moved. Try the homepage, or find websites for your industry.</p>
 <div class="ctas"><a class="btn primary" href="/">Go to homepage</a><a class="btn quiet" href="/websites-for/">Websites by industry</a></div></header></main>"""
@@ -360,7 +384,7 @@ def patch_home():
     gl = " · ".join(f'<a href="/guides/{g["slug"]}/">{E(g["title"])}</a>' for g in GUIDES)
     foot = f"""
 <!-- SEOFOOT:start -->
-<div class="wrap" style="font-size:13.5px;line-height:1.9;color:var(--graphite);padding-top:18px;padding-bottom:28px"><p><b style="color:var(--ink)">Websites for:</b> {links}</p><p style="margin-top:8px"><b style="color:var(--ink)">Free guides:</b> {gl} · <a href="/start/">How to get started</a> · <a href="/website-check/"><b>Free website check</b></a></p></div>
+<div class="wrap" style="font-size:13.5px;line-height:1.9;color:var(--graphite);padding-top:18px;padding-bottom:28px"><p><b style="color:var(--ink)">Websites for:</b> {links}</p><p style="margin-top:8px"><b style="color:var(--ink)">Free guides:</b> {gl} · <a href="/start/">How to get started</a> · <a href="/website-check/"><b>Free website check</b></a> · <a href="/serving-all-50-states/">Serving all 50 states</a> · <a href="/referrals/">Referrals</a></p></div>
 <!-- SEOFOOT:end -->"""
     h = h.replace("</footer>", foot + "\n</footer>", 1)
     if 'href="/website-check/">Free check' not in h:
@@ -368,6 +392,6 @@ def patch_home():
     open(p, "w").write(h)
 
 if __name__ == "__main__":
-    paths = [industries_hub()] + [industry_page(i) for i in INDUSTRIES] + [guides_hub()] + [guide_page(g) for g in GUIDES] + [start_page(), check_page(), referral_page()]
+    paths = [industries_hub()] + [industry_page(i) for i in INDUSTRIES] + [guides_hub()] + [guide_page(g) for g in GUIDES] + [start_page(), check_page(), referral_page(), states_page()]
     not_found(); robots_sitemap_llms(paths); patch_home()
     print(f"built {len(paths)} pages + 404, robots.txt, sitemap.xml, llms.txt; homepage patched")
