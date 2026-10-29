@@ -16,7 +16,7 @@ def offer_html(s):
     fixes = s.get("fixes") or []
     fx = "".join(f"<li>{E(f)}</li>" for f in fixes)
     fixes_block = f'<div class="fixes"><h3>What this fixes on your current site</h3><ul>{fx}</ul></div>' if fixes else ""
-    unit = {"barber": "cuts", "salon": "appointments", "dental": "visits", "roofer": "jobs"}[s["kind"]]
+    unit = {"barber": "cuts", "salon": "appointments", "dental": "visits", "roofer": "jobs", "trade": "jobs", "restaurant": "orders", "fitness": "memberships", "beauty": "appointments"}.get(s["kind"], "sales")
     payback = ""
     if s.get("avg_price"):
         n = -(-o["founding"] // s["avg_price"])

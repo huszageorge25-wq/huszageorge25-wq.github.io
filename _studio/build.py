@@ -62,14 +62,14 @@ def hours_block(s):
 
 
 def services_block(s):
-    unit = "salon" if s["kind"] == "salon" else ("office" if s["kind"] == "dental" else "shop")
+    unit = {"salon": "salon", "dental": "office", "restaurant": "restaurant"}.get(s["kind"], "shop")
     items = []
     for name, note, price in s["services"]:
         tail = f'<span class="dots" aria-hidden="true"></span><strong>{E(price)}</strong>' if price else ""
         items.append(f'<li class="{"" if price else "np"}"><div><h3>{E(name)}</h3><p>{E(note)}</p></div>{tail}</li>')
     foot = {"barber": "Ask the shop for current prices.", "salon": "Prices depend on hair length and the look you want. Ask the salon.",
             "dental": "Ask about your insurance when you call.",
-            "roofer": "Every roof is different. Call to get a quote for yours."}[s["kind"]]
+            "roofer": "Every roof is different. Call to get a quote for yours.", "trade": "Every job gets a clear quote before work starts.", "restaurant": "Menu and prices can change with the season.", "fitness": "Ask about intro offers for first-timers.", "beauty": "Ask about current prices and packages."}.get(s["kind"], "Ask for current prices.")
     if s.get("cash_only"):
         foot += " Cash only."
     return f'<ul class="menu">{"".join(items)}</ul><p class="fine">{E(foot)}</p>'
@@ -249,11 +249,11 @@ def page(s):
         hero = f'<div class="hero hero-split">{nav}<div class="copy">{copy}{hero_extra(s, a) if a in ("badge","grow","shine") else ""}</div><div class="pic"><img class="kb" src="{hero_img}" alt="" fetchpriority="high">{"" if live else '<span class="photo-note">Sample photo · your own photos go here</span>'}</div></div>'
     else:
         hero = f'<div class="hero hero-type">{nav}<div class="wrap copy">{copy}{hero_extra(s, a) if a in ("badge","grow","shine") else ""}</div><div class="strip"><img class="kb" src="{hero_img}" alt="" fetchpriority="high">{"" if live else '<span class="photo-note">Sample photo · your own photos go here</span>'}</div></div>'
-    menu_title = {"barber": "Cuts and shaves", "salon": "Services", "dental": "Care for every age", "roofer": "What we do"}[s["kind"]]
+    menu_title = s.get("menu_title") or {"barber": "Cuts and shaves", "salon": "Services", "dental": "Care for every age", "roofer": "What we do", "trade": "What we do", "restaurant": "On the menu", "fitness": "Classes and training", "beauty": "Treatments"}.get(s["kind"], "Services")
     menu_intro = s.get("menu_intro") or {"barber": "Walk out sharp. Every cut is finished with care, whatever the style.",
                                          "salon": "Every visit starts with a conversation about the look you want.",
                                          "dental": "From first checkups to same-week help when something hurts.",
-                                         "roofer": "From a single leak to a full replacement."}[s["kind"]]
+                                         "roofer": "From a single leak to a full replacement.", "trade": "Straight answers, fair quotes and work done right the first time.", "restaurant": "Made fresh, served with care.", "fitness": "Show up, we'll do the rest.", "beauty": "Time for you, done properly."}.get(s["kind"], "Here's what we do best.")
     second = ""
     if s.get("phone2"):
         n, ph, ad = s["phone2"]
