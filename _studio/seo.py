@@ -16,6 +16,8 @@ from extras import OFFER
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE = "https://huszageorge25-wq.github.io"
 TODAY = datetime.date.today().isoformat()
+# Google Analytics 4 measurement ID (free). Empty = no tracking loads. George pastes his G-XXXXXXX here.
+GA_ID = ""
 PAY = "https://link.payoneer.com/Token?t=A2ABF332A9F441559223002E50F51EEF&src=pl"
 TEL, TEL_TXT, MAIL = OFFER["assistant_tel"], OFFER["assistant"], OFFER["email"]
 E = lambda s: html.escape(str(s), quote=True)
@@ -80,6 +82,18 @@ footer h3{font-size:14px;color:var(--ink)}footer ul{list-style:none;padding:0;ma
 @media (min-width:821px){.dock{display:none}footer{padding-bottom:36px}}
 """
 
+def analytics():
+    if not GA_ID:
+        return ""
+    return f"""<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','{GA_ID}');
+document.addEventListener('click',function(e){{var a=e.target.closest&&e.target.closest('a');if(!a)return;var h=a.getAttribute('href')||'',ev=null;
+if(h.indexOf('tel:')===0)ev='call_click';else if(a.id==='go')ev='website_check_send';else if(h.indexOf('mailto:')===0)ev=/Referral/.test(h)?'referral_click':'concept_request';
+else if(h.indexOf('payoneer')>-1)ev='deposit_click';else if(h.indexOf('/website-check/')>-1)ev='check_open';
+if(ev)gtag('event',ev,{{link_kind:h.split('?')[0].split(':')[0],page_path:location.pathname}});}});
+document.addEventListener('submit',function(e){{if(e.target&&e.target.id==='concept')gtag('event','concept_request',{{form:'homepage'}});}});
+document.addEventListener('change',function(e){{if(e.target&&e.target.closest&&e.target.closest('.q')&&!window.__chk){{window.__chk=1;gtag('event','check_started');}}}});</script>"""
+
 def head(title, desc, path, ld, noindex=False):
     url = BASE + path
     robots = '<meta name="robots" content="noindex">' if noindex else '<meta name="robots" content="index,follow,max-image-preview:large">'
@@ -101,6 +115,7 @@ def head(title, desc, path, ld, noindex=False):
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap">
 <style>{CSS}</style>
+{analytics()}
 <script type="application/ld+json">{json.dumps({"@context": "https://schema.org", "@graph": ld}, ensure_ascii=False)}</script>
 </head>
 <body>
@@ -333,6 +348,7 @@ def patch_home():
     graph = [ORG, site] + ([faq_ld(faq)] if faq else [])
     seo = f"""
 <!-- SEO:start -->
+{analytics()}
 <link rel="canonical" href="{BASE}/">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:url" content="{BASE}/"><meta property="og:image" content="{BASE}/og.png"><meta property="og:site_name" content="Storefront Studio"><meta property="og:locale" content="en_US">
