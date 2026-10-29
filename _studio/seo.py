@@ -146,7 +146,7 @@ def footer():
     gd = "".join(f'<li><a href="/guides/{g["slug"]}/">{E(g["title"])}</a></li>' for g in GUIDES)
     return f"""<footer><div class="wrap"><div class="cols">
 <div><h3>Industries</h3><ul>{ind}</ul></div><div><h3>&nbsp;</h3><ul>{ind2}</ul></div>
-<div><h3>Guides</h3><ul>{gd}<li><a href="/start/">How to get started</a></li><li><a href="/website-check/">Free website check</a></li></ul></div>
+<div><h3>Guides</h3><ul>{gd}<li><a href="/start/">How to get started</a></li><li><a href="/website-check/">Free website check</a></li><li><a href="/referrals/">Referral program</a></li></ul></div>
 <div><h3>Contact</h3><ul><li><a href="tel:{TEL}">{TEL_TXT} (AI assistant, 24/7)</a></li><li><a href="mailto:{MAIL}">{MAIL}</a></li><li>Serving local businesses in all 50 states</li></ul></div>
 </div>© {datetime.date.today().year} Storefront Studio. Websites for US local businesses.</div></footer>
 <div class="dock"><a class="btn quiet" href="tel:{TEL}">Call now</a><a class="btn primary" href="/#contact">Free concept</a></div>
@@ -289,6 +289,20 @@ boxes.forEach(b=>b.addEventListener('change',upd));document.querySelectorAll('#b
     write(path, head("Free Website Check for Local Businesses (12 Points, 2 Minutes) | Storefront Studio", "Free 12-point website check for US small businesses. Get a score and the fixes that bring in more calls and bookings, then a free homepage concept.", path, [ORG, crld, app]) + body + footer())
     return path
 
+def referral_page():
+    path = "/referrals/"
+    cr, crld = crumbs([("Home", "/"), ("Referrals", path)])
+    body = f"""{cr}<main><header class="hero wrap"><h1>Know an owner who needs a better website?</h1>
+<p class="lede">Introduce them. When they become a client, you get a free month of the care plan for each one. No limit, nothing to sign.</p>
+<div class="ctas"><a class="btn primary" href="mailto:{MAIL}?subject=Referral&body=Business%20I'm%20referring%3A%0ACity%3A%0ATheir%20email%20or%20phone%20(with%20their%20OK)%3A%0AMy%20business%3A">Send a referral</a><a class="btn quiet" href="tel:{TEL}">Call {TEL_TXT}</a></div></header>
+<section><div class="wrap"><div class="grid">
+<div class="card"><h3>1. Tell us who</h3><p>Email us their business name and city. Only share their contact details if they said it's OK.</p></div>
+<div class="card"><h3>2. We do the rest</h3><p>We design a free concept of their homepage and send it to them, mentioning you sent them.</p></div>
+<div class="card"><h3>3. You get a free month</h3><p>When they pay their deposit, your next month of the care plan is free. Not on the care plan yet? It starts your first month free.</p></div>
+</div></div></section>{cta_band("Not a client yet?", "Start with your own free concept. Our first ten clients also get 20% off.")}</main>"""
+    write(path, head("Referral Program: A Free Month for Every Owner You Introduce | Storefront Studio", "Refer a local business owner to Storefront Studio. When they become a client, you get a free month of the website care plan.", path, [ORG, crld]) + body + footer())
+    return path
+
 def not_found():
     body = f"""<main><header class="hero wrap"><h1>This page isn't here.</h1><p class="lede">It may have moved. Try the homepage, or find websites for your industry.</p>
 <div class="ctas"><a class="btn primary" href="/">Go to homepage</a><a class="btn quiet" href="/websites-for/">Websites by industry</a></div></header></main>"""
@@ -338,6 +352,6 @@ def patch_home():
     open(p, "w").write(h)
 
 if __name__ == "__main__":
-    paths = [industries_hub()] + [industry_page(i) for i in INDUSTRIES] + [guides_hub()] + [guide_page(g) for g in GUIDES] + [start_page(), check_page()]
+    paths = [industries_hub()] + [industry_page(i) for i in INDUSTRIES] + [guides_hub()] + [guide_page(g) for g in GUIDES] + [start_page(), check_page(), referral_page()]
     not_found(); robots_sitemap_llms(paths); patch_home()
     print(f"built {len(paths)} pages + 404, robots.txt, sitemap.xml, llms.txt; homepage patched")
