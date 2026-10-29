@@ -1,0 +1,35 @@
+# Storefront Studio
+
+> Fixed-price websites for US local businesses (barbers, salons, restaurants, dentists, contractors and more), live the same day. Free homepage concept before payment. Starter $1,200 (founding $960), Standard $2,000 (founding $1,600), care plan $79/month. 50% deposit, refundable if the first design isn't liked.
+
+Contact: +1 (614) 967-9783 (AI assistant, 24/7), huszageorge25@gmail.com
+
+## Pages
+- [Home](https://huszageorge25-wq.github.io/)
+- [Get started](https://huszageorge25-wq.github.io/start/)
+- [Websites by industry](https://huszageorge25-wq.github.io/websites-for/)
+- [Websites for barbershops](https://huszageorge25-wq.github.io/websites-for/barbershops/)
+- [Websites for hair salons](https://huszageorge25-wq.github.io/websites-for/hair-salons/)
+- [Websites for nail salons](https://huszageorge25-wq.github.io/websites-for/nail-salons/)
+- [Websites for med spas](https://huszageorge25-wq.github.io/websites-for/med-spas/)
+- [Websites for tattoo shops](https://huszageorge25-wq.github.io/websites-for/tattoo-shops/)
+- [Websites for restaurants](https://huszageorge25-wq.github.io/websites-for/restaurants/)
+- [Websites for coffee shops](https://huszageorge25-wq.github.io/websites-for/coffee-shops/)
+- [Websites for bakeries](https://huszageorge25-wq.github.io/websites-for/bakeries/)
+- [Websites for dentists](https://huszageorge25-wq.github.io/websites-for/dentists/)
+- [Websites for roofers](https://huszageorge25-wq.github.io/websites-for/roofers/)
+- [Websites for plumbers](https://huszageorge25-wq.github.io/websites-for/plumbers/)
+- [Websites for hvac companies](https://huszageorge25-wq.github.io/websites-for/hvac/)
+- [Websites for electricians](https://huszageorge25-wq.github.io/websites-for/electricians/)
+- [Websites for landscapers](https://huszageorge25-wq.github.io/websites-for/landscapers/)
+- [Websites for house cleaning services](https://huszageorge25-wq.github.io/websites-for/house-cleaning/)
+- [Websites for auto repair shops](https://huszageorge25-wq.github.io/websites-for/auto-repair/)
+- [Websites for car detailing](https://huszageorge25-wq.github.io/websites-for/car-detailing/)
+- [Websites for gyms and fitness studios](https://huszageorge25-wq.github.io/websites-for/gyms/)
+- [Websites for yoga studios](https://huszageorge25-wq.github.io/websites-for/yoga-studios/)
+- [Websites for pet groomers](https://huszageorge25-wq.github.io/websites-for/pet-grooming/)
+
+## Guides
+- [How Much Does a Small Business Website Cost in 2026?](https://huszageorge25-wq.github.io/guides/small-business-website-cost/): Honest price ranges for small business websites in the US: website builders, freelancers, agencies and fixed-price studios, plus what you should get for the money.
+- [Google Business Profile Checklist for Local Businesses](https://huszageorge25-wq.github.io/guides/google-business-profile-checklist/): A plain-English checklist to get more calls from Google Maps: categories, hours, photos, reviews, and how your website supports your profile.
+- [The 12-Point Website Checklist for Local Businesses](https://huszageorge25-wq.github.io/guides/local-business-website-checklist/): Check your current website in five minutes. Twelve things every local business website needs so people on their phones call, book or visit.

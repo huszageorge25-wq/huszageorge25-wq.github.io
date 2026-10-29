@@ -1,0 +1,299 @@
+"""Builds the SEO layer of the Storefront Studio site.
+
+  python3 _studio/seo.py
+
+Writes: websites-for/ (hub + one page per industry), guides/ (hub + articles),
+start/ (how to buy + deposit), 404.html, robots.txt, sitemap.xml, llms.txt,
+og.png is made separately (see make_og in README). Also patches the <head> and
+footer of the root index.html between SEO markers (safe to run again).
+Content lives in _studio/seo_data.py. Never invent reviews, ratings or clients.
+"""
+import html, json, os, re, sys, datetime
+sys.path.insert(0, os.path.dirname(__file__))
+from seo_data import INDUSTRIES, GUIDES
+from extras import OFFER
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE = "https://huszageorge25-wq.github.io"
+TODAY = datetime.date.today().isoformat()
+PAY = "https://link.payoneer.com/Token?t=A2ABF332A9F441559223002E50F51EEF&src=pl"
+TEL, TEL_TXT, MAIL = OFFER["assistant_tel"], OFFER["assistant"], OFFER["email"]
+E = lambda s: html.escape(str(s), quote=True)
+
+ORG = {
+  "@type": "ProfessionalService", "@id": BASE + "/#business", "name": "Storefront Studio",
+  "url": BASE + "/", "logo": BASE + "/favicon.svg", "image": BASE + "/og.png",
+  "description": "Fixed-price websites for US local businesses, live the same day. Free homepage concept before you pay.",
+  "telephone": "+1-614-967-9783", "email": MAIL, "areaServed": {"@type": "Country", "name": "United States"},
+  "priceRange": "$960-$2,000", "knowsLanguage": ["en"],
+  "address": {"@type": "PostalAddress", "streetAddress": "Strada Podei 28 A", "postalCode": "545400", "addressLocality": "Sighisoara", "addressCountry": "RO"},
+  "makesOffer": [
+    {"@type": "Offer", "name": "Starter website", "price": "1200", "priceCurrency": "USD", "description": "1 to 3 pages, live the same day"},
+    {"@type": "Offer", "name": "Standard website", "price": "2000", "priceCurrency": "USD", "description": "Up to 5 pages with booking, ordering or quote form"},
+    {"@type": "Offer", "name": "Care plan", "price": "79", "priceCurrency": "USD", "description": "Hosting and same-day changes, monthly"}],
+}
+
+CSS = """
+:root{--porcelain:#F4F4F1;--paper:#fff;--ink:#17181C;--graphite:#5F6268;--hair:#E2E2DD;--cobalt:#2448E8;--night:#0B0C0E;--gutter:clamp(16px,4vw,40px)}
+@media (prefers-color-scheme:dark){:root{--porcelain:#0E0F12;--paper:#17181C;--ink:#F2F2F0;--graphite:#A3A6AD;--hair:#2A2C31;--cobalt:#5B78FF;--night:#000}}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--porcelain);color:var(--ink);font:400 17px/1.6 Geist,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}h1,h2,h3,p{margin:0}
+.wrap{max-width:1100px;margin:0 auto;padding:0 var(--gutter)}
+.nav{position:sticky;top:0;z-index:9;background:color-mix(in srgb,var(--porcelain) 85%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--hair)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:12px}
+.brand{display:flex;gap:10px;align-items:center;font-weight:600;text-decoration:none;letter-spacing:-.02em}
+.brand img{width:26px;height:26px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-weight:500;text-decoration:none;border:1px solid transparent;font-size:16px}
+.btn.primary{background:var(--cobalt);color:#fff}.btn.quiet{border-color:color-mix(in srgb,var(--ink) 25%,transparent)}
+.nav .btn{min-height:38px;padding:0 16px;font-size:14.5px}
+.crumbs{font-size:14px;color:var(--graphite);padding-top:22px}.crumbs a{text-decoration:none}
+header.hero{padding-top:clamp(40px,7vw,88px);padding-bottom:clamp(32px,5vw,56px)}
+h1{font-weight:600;letter-spacing:-.04em;line-height:1.02;font-size:clamp(40px,6.6vw,76px);max-width:16ch}
+.lede{font-size:clamp(18px,1.7vw,21px);color:var(--graphite);max-width:60ch;margin-top:22px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.note{font-size:14px;color:var(--graphite);margin-top:14px}
+section{padding:clamp(40px,6vw,72px) 0;border-top:1px solid var(--hair)}
+h2{font-weight:600;letter-spacing:-.03em;line-height:1.1;font-size:clamp(28px,3.6vw,42px);max-width:22ch;margin-bottom:22px}
+h3{font-size:19px;font-weight:600;margin-bottom:6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:var(--paper);border:1px solid var(--hair);border-radius:20px;padding:22px}
+.card p,.prose p,li{color:var(--graphite)}
+ul.ticks{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+ul.ticks li{padding-left:28px;position:relative}
+ul.ticks li:before{content:"";position:absolute;left:4px;top:.55em;width:12px;height:7px;border-left:2px solid var(--cobalt);border-bottom:2px solid var(--cobalt);transform:rotate(-45deg)}
+.price{font-size:34px;font-weight:600;letter-spacing:-.03em;color:var(--ink)}
+.price s{font-size:20px;color:var(--graphite);margin-right:8px}
+details{background:var(--paper);border:1px solid var(--hair);border-radius:16px;padding:16px 20px;margin-bottom:10px}
+summary{font-weight:600;cursor:pointer}details p{margin-top:10px;color:var(--graphite)}
+.prose{max-width:70ch}.prose h2{margin-top:36px;margin-bottom:12px;font-size:clamp(24px,3vw,32px)}.prose p{margin-bottom:14px}
+.cta-band{background:var(--night);color:#F5F5F7;border-radius:28px;padding:clamp(28px,5vw,56px);margin:clamp(40px,6vw,72px) 0}
+.cta-band h2{color:#fff}.cta-band p{color:#B4B6BC;max-width:56ch}
+.cta-band .btn.quiet{border-color:#55575d;color:#fff}
+.links{columns:3 220px;gap:24px;padding:0;list-style:none;margin:0}.links li{margin-bottom:8px}
+footer{border-top:1px solid var(--hair);padding:36px 0 110px;font-size:14px;color:var(--graphite)}
+footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-bottom:22px}
+footer h3{font-size:14px;color:var(--ink)}footer ul{list-style:none;padding:0;margin:8px 0 0}footer li{margin-bottom:6px}footer a{text-decoration:none}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:10;display:flex;gap:8px;padding:10px var(--gutter) calc(10px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--porcelain) 92%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--hair)}
+.dock .btn{flex:1;min-height:46px}
+@media (min-width:821px){.dock{display:none}footer{padding-bottom:36px}}
+"""
+
+def head(title, desc, path, ld, noindex=False):
+    url = BASE + path
+    robots = '<meta name="robots" content="noindex">' if noindex else '<meta name="robots" content="index,follow,max-image-preview:large">'
+    return f"""<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{E(title)}</title>
+<meta name="description" content="{E(desc)}">
+{robots}
+<link rel="canonical" href="{url}">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Storefront Studio">
+<meta property="og:title" content="{E(title)}"><meta property="og:description" content="{E(desc)}">
+<meta property="og:url" content="{url}"><meta property="og:image" content="{BASE}/og.png"><meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{E(title)}"><meta name="twitter:description" content="{E(desc)}"><meta name="twitter:image" content="{BASE}/og.png">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap">
+<style>{CSS}</style>
+<script type="application/ld+json">{json.dumps({"@context": "https://schema.org", "@graph": ld}, ensure_ascii=False)}</script>
+</head>
+<body>
+<nav class="nav"><div class="wrap"><a class="brand" href="/"><img src="/favicon.svg" alt="" width="26" height="26">Storefront Studio</a>
+<a class="btn primary" href="/#contact">Free concept</a></div></nav>
+"""
+
+def crumbs(items):
+    ld = {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": n, "item": BASE + p} for i, (n, p) in enumerate(items)]}
+    html_ = " / ".join(f'<a href="{p}">{E(n)}</a>' if i < len(items) - 1 else E(n) for i, (n, p) in enumerate(items))
+    return f'<div class="wrap crumbs">{html_}</div>', ld
+
+def faq_ld(pairs):
+    return {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in pairs]}
+
+def faq_html(pairs):
+    return "".join(f"<details><summary>{E(q)}</summary><p>{E(a)}</p></details>" for q, a in pairs)
+
+GENERAL_FAQ = [
+  ("How can my website be live the same day?", "Send your logo, photos, services and hours by 12 pm Eastern on a weekday and your site goes live that evening. Connecting a domain you already own can take a few extra hours."),
+  ("Do I pay before I see anything?", "No. We design a free concept of your homepage first. If you want it, you pay a 50% deposit. If you don't like the first design, the full deposit comes back."),
+  ("Where are you based?", "Storefront Studio is run by George from Romania and works remotely with US businesses by email, phone and video. That's how prices stay well below local agencies."),
+  ("Can I talk to someone now?", f"Yes. Call {TEL_TXT}. It's an AI assistant that answers 24/7, explains the packages and books a call with George if you want one."),
+]
+
+def pricing_block():
+    o = OFFER
+    return f"""<section><div class="wrap"><h2>One fixed price. Agreed before we start.</h2>
+<div class="grid">
+<div class="card"><h3>Starter</h3><p class="price"><s>${o['regular']:,}</s>${o['founding']:,}</p><p>Founding price for our first {o['founding_total']} clients. 1 to 3 pages, your services, hours and map, tap to call, live the same day.</p></div>
+<div class="card"><h3>Standard</h3><p class="price"><s>${o['standard']:,}</s>${o['standard_founding']:,}</p><p>Up to 5 pages with online booking, ordering or a quote form, photo gallery and Google Business Profile setup help.</p></div>
+<div class="card"><h3>Care plan</h3><p class="price">${o['care']}<span style="font-size:17px;font-weight:400">/month</span></p><p>Fast, secure hosting and changes done the same day. Cancel with 30 days' notice.</p></div>
+</div><p class="note">50% to start, 50% when you approve the finished site. Prices in US dollars. You own your domain and content.</p></div></section>"""
+
+def cta_band(h="See your new website today.", p="Tell us your business name and city. We'll design a free concept of your homepage and send it the same day. No obligation."):
+    return f"""<div class="wrap"><div class="cta-band"><h2>{E(h)}</h2><p>{E(p)}</p>
+<div class="ctas"><a class="btn primary" href="/#contact">Get my free concept</a><a class="btn quiet" href="tel:{TEL}">Call {TEL_TXT}</a></div>
+<p class="note" style="color:#8E9096">The phone line is an AI assistant, available 24/7. Or email <a href="mailto:{MAIL}">{MAIL}</a>.</p></div></div>"""
+
+def footer():
+    ind = "".join(f'<li><a href="/websites-for/{i["slug"]}/">Websites for {E(i["name"].lower())}</a></li>' for i in INDUSTRIES[:10])
+    ind2 = "".join(f'<li><a href="/websites-for/{i["slug"]}/">Websites for {E(i["name"].lower())}</a></li>' for i in INDUSTRIES[10:])
+    gd = "".join(f'<li><a href="/guides/{g["slug"]}/">{E(g["title"])}</a></li>' for g in GUIDES)
+    return f"""<footer><div class="wrap"><div class="cols">
+<div><h3>Industries</h3><ul>{ind}</ul></div><div><h3>&nbsp;</h3><ul>{ind2}</ul></div>
+<div><h3>Guides</h3><ul>{gd}<li><a href="/start/">How to get started</a></li></ul></div>
+<div><h3>Contact</h3><ul><li><a href="tel:{TEL}">{TEL_TXT} (AI assistant, 24/7)</a></li><li><a href="mailto:{MAIL}">{MAIL}</a></li><li>Serving local businesses in all 50 states</li></ul></div>
+</div>© {datetime.date.today().year} Storefront Studio. Websites for US local businesses.</div></footer>
+<div class="dock"><a class="btn quiet" href="tel:{TEL}">Call now</a><a class="btn primary" href="/#contact">Free concept</a></div>
+</body></html>"""
+
+def write(path, content):
+    full = os.path.join(ROOT, path.strip("/"), "index.html") if not path.endswith(".html") else os.path.join(ROOT, path.strip("/"))
+    os.makedirs(os.path.dirname(full), exist_ok=True)
+    open(full, "w").write(content)
+
+def industry_page(i):
+    path = f"/websites-for/{i['slug']}/"
+    title = f"Websites for {i['name']}, Live the Same Day | Storefront Studio"
+    desc = f"Professional {i['one']} websites for US {i['owner']}: tap to call, booking, hours and Google-ready. Free homepage concept first. From ${OFFER['founding']:,}."
+    cr, crld = crumbs([("Home", "/"), ("Industries", "/websites-for/"), (f"Websites for {i['name'].lower()}", path)])
+    faqs = i["faq"] + GENERAL_FAQ
+    service = {"@type": "Service", "name": f"Website design for {i['name'].lower()}", "serviceType": "Website design", "provider": {"@id": BASE + "/#business"},
+               "areaServed": {"@type": "Country", "name": "United States"}, "audience": {"@type": "BusinessAudience", "name": i["owner"]},
+               "offers": {"@type": "Offer", "price": str(OFFER["founding"]), "priceCurrency": "USD"}, "url": BASE + path}
+    feats = "".join(f"<li>{E(f)}</li>" for f in i["features"])
+    probs = "".join(f'<div class="card"><p>{E(p)}</p></div>' for p in i["problems"])
+    searches = ", ".join(f"“{s}”" for s in i["search"])
+    others = "".join(f'<li><a href="/websites-for/{o["slug"]}/">{E(o["name"])}</a></li>' for o in INDUSTRIES if o is not i)
+    body = f"""{cr}
+<main><header class="hero wrap"><h1>Websites for {E(i['name'].lower())} that bring in customers.</h1>
+<p class="lede">{E(i['intro'])}</p>
+<div class="ctas"><a class="btn primary" href="/#contact">Get a free concept for my {E(i['one'])}</a><a class="btn quiet" href="tel:{TEL}">Call {TEL_TXT}</a></div>
+<p class="note">See your new homepage before you pay anything. Live the same day once you say yes.</p></header>
+<section><div class="wrap"><h2>What every {E(i['one'])} website we build includes</h2><ul class="ticks">{feats}</ul></div></section>
+<section><div class="wrap"><h2>Problems we fix most often</h2><div class="grid">{probs}</div></div></section>
+<section><div class="wrap prose"><h2>Built to show up when people search</h2>
+<p>Customers looking for a {E(i['one'])} type things like {E(searches)} into Google. We build every page so search engines can read your name, address, phone, hours and services clearly, load it fast on phones, and add the structured data Google uses for local results.</p>
+<p>On the Standard plan we also walk you through your Google Business Profile, the listing that shows on Google Maps, so your website and your profile tell the same story.</p></div></section>
+{pricing_block()}
+<section><div class="wrap"><h2>Questions {E(i['owner'])} ask</h2>{faq_html(faqs)}</div></section>
+{cta_band()}
+<section><div class="wrap"><h2>Other industries we build for</h2><ul class="links">{others}</ul></div></section>
+</main>"""
+    write(path, head(title, desc, path, [ORG, service, crld, faq_ld(faqs)]) + body + footer())
+    return path
+
+def industries_hub():
+    path = "/websites-for/"
+    title = "Websites for Local Businesses by Industry | Storefront Studio"
+    desc = "Fixed-price websites for US barbershops, salons, restaurants, dentists, roofers, plumbers, HVAC, gyms and more. Free concept first, live the same day."
+    cr, crld = crumbs([("Home", "/"), ("Industries", path)])
+    cards = "".join(f'<a class="card" style="text-decoration:none" href="/websites-for/{i["slug"]}/"><h3>{E(i["name"])}</h3><p>{E(i["intro"][:120].rsplit(" ",1)[0])}…</p></a>' for i in INDUSTRIES)
+    body = f"""{cr}<main><header class="hero wrap"><h1>Websites for every kind of local business.</h1>
+<p class="lede">Pick your trade to see what we build for businesses like yours, what it costs and how it goes live the same day.</p></header>
+<section><div class="wrap"><div class="grid">{cards}</div></div></section>{cta_band()}</main>"""
+    lst = {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": n + 1, "url": f"{BASE}/websites-for/{i['slug']}/", "name": i["name"]} for n, i in enumerate(INDUSTRIES)]}
+    write(path, head(title, desc, path, [ORG, crld, lst]) + body + footer())
+    return path
+
+def guide_page(g):
+    path = f"/guides/{g['slug']}/"
+    cr, crld = crumbs([("Home", "/"), ("Guides", "/guides/"), (g["title"], path)])
+    art = {"@type": "Article", "headline": g["title"], "description": g["desc"], "datePublished": "2026-10-29", "dateModified": TODAY,
+           "author": {"@type": "Person", "name": "George", "worksFor": {"@id": BASE + "/#business"}}, "publisher": {"@id": BASE + "/#business"},
+           "mainEntityOfPage": BASE + path, "image": BASE + "/og.png", "inLanguage": "en-US"}
+    secs = "".join(f"<h2>{E(h)}</h2><p>{E(p)}</p>" for h, p in g["body"])
+    more = "".join(f'<li><a href="/guides/{o["slug"]}/">{E(o["title"])}</a></li>' for o in GUIDES if o is not g)
+    body = f"""{cr}<main><header class="hero wrap"><h1>{E(g['title'])}</h1><p class="lede">{E(g['desc'])}</p>
+<p class="note">By George, founder of Storefront Studio. Updated {datetime.date.today().strftime('%B %Y')}.</p></header>
+<section><div class="wrap prose">{secs}</div></section>{cta_band()}
+<section><div class="wrap"><h2>More guides</h2><ul class="links">{more}<li><a href="/websites-for/">Websites by industry</a></li></ul></div></section></main>"""
+    write(path, head(f"{g['title']} | Storefront Studio", g["desc"], path, [ORG, art, crld]) + body + footer())
+    return path
+
+def guides_hub():
+    path = "/guides/"
+    cr, crld = crumbs([("Home", "/"), ("Guides", path)])
+    cards = "".join(f'<a class="card" style="text-decoration:none" href="/guides/{g["slug"]}/"><h3>{E(g["title"])}</h3><p>{E(g["desc"])}</p></a>' for g in GUIDES)
+    body = f"""{cr}<main><header class="hero wrap"><h1>Free guides for local business owners.</h1>
+<p class="lede">Plain-English advice on websites, Google and getting more calls. No jargon.</p></header>
+<section><div class="wrap"><div class="grid">{cards}</div></div></section>{cta_band()}</main>"""
+    write(path, head("Website and Local Search Guides for Small Businesses | Storefront Studio", "Free, plain-English guides for US small business owners: website costs, Google Business Profile and a website checklist.", path, [ORG, crld]) + body + footer())
+    return path
+
+def start_page():
+    path = "/start/"
+    o = OFFER
+    cr, crld = crumbs([("Home", "/"), ("Get started", path)])
+    steps = [("1. Get your free concept", "Send your business name and city with the form on the homepage, by email, or call the assistant. We design your homepage and send it the same day."),
+             ("2. Say yes and pay the deposit", f"Like it? Pay 50% through our secure payment link (card or US bank transfer). Founding prices: Starter deposit ${o['founding']//2:,}, Standard deposit ${o['standard_founding']//2:,}. Regular prices: ${o['regular']//2:,} and ${o['standard']//2:,}. You type the amount on the payment page."),
+             ("3. Send your details", "Logo, 5 to 15 photos, services or menu with prices, hours and a few words about you. Never send passwords."),
+             ("4. Go live", "Your site is online the same day if everything arrives by 12 pm Eastern on a weekday. Two rounds of changes included. Pay the other 50% when you approve it.")]
+    st = "".join(f'<div class="card"><h3>{E(h)}</h3><p>{E(p)}</p></div>' for h, p in steps)
+    howto = {"@type": "HowTo", "name": "How to get a website from Storefront Studio", "step": [{"@type": "HowToStep", "name": h, "text": p} for h, p in steps]}
+    body = f"""{cr}<main><header class="hero wrap"><h1>From hello to live website in one day.</h1>
+<p class="lede">Four simple steps. You spend about ten minutes; we do the rest.</p>
+<div class="ctas"><a class="btn primary" href="/#contact">Get my free concept</a><a class="btn quiet" href="tel:{TEL}">Call {TEL_TXT}</a></div></header>
+<section><div class="wrap"><div class="grid">{st}</div></div></section>
+<section><div class="wrap"><h2>Already approved your concept?</h2>
+<p class="lede" style="margin-top:0">Pay your deposit with the secure payment link. Enter the exact amount from your confirmation email. If your first design isn't right for you, the full deposit comes back.</p>
+<div class="ctas"><a class="btn primary" href="{PAY}" rel="nofollow noopener" target="_blank">Pay my deposit securely</a><a class="btn quiet" href="mailto:{MAIL}?subject=Question%20about%20my%20website">Ask a question first</a></div>
+<p class="note">Payments are processed by Payoneer. We never ask for card details by email or phone.</p></div></section>
+{pricing_block()}<section><div class="wrap"><h2>Questions</h2>{faq_html(GENERAL_FAQ)}</div></section></main>"""
+    write(path, head("Get Started: Free Concept, Deposit and Same-Day Launch | Storefront Studio", "How to get your website from Storefront Studio: free concept, 50% deposit by secure link, send your details, live the same day.", path, [ORG, crld, howto, faq_ld(GENERAL_FAQ)]) + body + footer())
+    return path
+
+def not_found():
+    body = f"""<main><header class="hero wrap"><h1>This page isn't here.</h1><p class="lede">It may have moved. Try the homepage, or find websites for your industry.</p>
+<div class="ctas"><a class="btn primary" href="/">Go to homepage</a><a class="btn quiet" href="/websites-for/">Websites by industry</a></div></header></main>"""
+    open(os.path.join(ROOT, "404.html"), "w").write(head("Page not found | Storefront Studio", "Page not found.", "/404.html", [ORG], noindex=True) + body + footer())
+
+def robots_sitemap_llms(paths):
+    open(os.path.join(ROOT, "robots.txt"), "w").write(f"User-agent: *\nAllow: /\nDisallow: /concepts/\nDisallow: /_studio/\n\nSitemap: {BASE}/sitemap.xml\n")
+    urls = ["/"] + paths
+    pri = lambda p: "1.0" if p == "/" else ("0.8" if p.startswith("/websites-for/") or p == "/start/" else "0.7")
+    xml = "".join(f"<url><loc>{BASE}{p}</loc><lastmod>{TODAY}</lastmod><priority>{pri(p)}</priority></url>" for p in urls)
+    open(os.path.join(ROOT, "sitemap.xml"), "w").write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{xml}</urlset>\n')
+    lines = [f"# Storefront Studio", "", "> Fixed-price websites for US local businesses (barbers, salons, restaurants, dentists, contractors and more), live the same day. Free homepage concept before payment. Starter $1,200 (founding $960), Standard $2,000 (founding $1,600), care plan $79/month. 50% deposit, refundable if the first design isn't liked.", "",
+             f"Contact: {TEL_TXT} (AI assistant, 24/7), {MAIL}", "", "## Pages", f"- [Home]({BASE}/)", f"- [Get started]({BASE}/start/)", f"- [Websites by industry]({BASE}/websites-for/)"]
+    lines += [f"- [Websites for {i['name'].lower()}]({BASE}/websites-for/{i['slug']}/)" for i in INDUSTRIES]
+    lines += ["", "## Guides"] + [f"- [{g['title']}]({BASE}/guides/{g['slug']}/): {g['desc']}" for g in GUIDES]
+    open(os.path.join(ROOT, "llms.txt"), "w").write("\n".join(lines) + "\n")
+
+def patch_home():
+    p = os.path.join(ROOT, "index.html")
+    h = open(p).read()
+    h = re.sub(r"\n?<!-- SEO:start -->.*?<!-- SEO:end -->", "", h, flags=re.S)
+    h = re.sub(r"\n?<!-- SEOFOOT:start -->.*?<!-- SEOFOOT:end -->", "", h, flags=re.S)
+    h = re.sub(r"<title>.*?</title>", "<title>Websites for US Small Businesses, Live the Same Day | Storefront Studio</title>", h, count=1, flags=re.S)
+    h = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Fixed-price websites for US local businesses: barbers, salons, restaurants, dentists, roofers and more. See a free concept first, go live the same day. From $960.">', h, count=1)
+    h = h.replace('<html lang="en">', '<html lang="en-US">', 1)
+    faq = [(re.sub(r"<[^>]+>", "", q).strip(), re.sub(r"<[^>]+>", "", a).strip()) for q, a in re.findall(r"<summary[^>]*>(.*?)</summary>\s*<p>(.*?)</p>", h, flags=re.S)]
+    site = {"@type": "WebSite", "@id": BASE + "/#website", "url": BASE + "/", "name": "Storefront Studio", "publisher": {"@id": BASE + "/#business"}, "inLanguage": "en-US"}
+    graph = [ORG, site] + ([faq_ld(faq)] if faq else [])
+    seo = f"""
+<!-- SEO:start -->
+<link rel="canonical" href="{BASE}/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:url" content="{BASE}/"><meta property="og:image" content="{BASE}/og.png"><meta property="og:site_name" content="Storefront Studio"><meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{BASE}/og.png">
+<script type="application/ld+json">{json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False)}</script>
+<!-- SEO:end -->"""
+    h = h.replace("</head>", seo + "\n</head>", 1)
+    links = " · ".join(f'<a href="/websites-for/{i["slug"]}/">{E(i["name"])}</a>' for i in INDUSTRIES)
+    gl = " · ".join(f'<a href="/guides/{g["slug"]}/">{E(g["title"])}</a>' for g in GUIDES)
+    foot = f"""
+<!-- SEOFOOT:start -->
+<div class="wrap" style="font-size:13.5px;line-height:1.9;color:var(--graphite);padding-top:18px;padding-bottom:28px"><p><b style="color:var(--ink)">Websites for:</b> {links}</p><p style="margin-top:8px"><b style="color:var(--ink)">Free guides:</b> {gl} · <a href="/start/">How to get started</a></p></div>
+<!-- SEOFOOT:end -->"""
+    h = h.replace("</footer>", foot + "\n</footer>", 1)
+    open(p, "w").write(h)
+
+if __name__ == "__main__":
+    paths = [industries_hub()] + [industry_page(i) for i in INDUSTRIES] + [guides_hub()] + [guide_page(g) for g in GUIDES] + [start_page()]
+    not_found(); robots_sitemap_llms(paths); patch_home()
+    print(f"built {len(paths)} pages + 404, robots.txt, sitemap.xml, llms.txt; homepage patched")

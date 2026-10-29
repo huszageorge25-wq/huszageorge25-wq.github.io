@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /concepts/
+Disallow: /_studio/
+
+Sitemap: https://huszageorge25-wq.github.io/sitemap.xml
