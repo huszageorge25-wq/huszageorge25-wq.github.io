@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prohibition Proper Barbershop · concept homepage</title>
+<meta name="robots" content="noindex"><meta name="description" content="A speakeasy-style barbershop on Fesslers Lane, with 222 reviews and a 4.9 rating.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@400;700&display=swap">
+<style>:root{--bg:#14110F;--ink:#F1E6D2;--muted:#A8998A;--accent:#C8893B;--panel:#1F1A16;--on:#111111;--display:'Playfair Display';--body:'Lato';--dw:900;--ds:100%;--tr:-0.01em;--r:18px}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+.menu li.np{grid-template-columns:1fr}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body),system-ui,sans-serif;font-size:1.0625rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+.wrap{width:min(1180px,100% - 40px);margin-inline:auto}
+.banner{background:var(--ink);color:var(--bg);font-size:.8125rem;text-align:center;padding:8px 16px}
+.banner a{color:inherit}
+header.top{position:absolute;top:0;left:0;right:0;z-index:5}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 0}
+.brand{font-family:var(--display);font-weight:var(--dw);font-stretch:var(--ds);font-size:1.25rem;letter-spacing:var(--tr);text-decoration:none;line-height:1}
+.nav .links{display:flex;gap:28px;align-items:center;font-size:.95rem}
+.nav .links a{text-decoration:none;opacity:.85}
+.nav .links a:hover{opacity:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;background:var(--accent);color:var(--on);font-weight:600;text-decoration:none;border:0;font:inherit;font-weight:600;cursor:pointer;transition:transform .15s ease,filter .15s ease}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:transparent;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+.btn.small{min-height:42px;padding:0 18px;font-size:.95rem}
+.open{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;font-weight:600}
+.open i{width:9px;height:9px;border-radius:50%;background:var(--muted)}
+.open.is-open i{background:#3DDC84;box-shadow:0 0 0 4px rgba(61,220,132,.22)}
+.stars{color:var(--accent);letter-spacing:2px}
+/* hero: full */
+.hero{position:relative}
+.hero-full{min-height:min(92vh,820px);display:flex;align-items:flex-end;color:#fff;isolation:isolate}
+.hero-full .bg{position:absolute;inset:0;z-index:-1}
+.hero-full .bg img{width:100%;height:100%;object-fit:cover}
+.hero-full .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.05) 30%,rgba(0,0,0,.72) 100%)}
+.hero-full .copy{padding:140px 0 64px}
+/* hero: split */
+.hero-split{display:grid;grid-template-columns:1.05fr .95fr;min-height:min(92vh,820px)}
+.hero-split .copy{display:flex;flex-direction:column;justify-content:flex-end;padding:140px clamp(20px,5vw,72px) 64px max(20px,calc((100vw - 1180px)/2))}
+.hero-split .pic{position:relative;overflow:hidden}
+.hero-split .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* hero: type */
+.hero-type .copy{padding:150px 0 40px}
+.hero-type .strip{height:clamp(240px,42vw,520px);overflow:hidden}
+.hero-type .strip img{width:100%;height:100%;object-fit:cover}
+h1{font-family:var(--display);font-weight:var(--dw);font-stretch:var(--ds);letter-spacing:var(--tr);line-height:.95;font-size:clamp(3rem,8.4vw,7.4rem);margin:0 0 22px;white-space:pre-line}
+.hero-type h1{font-size:clamp(3.2rem,11vw,10rem)}
+.lede{font-size:clamp(1.1rem,1.6vw,1.3rem);max-width:34ch;margin:0 0 30px;opacity:.92}
+.actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.proof{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;margin-top:28px;font-size:.95rem}
+section{padding:clamp(72px,10vw,128px) 0}
+h2{font-family:var(--display);font-weight:var(--dw);font-stretch:var(--ds);letter-spacing:var(--tr);font-size:clamp(2.1rem,4.6vw,3.6rem);line-height:1;margin:0 0 18px}
+.sig-body{font-size:1.15rem;max-width:46ch;color:var(--muted);margin:0 0 28px}
+.panel{background:var(--panel)}
+.two{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(32px,6vw,96px);align-items:start}
+.menu{list-style:none;margin:0;padding:0}
+.menu li{display:grid;grid-template-columns:auto 1fr auto;align-items:baseline;gap:16px;padding:20px 0;border-bottom:1px solid color-mix(in srgb,var(--ink) 14%,transparent)}
+.menu li:first-child{border-top:1px solid color-mix(in srgb,var(--ink) 14%,transparent)}
+.menu h3{font-size:1.2rem;margin:0;font-weight:600}
+.menu p{margin:2px 0 0;color:var(--muted);font-size:.95rem}
+.menu .dots{border-bottom:1.5px dotted color-mix(in srgb,var(--ink) 30%,transparent);transform:translateY(-6px)}
+.menu strong{font-family:var(--display);font-weight:var(--dw);font-size:1.3rem;white-space:nowrap}
+.fine{font-size:.875rem;color:var(--muted);margin-top:18px}
+.sig-big{display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,5vw,80px);align-items:center}
+.bignum{font-family:var(--display);font-weight:var(--dw);font-stretch:var(--ds);letter-spacing:var(--tr);font-size:clamp(6rem,20vw,15rem);line-height:.8;color:var(--accent)}
+.sig-photo{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,80px);align-items:center}
+.sig-photo img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--r)}
+.steps{list-style:none;margin:0 0 28px;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.steps li{display:flex;flex-direction:column;gap:14px}
+.steps .n{font-family:var(--display);font-weight:var(--dw);font-size:3rem;line-height:1;color:var(--accent)}
+.steps h3{margin:0 0 6px;font-size:1.15rem}
+.steps p{margin:0;color:var(--muted)}
+.locs{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.loc{background:var(--panel);border-radius:var(--r);padding:28px}
+.loc h3{font-family:var(--display);font-weight:var(--dw);font-size:1.8rem;margin:0 0 6px;letter-spacing:var(--tr)}
+.loc p{margin:0 0 14px;color:var(--muted)}
+.loc a{font-weight:600;text-decoration:none;border-bottom:2px solid var(--accent)}
+.board{background:var(--ink);color:var(--bg);border-radius:var(--r);padding:clamp(20px,4vw,40px);max-width:560px}
+.hours{width:100%;border-collapse:collapse}
+.hours th,.hours td{padding:10px 0;text-align:left;border-bottom:1px solid color-mix(in srgb,currentColor 14%,transparent);font-weight:400}
+.hours td{text-align:right}
+.hours tr.today th,.hours tr.today td{font-weight:700;color:var(--accent)}
+.hours-note{margin:0;color:var(--muted)}
+.board .hours-note{color:inherit;opacity:.85}
+.visit{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,96px)}
+.visit address{font-style:normal;font-size:1.3rem;line-height:1.45;margin-bottom:22px}
+.visit .phone{display:block;font-family:var(--display);font-weight:var(--dw);font-size:clamp(1.8rem,3.4vw,2.6rem);letter-spacing:var(--tr);text-decoration:none;margin-bottom:24px}
+footer{padding:40px 0 120px;font-size:.875rem;color:var(--muted);border-top:1px solid color-mix(in srgb,var(--ink) 12%,transparent)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+.bar{position:fixed;left:12px;right:12px;bottom:12px;z-index:20;display:none;grid-template-columns:1fr 1fr 1.3fr;gap:8px;padding:8px;border-radius:999px;background:color-mix(in srgb,var(--ink) 92%,transparent);backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.bar a{display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:999px;color:var(--bg);text-decoration:none;font-weight:600;font-size:.95rem}
+.bar a.main{background:var(--accent);color:var(--on)}
+.reveal{opacity:0;transform:translateY(18px)}
+.ready .reveal{opacity:1;transform:none;transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.ready .reveal.d2{transition-delay:.12s}.ready .reveal.d3{transition-delay:.24s}
+.hero img.kb{transform:scale(1.08)}
+.ready .hero img.kb{transform:scale(1);transition:transform 2.2s cubic-bezier(.2,.7,.2,1)}
+@media (max-width:860px){
+ .nav .links a.hide-m{display:none}
+ .hero-split{grid-template-columns:1fr}
+ .hero-split .pic{order:-1;height:56vh;min-height:320px}
+ .hero-split .copy{padding:36px 20px 48px}
+ header.top{position:absolute}
+ .hero-split header.top{color:#fff}
+ .two,.visit,.sig-photo,.sig-big,.locs{grid-template-columns:1fr}
+ .steps{grid-template-columns:1fr}
+ .bar{display:grid}
+ .menu li{grid-template-columns:1fr auto}
+ .menu .dots{display:none}
+}
+@media (prefers-reduced-motion:reduce){.reveal,.ready .reveal,.hero img.kb,.ready .hero img.kb{opacity:1;transform:none;transition:none}}
+
+.anim-splitflap .board{perspective:800px}
+.anim-splitflap .board tr{transform:rotateX(-90deg);transform-origin:50% 0;opacity:0}
+.anim-splitflap .board.on tr{transform:none;opacity:1;transition:transform .5s cubic-bezier(.3,1.5,.5,1),opacity .15s}
+.anim-splitflap .board td,.anim-splitflap .board th{font-variant-numeric:tabular-nums;font-family:var(--display);letter-spacing:.02em}
+.anim-splitflap .board .hours-note{font-family:var(--display);font-size:1.4rem;line-height:1.3}
+.flap{display:inline-block;min-width:.62em;text-align:center}
+
+.hero img.kb{will-change:transform}
+
+.offer{--oa:color-mix(in srgb,var(--accent) 62%,var(--bg));background:var(--ink);color:var(--bg);padding:clamp(72px,10vw,120px) 0}
+.offer .for{margin:0 0 12px;font-weight:600;color:var(--oa)}
+.offer h2{max-width:16ch}
+.offer-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,5vw,72px);margin-top:28px}
+.price{display:flex;align-items:baseline;gap:18px}
+.price .was{font-size:1.6rem;text-decoration:line-through;opacity:.55}
+.price .now{font-family:var(--display);font-weight:var(--dw);font-stretch:var(--ds);letter-spacing:var(--tr);font-size:clamp(4rem,10vw,7rem);line-height:1;color:var(--oa)}
+.terms{margin:6px 0 22px;opacity:.85}
+.inc{list-style:none;padding:0;margin:0 0 22px}
+.inc li{padding:10px 0 10px 30px;position:relative;border-bottom:1px solid color-mix(in srgb,var(--bg) 14%,transparent)}
+.inc li::before{content:"";position:absolute;left:4px;top:18px;width:12px;height:7px;border-left:2.5px solid var(--oa);border-bottom:2.5px solid var(--oa);transform:rotate(-45deg)}
+.guarantee{font-size:1.1rem}
+.payback{opacity:.85}
+.fixes{background:color-mix(in srgb,var(--bg) 8%,transparent);border-radius:var(--r);padding:24px;margin-bottom:22px}
+.fixes h3{margin:0 0 10px;font-size:1.05rem}
+.fixes ul{margin:0;padding-left:18px;opacity:.9}
+.fixes li{margin:6px 0}
+.act .btn{width:100%;margin-bottom:12px}
+.btn.big{min-height:60px;font-size:1.05rem}
+.offer .btn.ghost{color:var(--bg)}
+.small{font-size:.9rem;opacity:.75}
+.hero-type .strip{position:relative}
+.photo-note{position:absolute;right:12px;bottom:12px;z-index:2;font-size:.75rem;background:rgba(0,0,0,.55);color:#fff;padding:4px 10px;border-radius:999px}
+@media(max-width:860px){.offer-grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.anim-razor .hl{clip-path:none!important}.anim-stamp h1 .ch,.anim-badge h1 .ch,.anim-splitflap .board tr,.stampbadge,.pinmap .pin,.pinmap .lab,.pinmap .trip,.stem .lf,.stem .bud{opacity:1!important;transform:none!important;filter:none!important}.stampbadge{transform:rotate(-12deg)!important}.ecg .trace{display:none}.stem .st,.strands path,.route .draw,.pinmap .trip{stroke-dashoffset:0!important}.medal::before{--sweep:360deg}.anim-shine h1{background:none;-webkit-text-fill-color:currentColor}.anim-razor h1::after,.anim-stamp h1::after{transform:none;width:min(340px,62%)}}</style>
+</head><body>
+<div class="banner">Concept preview made for Prohibition Proper Barbershop by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a> · <a href="#offer">See your offer</a></div>
+<main class="anim-splitflap">
+<div class="hero hero-type"><header class="top"><div class="wrap nav"><a class="brand" href="#">Prohibition Proper Barbershop</a><nav class="links" aria-label="Main"><a class="hide-m" href="#menu">Services</a><a class="hide-m" href="#visit">Visit</a><a class="btn small" href="https://prohibitionproper.glossgenius.com/" target="_blank" rel="noopener">Book a chair</a></nav></div></header><div class="wrap copy"><h1 class="reveal">A proper cut.
+A pour of bourbon.</h1><p class="lede reveal d2">A speakeasy-style barbershop on Fesslers Lane, with 222 reviews and a 4.9 rating.</p><div class="actions reveal d2"><a class="btn" href="https://prohibitionproper.glossgenius.com/" target="_blank" rel="noopener">Book a chair</a><a class="btn ghost" href="tel:+16157505619">Call (615) 750-5619</a></div><div class="proof reveal d3"><span><span class="stars" aria-hidden="true">★★★★★</span> 4.9 from 222 reviews</span><span class="open" data-open><i></i><span>Hours</span></span></div></div><div class="strip"><img class="kb" src="https://images.pexels.com/photos/7697648/pexels-photo-7697648.jpeg?auto=compress&cs=tinysrgb&w=2000" alt="" fetchpriority="high"><span class="photo-note">Sample photo · your own photos go here</span></div></div>
+<section class="sig-wrap"><div class="wrap"><div class="sig sig-board"><h2>The hours, on the board.</h2><p class="sig-body">One clear set of hours, the same everywhere, and a live badge that tells you if the door is open right now.</p><div class="board" data-on><table class="hours"><tr data-day="Mon"><th scope="row">Monday</th><td>12pm – 6pm</td></tr><tr data-day="Tue"><th scope="row">Tuesday</th><td>12pm – 6pm</td></tr><tr data-day="Wed"><th scope="row">Wednesday</th><td>10am – 6pm</td></tr><tr data-day="Thu"><th scope="row">Thursday</th><td>10am – 6pm</td></tr><tr data-day="Fri"><th scope="row">Friday</th><td>10am – 6pm</td></tr><tr data-day="Sat"><th scope="row">Saturday</th><td>10am – 3pm</td></tr><tr data-day="Sun"><th scope="row">Sunday</th><td>Closed</td></tr></table></div></div></div></section>
+<section id="menu" class="panel"><div class="wrap two"><div><h2>Cuts and shaves</h2><p class="sig-body">Walk out sharp. Every cut is finished with care, whatever the style.</p><a class="btn" href="https://prohibitionproper.glossgenius.com/" target="_blank" rel="noopener">Book a chair</a></div><div><ul class="menu"><li class="np"><div><h3>Haircut</h3><p>Classic or modern</p></div></li><li class="np"><div><h3>Skin fade</h3><p>Sharp and clean</p></div></li><li class="np"><div><h3>Beard trim</h3><p>Shape and line-up</p></div></li><li class="np"><div><h3>Hot towel shave</h3><p>Straight blade finish</p></div></li></ul><p class="fine">Ask the shop for current prices.</p></div></div></section>
+<section id="offer" class="offer"><div class="wrap">
+<p class="for">For the owner of Prohibition Proper Barbershop</p>
+<h2>Make this your real website. Live today.</h2>
+<div class="offer-grid">
+<div class="deal">
+<div class="price"><span class="was">$1,200</span><span class="now">$960</span></div>
+<p class="terms">Founding client price, for our first 10 clients. 10 of 10 spots left.</p>
+<ul class="inc">
+<li>This design, finished with your own photos, logo, services and prices</li>
+<li>Built for phones first: tap to call, directions and booking</li>
+<li>Live the same day when your details arrive by 12 pm Eastern on a weekday</li>
+<li>Two rounds of changes included</li>
+<li>Half to start ($480), half only when you love it</li>
+</ul>
+<p class="guarantee"><strong>Don't love the first design? Your deposit comes back.</strong> You risk nothing.</p>
+
+</div>
+<div class="act">
+<div class="fixes"><h3>What this fixes on your current site</h3><ul><li>The footer still says 2020</li><li>Gallery filters and two links lead nowhere</li><li>No phone number, prices or street address on the homepage</li></ul></div>
+<a class="btn big" href="tel:+16149679783">Call my assistant · +1 (614) 967-9783</a>
+<a class="btn ghost big" href="mailto:huszageorge25@gmail.com?subject=Yes%20-%20Prohibition%20Proper%20Barbershop%20website">Email George: “yes”</a>
+<p class="small">The assistant is an AI that answers 24/7 and can set everything up. Or just reply “yes” to my email. Need more pages or online booking? Ask about Standard: $1,600 for founding clients (regular $2,000). Optional care plan $79/month.</p>
+</div></div></div></section>
+<section id="visit"><div class="wrap visit"><div><h2>Visit</h2><address>Prohibition Proper Barbershop<br>606 Fesslers Ln, Suite 100<br>Nashville, TN 37210</address><a class="phone" href="tel:+16157505619">(615) 750-5619</a><div class="actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&query=Prohibition%20Proper%20Barbershop%20606%20Fesslers%20Ln%2C%20Suite%20100%20Nashville%2C%20TN%2037210" target="_blank" rel="noopener">Get directions</a><a class="btn ghost" href="tel:+16157505619">Call (615) 750-5619</a></div></div><div><h2>Hours</h2><span class="open" data-open><i></i><span>Hours</span></span><div style="height:16px"></div><table class="hours"><tr data-day="Mon"><th scope="row">Monday</th><td>12pm – 6pm</td></tr><tr data-day="Tue"><th scope="row">Tuesday</th><td>12pm – 6pm</td></tr><tr data-day="Wed"><th scope="row">Wednesday</th><td>10am – 6pm</td></tr><tr data-day="Thu"><th scope="row">Thursday</th><td>10am – 6pm</td></tr><tr data-day="Fri"><th scope="row">Friday</th><td>10am – 6pm</td></tr><tr data-day="Sat"><th scope="row">Saturday</th><td>10am – 3pm</td></tr><tr data-day="Sun"><th scope="row">Sunday</th><td>Closed</td></tr></table></div></div></section>
+</main>
+<footer><div class="wrap"><span>Prohibition Proper Barbershop · 606 Fesslers Ln, Suite 100, Nashville, TN 37210</span><span>Concept by <a href="https://huszageorge25-wq.github.io/">Storefront Studio</a></span></div></footer>
+<nav class="bar" aria-label="Quick actions"><a href="tel:+16157505619">Call</a><a href="https://www.google.com/maps/search/?api=1&query=Prohibition%20Proper%20Barbershop%20606%20Fesslers%20Ln%2C%20Suite%20100%20Nashville%2C%20TN%2037210" target="_blank" rel="noopener">Directions</a><a class="main" href="https://prohibitionproper.glossgenius.com/" target="_blank" rel="noopener">Book a chair</a></nav>
+<script>window.__SITE__={"tz": "America/Chicago", "hours": {"Mon": "12:00-18:00", "Tue": "12:00-18:00", "Wed": "10:00-18:00", "Thu": "10:00-18:00", "Fri": "10:00-18:00", "Sat": "10:00-15:00", "Sun": null}};
+(function(){
+ var S=window.__SITE__;
+ requestAnimationFrame(function(){document.documentElement.classList.add('ready')});
+ function nowIn(tz){var p=new Intl.DateTimeFormat('en-US',{timeZone:tz,weekday:'short',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date());var o={};p.forEach(function(x){o[x.type]=x.value});return {d:o.weekday,m:(+o.hour%24)*60+(+o.minute)}}
+ var n=nowIn(S.tz), badge=document.querySelectorAll('[data-open]');
+ document.querySelectorAll('tr[data-day="'+n.d+'"]').forEach(function(r){r.classList.add('today')});
+ if(!S.hours){badge.forEach(function(b){b.hidden=true});return}
+ var h=S.hours[n.d], open=false, txt='Closed today';
+ if(h){var a=h.split('-'),s=a[0].split(':'),e=a[1].split(':'),sm=+s[0]*60+ +s[1],em=+e[0]*60+ +e[1];
+  if(n.m>=sm&&n.m<em){open=true;txt='Open now · until '+fmt(a[1])}else if(n.m<sm){txt='Opens today at '+fmt(a[0])}else{txt='Closed now'}}
+ badge.forEach(function(b){b.querySelector('span').textContent=txt;b.classList.toggle('is-open',open)});
+ function fmt(t){var q=t.split(':'),H=+q[0],M=+q[1];return (H%12||12)+(M?':'+(M<10?'0':'')+M:'')+(H<12?'am':'pm')}
+})();
+
+(function(){
+ var RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches, S=window.__SITE__;
+ var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');e.target.dispatchEvent(new Event('inview'));io.unobserve(e.target)}})},{threshold:.35}):null;
+ document.querySelectorAll('[data-on],.medal,.bignum,.board').forEach(function(e){if(RM||!io){e.classList.add('on');e.dispatchEvent(new Event('inview'))}else io.observe(e)});
+ /* count-up ($25 medal) */
+ document.querySelectorAll('[data-count]').forEach(function(el){var to=+el.dataset.count,pre=el.dataset.prefix||'';
+  el.addEventListener('inview',function(){if(RM){el.textContent=pre+to;return}var t0=null;function f(t){t0=t0||t;var k=Math.min(1,(t-t0)/1300),e=1-Math.pow(1-k,3);el.textContent=pre+Math.round(to*e);if(k<1)requestAnimationFrame(f)}requestAnimationFrame(f)})});
+ /* split-flap */
+ var CH='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:';
+ document.querySelectorAll('.anim-splitflap .board').forEach(function(b){
+  b.querySelectorAll('tr').forEach(function(r,i){r.style.transitionDelay=(i*.09)+'s'});
+  b.addEventListener('inview',function(){if(RM)return;b.querySelectorAll('td,th,.hours-note').forEach(function(c,i){var fin=c.textContent,n=0,max=10+i;var iv=setInterval(function(){n++;if(n>=max){c.textContent=fin;clearInterval(iv);return}c.textContent=fin.replace(/[A-Za-z0-9]/g,function(x){return Math.random()<n/max?x:CH[Math.floor(Math.random()*CH.length)]})},45)})})});
+ /* scroll-linked progress (steps, razor hairline) + gentle hero parallax */
+ var steps=document.querySelector('.anim-progress .steps'), sp=document.querySelector('.anim-razor .sig-photo'), hero=document.querySelector('.hero img.kb');
+ function onScroll(){var vh=innerHeight;
+  if(steps){var r=steps.getBoundingClientRect(),p=Math.max(0,Math.min(1,(vh*.8-r.top)/(r.height+vh*.25)));steps.style.setProperty('--p',p);steps.querySelectorAll('li').forEach(function(li,i,a){li.classList.toggle('hit',p>=i/(a.length-1)-.02||innerWidth<860)})}
+  if(sp){var q=sp.getBoundingClientRect();sp.style.setProperty('--p',Math.max(0,Math.min(1,(vh-q.top)/(vh*.9))))}
+  if(hero&&!RM&&scrollY<vh*1.2)hero.style.translate='0 '+(scrollY*.12)+'px'}
+ addEventListener('scroll',onScroll,{passive:true});onScroll();
+ /* route walker */
+ document.querySelectorAll('.route').forEach(function(r){r.addEventListener('inview',function(){var m=r.querySelector('animateMotion');if(m&&m.beginElement&&!RM)m.beginElement();else{var w=r.querySelector('.walker');w&&w.setAttribute('transform','translate(486 60)')}})});
+ /* live countdown to closing */
+ var left=document.querySelector('[data-left]');
+ if(left&&S.hours){function tick(){var p=new Intl.DateTimeFormat('en-US',{timeZone:S.tz,weekday:'short',hour:'numeric',minute:'numeric',second:'numeric',hour12:false}).formatToParts(new Date()),o={};p.forEach(function(x){o[x.type]=x.value});
+   var s=((+o.hour%24)*60+(+o.minute))*60+(+o.second),h=S.hours[o.weekday];
+   if(!h){left.textContent='Closed today. Back tomorrow.';return}
+   var a=h.split('-'),b=a[0].split(':'),c=a[1].split(':'),ss=(+b[0]*60+ +b[1])*60,es=(+c[0]*60+ +c[1])*60;
+   if(s>=ss&&s<es){var d=es-s,H=Math.floor(d/3600),M=Math.floor(d%3600/60),X=d%60;left.innerHTML='Chairs open for <b>'+H+':'+(M<10?'0':'')+M+':'+(X<10?'0':'')+X+'</b> more today'}
+   else if(s<ss){left.textContent='Opening later today'}else{left.textContent='Closed now. Back tomorrow.'}}
+  tick();setInterval(tick,1000)}
+})();
+</script>
+</body></html>
