@@ -46,7 +46,8 @@ a{color:inherit}h1,h2,h3,p{margin:0}
 .brand img{width:26px;height:26px}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font-weight:500;text-decoration:none;border:1px solid transparent;font-size:16px}
 .btn.primary{background:var(--cobalt);color:#fff}.btn.quiet{border-color:color-mix(in srgb,var(--ink) 25%,transparent)}
-.nav .btn{min-height:38px;padding:0 16px;font-size:14.5px}
+.nav .btn{min-height:38px;padding:0 16px;font-size:14.5px;white-space:nowrap}.brand{white-space:nowrap}
+@media (max-width:520px){.nav .btn.quiet{display:none}}
 .crumbs{font-size:14px;color:var(--graphite);padding-top:22px}.crumbs a{text-decoration:none}
 header.hero{padding-top:clamp(40px,7vw,88px);padding-bottom:clamp(32px,5vw,56px)}
 h1{font-weight:600;letter-spacing:-.04em;line-height:1.02;font-size:clamp(40px,6.6vw,76px);max-width:16ch}
@@ -104,7 +105,7 @@ def head(title, desc, path, ld, noindex=False):
 </head>
 <body>
 <nav class="nav"><div class="wrap"><a class="brand" href="/"><img src="/favicon.svg" alt="" width="26" height="26">Storefront Studio</a>
-<a class="btn primary" href="/#contact">Free concept</a></div></nav>
+<span style="display:flex;gap:8px"><a class="btn quiet" href="/website-check/">Check my site</a><a class="btn primary" href="/#contact">Free concept</a></span></div></nav>
 """
 
 def crumbs(items):
@@ -145,7 +146,7 @@ def footer():
     gd = "".join(f'<li><a href="/guides/{g["slug"]}/">{E(g["title"])}</a></li>' for g in GUIDES)
     return f"""<footer><div class="wrap"><div class="cols">
 <div><h3>Industries</h3><ul>{ind}</ul></div><div><h3>&nbsp;</h3><ul>{ind2}</ul></div>
-<div><h3>Guides</h3><ul>{gd}<li><a href="/start/">How to get started</a></li></ul></div>
+<div><h3>Guides</h3><ul>{gd}<li><a href="/start/">How to get started</a></li><li><a href="/website-check/">Free website check</a></li></ul></div>
 <div><h3>Contact</h3><ul><li><a href="tel:{TEL}">{TEL_TXT} (AI assistant, 24/7)</a></li><li><a href="mailto:{MAIL}">{MAIL}</a></li><li>Serving local businesses in all 50 states</li></ul></div>
 </div>© {datetime.date.today().year} Storefront Studio. Websites for US local businesses.</div></footer>
 <div class="dock"><a class="btn quiet" href="tel:{TEL}">Call now</a><a class="btn primary" href="/#contact">Free concept</a></div>
@@ -247,6 +248,47 @@ def start_page():
     write(path, head("Get Started: Free Concept, Deposit and Same-Day Launch | Storefront Studio", "How to get your website from Storefront Studio: free concept, 50% deposit by secure link, send your details, live the same day.", path, [ORG, crld, howto, faq_ld(GENERAL_FAQ)]) + body + footer())
     return path
 
+
+CHECKS = [
+  ("first", "Your business name and what you do are clear on the first screen of a phone", "Put your name and one line about what you do at the very top."),
+  ("first", "Your phone number is one tap away", "Add a tap-to-call button that stays on screen on phones."),
+  ("first", "Your hours are visible without searching", "Show your hours on the first screen, ideally with a live open-now badge."),
+  ("first", "There is a button for directions", "Add a directions button that opens Google or Apple Maps."),
+  ("trust", "There are real photos of your place, team or work", "Replace stock or missing photos with real ones of your business."),
+  ("trust", "Your reviews, or a link to them, are on the site", "Show your Google rating and link to your reviews."),
+  ("trust", "The copyright year is current and no template text is left", "Remove leftover template text and update the footer year."),
+  ("trust", "Licenses, insurance or credentials are shown if your trade needs them", "List your license and insurance details where customers can see them."),
+  ("action", "There is a clear Book, Order or Get a quote button", "Add one main action button that leads straight to booking, ordering or a quote."),
+  ("action", "Your prices, or starting prices, are listed", "List your services with prices or starting prices."),
+  ("action", "Your contact form works and goes to an inbox you read", "Test your form today; if it fails, customers are being lost silently."),
+  ("speed", "The site loads in a couple of seconds on mobile data", "Compress your photos and drop heavy plugins so the site loads fast."),
+]
+
+def check_page():
+    path = "/website-check/"
+    cr, crld = crumbs([("Home", "/"), ("Free website check", path)])
+    qs = "".join(f'<label class="card q" style="display:flex;gap:14px;align-items:flex-start;cursor:pointer"><input type="checkbox" data-fix="{E(fix)}" style="width:22px;height:22px;margin-top:3px;accent-color:var(--cobalt)"><span>{E(q)}</span></label>' for _, q, fix in CHECKS)
+    app = {"@type": "WebApplication", "name": "Free local business website check", "applicationCategory": "BusinessApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "provider": {"@id": BASE + "/#business"}, "url": BASE + path}
+    js = """<script>(()=>{const boxes=[...document.querySelectorAll('.q input')],sc=document.getElementById('score'),bar=document.getElementById('bar'),fx=document.getElementById('fixes'),msg=document.getElementById('msg'),go=document.getElementById('go');
+const upd=()=>{const yes=boxes.filter(b=>b.checked).length,n=boxes.length,pct=Math.round(yes/n*100);sc.textContent=yes+' / '+n;bar.style.width=pct+'%';
+const miss=boxes.filter(b=>!b.checked).map(b=>b.dataset.fix);fx.innerHTML=miss.slice(0,5).map(t=>'<li>'+t.replace(/</g,'&lt;')+'</li>').join('');
+msg.textContent=yes===n?'Great site. Most local businesses miss at least three of these.':yes>=9?'Close. A few fixes would turn more visitors into calls.':yes>=5?'Your site is losing customers on the points below.':'Your website is probably costing you customers every day.';
+const biz=document.getElementById('biz').value||'my business';go.href='mailto:__MAIL__?subject='+encodeURIComponent('Free concept: '+biz+' (website check '+yes+'/'+n+')')+'&body='+encodeURIComponent('Business: '+biz+'\\nCity: '+(document.getElementById('city').value||'')+'\\nWebsite check score: '+yes+'/'+n+'\\nTo fix:\\n- '+miss.join('\\n- '));};
+boxes.forEach(b=>b.addEventListener('change',upd));document.querySelectorAll('#biz,#city').forEach(i=>i.addEventListener('input',upd));upd();})();</script>""".replace("__MAIL__", MAIL)
+    body = f"""{cr}<main><header class="hero wrap"><h1>Is your website costing you customers?</h1>
+<p class="lede">Take this free 12-point check on your phone. Tick what your website already does. You'll get a score and the fixes that matter most, in about two minutes.</p></header>
+<section><div class="wrap"><div class="grid" style="grid-template-columns:1fr">{qs}</div></div></section>
+<section><div class="wrap"><div class="card" style="padding:28px"><p class="note" style="margin:0">Your score</p><p class="price" id="score">0 / 12</p>
+<div style="height:10px;border-radius:9px;background:var(--hair);margin:12px 0 18px;overflow:hidden"><div id="bar" style="height:100%;width:0;background:var(--cobalt);transition:width .3s"></div></div>
+<h3 id="msg"></h3><ul class="ticks" id="fixes" style="margin-top:14px"></ul>
+<h3 style="margin-top:26px">Get these fixed in one day</h3><p>We'll design a free concept of your new homepage that fixes everything above, and send it the same day.</p>
+<div class="grid" style="margin-top:14px"><label>Business name<br><input id="biz" style="width:100%;min-height:46px;border-radius:12px;border:1px solid var(--hair);padding:0 12px;font:inherit;background:var(--porcelain);color:var(--ink)"></label><label>City and state<br><input id="city" style="width:100%;min-height:46px;border-radius:12px;border:1px solid var(--hair);padding:0 12px;font:inherit;background:var(--porcelain);color:var(--ink)"></label></div>
+<div class="ctas"><a class="btn primary" id="go" href="mailto:{MAIL}">Send me my free concept</a><a class="btn quiet" href="tel:{TEL}">Call {TEL_TXT}</a></div>
+<p class="note">Sending opens your email app with your score filled in. The phone line is an AI assistant, available 24/7.</p></div></div></section>
+<section><div class="wrap prose"><h2>Why these 12 points</h2><p>Most people find a local business on their phone, decide in seconds, and call or book the first one that answers their question. Each point on this list removes one reason to leave. See the full explanation in our <a href="/guides/local-business-website-checklist/">website checklist guide</a>.</p></div></section></main>{js}"""
+    write(path, head("Free Website Check for Local Businesses (12 Points, 2 Minutes) | Storefront Studio", "Free 12-point website check for US small businesses. Get a score and the fixes that bring in more calls and bookings, then a free homepage concept.", path, [ORG, crld, app]) + body + footer())
+    return path
+
 def not_found():
     body = f"""<main><header class="hero wrap"><h1>This page isn't here.</h1><p class="lede">It may have moved. Try the homepage, or find websites for your industry.</p>
 <div class="ctas"><a class="btn primary" href="/">Go to homepage</a><a class="btn quiet" href="/websites-for/">Websites by industry</a></div></header></main>"""
@@ -288,12 +330,14 @@ def patch_home():
     gl = " · ".join(f'<a href="/guides/{g["slug"]}/">{E(g["title"])}</a>' for g in GUIDES)
     foot = f"""
 <!-- SEOFOOT:start -->
-<div class="wrap" style="font-size:13.5px;line-height:1.9;color:var(--graphite);padding-top:18px;padding-bottom:28px"><p><b style="color:var(--ink)">Websites for:</b> {links}</p><p style="margin-top:8px"><b style="color:var(--ink)">Free guides:</b> {gl} · <a href="/start/">How to get started</a></p></div>
+<div class="wrap" style="font-size:13.5px;line-height:1.9;color:var(--graphite);padding-top:18px;padding-bottom:28px"><p><b style="color:var(--ink)">Websites for:</b> {links}</p><p style="margin-top:8px"><b style="color:var(--ink)">Free guides:</b> {gl} · <a href="/start/">How to get started</a> · <a href="/website-check/"><b>Free website check</b></a></p></div>
 <!-- SEOFOOT:end -->"""
     h = h.replace("</footer>", foot + "\n</footer>", 1)
+    if 'href="/website-check/">Free check' not in h:
+        h = h.replace('<li><a href="#faq">Questions</a></li>', '<li><a href="#faq">Questions</a></li><li><a href="/website-check/">Free check</a></li>', 1)
     open(p, "w").write(h)
 
 if __name__ == "__main__":
-    paths = [industries_hub()] + [industry_page(i) for i in INDUSTRIES] + [guides_hub()] + [guide_page(g) for g in GUIDES] + [start_page()]
+    paths = [industries_hub()] + [industry_page(i) for i in INDUSTRIES] + [guides_hub()] + [guide_page(g) for g in GUIDES] + [start_page(), check_page()]
     not_found(); robots_sitemap_llms(paths); patch_home()
     print(f"built {len(paths)} pages + 404, robots.txt, sitemap.xml, llms.txt; homepage patched")
