@@ -239,16 +239,17 @@ def page(s):
     call = f'<a class="btn ghost" href="tel:{tel(s["phone"])}">Call {E(s["phone"])}</a>'
     main = f'<a class="btn" href="{E(book_href)}"{book_attr}>{E(s["cta"])}</a>'
     badge = '<span class="open" data-open><i></i><span>Hours</span></span>'
-    proof = f'<div class="proof reveal d3"><span><span class="stars" aria-hidden="true">{stars(s["rating"])}</span> {E(rating_line(s))}</span>{badge}</div>'
+    proof = (f'<div class="proof reveal d3"><span><span class="stars" aria-hidden="true">{stars(s["rating"])}</span> {E(rating_line(s))}</span>{badge}</div>' if s.get("rating")
+             else f'<div class="proof reveal d3"><span>{E(s["reviews"])} {E(s.get("reviews_src","Google"))} reviews</span>{badge}</div>' if s.get("reviews") else f'<div class="proof reveal d3">{badge}</div>')
     a = anim_of(s)
     copy = f'<h1 class="reveal">{headline_html(s, a)}</h1>{hero_extra(s, a) if a == "pulse" else ""}<p class="lede reveal d2">{E(s["lede"])}</p><div class="actions reveal d2">{main}{call}</div>{proof}'
     nav = f'<header class="top"><div class="wrap nav"><a class="brand" href="#">{E(s["name"])}</a><nav class="links" aria-label="Main"><a class="hide-m" href="#menu">Services</a><a class="hide-m" href="#visit">Visit</a><a class="btn small" href="{E(book_href)}"{book_attr}>{E(s["cta"])}</a></nav></div></header>'
     if t["hero"] == "full":
-        hero = f'<div class="hero hero-full">{nav}<div class="bg"><img class="kb" src="{hero_img}" alt="" fetchpriority="high">{"" if live else '<span class="photo-note">Sample photo · your own photos go here</span>'}</div><div class="wrap copy">{copy}</div>{hero_extra(s, a) if a in ("badge","grow","shine") else ""}</div>'
+        hero = f'<div class="hero hero-full">{nav}<div class="bg"><img class="kb" src="{hero_img}" alt="" fetchpriority="high">{"" if live else '<span class="photo-note">Sample photo · your own photos go here</span>'}</div><div class="wrap copy">{copy}</div>{hero_extra(s, a) if a in ("badge","grow","shine","ripple") else ""}</div>'
     elif t["hero"] == "split":
-        hero = f'<div class="hero hero-split">{nav}<div class="copy">{copy}{hero_extra(s, a) if a in ("badge","grow","shine") else ""}</div><div class="pic"><img class="kb" src="{hero_img}" alt="" fetchpriority="high">{"" if live else '<span class="photo-note">Sample photo · your own photos go here</span>'}</div></div>'
+        hero = f'<div class="hero hero-split">{nav}<div class="copy">{copy}{hero_extra(s, a) if a in ("badge","grow","shine","ripple") else ""}</div><div class="pic"><img class="kb" src="{hero_img}" alt="" fetchpriority="high">{"" if live else '<span class="photo-note">Sample photo · your own photos go here</span>'}</div></div>'
     else:
-        hero = f'<div class="hero hero-type">{nav}<div class="wrap copy">{copy}{hero_extra(s, a) if a in ("badge","grow","shine") else ""}</div><div class="strip"><img class="kb" src="{hero_img}" alt="" fetchpriority="high">{"" if live else '<span class="photo-note">Sample photo · your own photos go here</span>'}</div></div>'
+        hero = f'<div class="hero hero-type">{nav}<div class="wrap copy">{copy}{hero_extra(s, a) if a in ("badge","grow","shine","ripple") else ""}</div><div class="strip"><img class="kb" src="{hero_img}" alt="" fetchpriority="high">{"" if live else '<span class="photo-note">Sample photo · your own photos go here</span>'}</div></div>'
     menu_title = s.get("menu_title") or {"barber": "Cuts and shaves", "salon": "Services", "dental": "Care for every age", "roofer": "What we do", "trade": "What we do", "restaurant": "On the menu", "fitness": "Classes and training", "beauty": "Treatments"}.get(s["kind"], "Services")
     menu_intro = s.get("menu_intro") or {"barber": "Walk out sharp. Every cut is finished with care, whatever the style.",
                                          "salon": "Every visit starts with a conversation about the look you want.",

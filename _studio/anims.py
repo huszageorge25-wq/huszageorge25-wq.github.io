@@ -53,6 +53,10 @@ def hero_extra(s, a):
                 '<path class="lf l2" d="M106 180 C140 168 160 140 166 108 C132 114 110 140 106 180Z"/>'
                 '<path class="lf l3" d="M108 110 C84 96 72 74 72 50 C96 58 108 82 108 110Z"/>'
                 '<circle class="bud" cx="104" cy="8" r="6"/></g></svg>')
+    if a == "ripple":
+        return ('<svg class="ripple" viewBox="0 0 240 240" aria-hidden="true">'
+                '<circle class="rp r1" cx="120" cy="150" r="30"/><circle class="rp r2" cx="120" cy="150" r="30"/><circle class="rp r3" cx="120" cy="150" r="30"/>'
+                '<path class="drop" d="M120 40 C120 40 92 78 92 98 a28 28 0 0 0 56 0 C148 78 120 40 120 40Z"/></svg>')
     if a == "shine":
         return ('<svg class="strands" viewBox="0 0 600 400" preserveAspectRatio="none" aria-hidden="true">'
                 '<path d="M-20 300 C120 220 220 360 360 260 S560 160 640 220"/><path d="M-20 330 C140 250 240 380 380 290 S560 200 640 250"/>'
@@ -203,6 +207,18 @@ ANIM_CSS = {
 .ready .strands{animation:flow 9s 3.4s ease-in-out infinite}
 @keyframes flow{50%{transform:translateY(-10px) scaleY(1.04)}}
 """,
+"ripple": """
+.ripple{position:absolute;right:clamp(12px,6vw,90px);bottom:clamp(70px,14vh,150px);width:clamp(120px,16vw,210px);height:auto;pointer-events:none;overflow:visible;z-index:2}
+.ripple .drop{fill:var(--accent);opacity:0;transform:translateY(-40px);transform-box:fill-box}
+.ripple .rp{fill:none;stroke:var(--accent);stroke-width:2.5;opacity:0;transform-box:fill-box;transform-origin:center}
+.ready .ripple .drop{animation:dropfall 3.6s .5s cubic-bezier(.5,0,.8,.6) infinite}
+.ready .ripple .r1{animation:ring 3.6s 1.25s ease-out infinite}
+.ready .ripple .r2{animation:ring 3.6s 1.55s ease-out infinite}
+.ready .ripple .r3{animation:ring 3.6s 1.85s ease-out infinite}
+@keyframes dropfall{0%{opacity:0;transform:translateY(-60px)}12%{opacity:1}22%{opacity:1;transform:translateY(40px) scaleY(1.1)}26%,100%{opacity:0;transform:translateY(52px) scale(.4)}}
+@keyframes ring{0%{opacity:.9;transform:scale(.2,.08)}70%,100%{opacity:0;transform:scale(2.4,.9)}}
+@media(max-width:860px){.ripple{width:96px;bottom:auto;top:84px;right:14px;opacity:.85}}
+""",
 "route": """
 .route{width:100%;max-width:680px;height:auto;margin:0 0 28px;overflow:visible}
 .route .path{fill:none;stroke:color-mix(in srgb,var(--ink) 18%,transparent);stroke-width:4;stroke-linecap:round;stroke-dasharray:2 10}
@@ -268,5 +284,5 @@ ANIM_JS = r"""
 
 REDUCED = ("@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}"
            ".anim-razor .hl{clip-path:none!important}.anim-stamp h1 .ch,.anim-badge h1 .ch,.anim-splitflap .board tr,.stampbadge,.pinmap .pin,.pinmap .lab,.pinmap .trip,.stem .lf,.stem .bud{opacity:1!important;transform:none!important;filter:none!important}"
-           ".stampbadge{transform:rotate(-12deg)!important}.ecg .trace{display:none}.stem .st,.strands path,.route .draw,.pinmap .trip{stroke-dashoffset:0!important}.medal::before{--sweep:360deg}"
+           ".stampbadge{transform:rotate(-12deg)!important}.ecg .trace{display:none}.ripple .drop{opacity:1!important;transform:none!important}.stem .st,.strands path,.route .draw,.pinmap .trip{stroke-dashoffset:0!important}.medal::before{--sweep:360deg}"
            ".anim-shine h1{background:none;-webkit-text-fill-color:currentColor}.anim-razor h1::after,.anim-stamp h1::after{transform:none;width:min(340px,62%)}}")
