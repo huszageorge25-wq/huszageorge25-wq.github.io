@@ -330,8 +330,7 @@ def page(s):
 <section><div class="w sig"><figure class="up"><img src="{img(s['photo2'], 1200)}" alt="" loading="lazy"><span class="pn">Poză exemplu</span></figure>
 <div class="up"><p class="d big">{big}</p><h2 class="d">{E(s['sig'][0])}</h2><p class="muted" style="font-size:1.15rem;max-width:44ch">{E(s['sig'][1])}</p></div></div></section>
 <section id="vizita" class="panel"><div class="w vis"><div><h2 class="d up">Vino pe la noi.</h2><address>{E(s['name'])}<br>{E(s['address'])}<br>{E(s['zip'])}</address>
-<a class="ph" href="tel:{tel(s['phone'])}">{E(s['phone'])}</a><div class="row"><a class="b1" href="{maps(s)}" target="_blank" rel="noopener">Indicații <i>↗</i></a><a class="b2" href="tel:{tel(s['phone'])}">Sună acum</a></div>
-<iframe title="Hartă {E(s['name'])}" src="{embed(s)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+<a class="ph" href="tel:{tel(s['phone'])}">{E(s['phone'])}</a><div class="row"><a class="b1" href="{maps(s)}" target="_blank" rel="noopener">Indicații <i>↗</i></a><a class="b2" href="tel:{tel(s['phone'])}">Sună acum</a></div></div>
 <div><h2 class="d up">Program</h2>{open_b}<div style="height:14px"></div>{hours_rows(s)}</div></div></section>
 <section id="oferta" class="of"><div class="w"><p class="for">Pentru proprietarul {E(s['name'])}</p>
 <h2 class="d" style="max-width:18ch">{num(s['reviews'])} de oameni v-au lăudat pe {s['src']}. Restul nu vă găsesc.</h2>
