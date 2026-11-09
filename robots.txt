@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /concepts/
 Disallow: /_studio/
+Disallow: /asistent/
 
 Sitemap: https://huszageorge25-wq.github.io/sitemap.xml

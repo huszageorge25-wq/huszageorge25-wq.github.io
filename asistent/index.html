@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Asistent apeluri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: three working columns (lead / what to say now / live transcript), stacked on phones */
+:root{
+  --bg:#F2F3EF; --panel:#FFFFFF; --ink:#16201C; --muted:#5D6A64; --line:#D9DED8;
+  --accent:#0F7B5F; --accent-ink:#FFFFFF; --say:#E7F3EE; --warn:#B4541A; --warn-bg:#FBEDE3; --bad:#A5282C;
+  --display:'Bricolage Grotesque',ui-sans-serif,system-ui,sans-serif;
+  --body:'Figtree',ui-sans-serif,system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  --r:12px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1513; --panel:#17201D; --ink:#E7EEEA; --muted:#94A39C; --line:#2A3632;
+  --accent:#3CC79C; --accent-ink:#06261C; --say:#163028; --warn:#F09A5E; --warn-bg:#3A2416; --bad:#F07A7E; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1513; --panel:#17201D; --ink:#E7EEEA; --muted:#94A39C; --line:#2A3632;
+  --accent:#3CC79C; --accent-ink:#06261C; --say:#163028; --warn:#F09A5E; --warn-bg:#3A2416; --bad:#F07A7E; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--body);padding:16px max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance}
+h1{font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
+h2{font-size:.78rem;font-family:var(--body);font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-bottom:16px}
+header .sub{color:var(--muted);font-size:.9rem}
+.grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.4fr) minmax(0,1fr);gap:16px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px;min-width:0}
+.stack{display:grid;gap:16px;min-width:0}
+label{display:block;font-size:.8rem;color:var(--muted);margin:10px 0 4px}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+textarea{min-height:64px;resize:vertical}
+button{font:inherit;font-weight:600;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:9px 14px;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button.big{padding:14px 18px;font-size:1.05rem}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.phone{font-family:var(--mono);font-size:1.25rem;font-weight:600;user-select:all}
+.facts{margin:8px 0 0;padding:0;list-style:none;display:grid;gap:6px;font-size:.92rem}
+.facts b{color:var(--muted);font-weight:500}
+.steps{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.steps button{padding:5px 10px;font-size:.85rem;font-weight:500}
+.steps button[aria-current="step"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.say{background:var(--say);border-radius:var(--r);padding:18px 20px}
+.say .lbl{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-weight:600}
+.say p{font-family:var(--display);font-weight:600;font-size:clamp(1.15rem,2.2vw,1.5rem);line-height:1.35;margin:6px 0 0}
+.say .tip{font-family:var(--body);font-weight:400;font-size:.92rem;color:var(--muted);margin-top:10px}
+.obj{background:var(--warn-bg);border-left:4px solid var(--warn);border-radius:8px;padding:12px 14px;margin-top:12px}
+.obj .lbl{color:var(--warn);font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.obj p{margin:4px 0 0;font-size:1.05rem;font-weight:600}
+.quick{margin-top:14px}
+.quick button{font-size:.85rem;padding:6px 10px;font-weight:500}
+.mic{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--line);flex:none}
+.on .dot{background:var(--bad);animation:pulse 1.2s infinite}
+@keyframes pulse{50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.on .dot{animation:none}}
+.transcript{height:360px;overflow:auto;font-size:.95rem;display:grid;align-content:start;gap:6px;margin-top:10px;padding-right:4px}
+.transcript .ln{padding:6px 8px;border-radius:8px;background:var(--bg)}
+.transcript .ln.hit{background:var(--warn-bg)}
+.transcript .interim{color:var(--muted);font-style:italic}
+.timer{font-family:var(--mono);color:var(--muted)}
+.out button{flex:1 1 140px}
+.out .yes{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.note{font-size:.85rem;color:var(--muted)}
+.warnbox{background:var(--warn-bg);color:var(--ink);border-radius:8px;padding:10px 12px;font-size:.9rem;margin-top:10px}
+dialog{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);color:var(--ink);max-width:520px;width:calc(100% - 32px)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+.ladder{font-size:.88rem;margin:8px 0 0;padding-left:18px;color:var(--muted)}
+.ladder li.cur{color:var(--ink);font-weight:600}
+@media (max-width:1000px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Asistent apeluri</h1>
+  <span class="sub">Storefront Studio · George · scriptul și răspunsurile apar aici în timp ce vorbești</span>
+</header>
+
+<div class="grid">
+  <!-- Lead -->
+  <section class="card" aria-labelledby="h-lead">
+    <h2 id="h-lead">Pe cine suni</h2>
+    <div class="phone" id="v-phone">—</div>
+    <ul class="facts">
+      <li><b>Afacere:</b> <span id="v-biz">—</span></li>
+      <li><b>Oraș:</b> <span id="v-city">—</span></li>
+      <li><b>Ce am găsit:</b> <span id="v-prob">—</span></li>
+      <li><b>Idee pentru ei:</b> <span id="v-idea">—</span></li>
+      <li><b>Propunere:</b> <span id="v-concept">—</span></li>
+    </ul>
+    <details style="margin-top:12px">
+      <summary class="note">Schimbă datele</summary>
+      <label for="f-biz">Afacere</label><input id="f-biz">
+      <label for="f-phone">Telefon</label><input id="f-phone">
+      <label for="f-city">Oraș</label><input id="f-city">
+      <label for="f-prob">Problema găsită (pe înțelesul patronului)</label><textarea id="f-prob"></textarea>
+      <label for="f-idea">Idee pentru ei</label><input id="f-idea">
+      <label for="f-concept">Link propunere</label><input id="f-concept">
+      <label for="f-id">Lead ID</label><input id="f-id">
+      <div class="row" style="margin-top:10px"><button id="b-apply">Aplică</button></div>
+    </details>
+  </section>
+
+  <!-- Coach -->
+  <section class="stack" aria-labelledby="h-say">
+    <div class="card">
+      <h2 id="h-say">Spune acum</h2>
+      <div class="steps" id="steps" role="list"></div>
+      <div class="say" aria-live="polite">
+        <div class="lbl" id="say-lbl">Deschidere</div>
+        <p id="say-text">—</p>
+        <div class="tip" id="say-tip"></div>
+      </div>
+      <div class="obj" id="obj" hidden aria-live="assertive">
+        <div class="lbl" id="obj-lbl">Obiecție</div>
+        <p id="obj-text"></p>
+        <ol class="ladder" id="ladder" hidden></ol>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <button id="b-prev">Înapoi</button>
+        <button class="primary" id="b-next">Pasul următor</button>
+      </div>
+      <div class="quick">
+        <h2>Clientul a zis…</h2>
+        <div class="row" id="quick"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Cum s-a terminat apelul</h2>
+      <div class="row out">
+        <button class="yes big" id="o-yes">Clientul a zis DA</button>
+        <button id="o-send">Vrea propunerea</button>
+        <button id="o-later">Revin altă dată</button>
+        <button id="o-none">Nu a răspuns</button>
+        <button id="o-no">Nu e interesat</button>
+      </div>
+      <p class="note">Fiecare buton deschide Gmail cu un email gata scris către tine. Apeși Trimite și motorul face restul la următoarea rulare.</p>
+    </div>
+  </section>
+
+  <!-- Transcript -->
+  <section class="card" aria-labelledby="h-live">
+    <h2 id="h-live">Ce se aude</h2>
+    <div class="mic" id="mic">
+      <span class="dot" aria-hidden="true"></span>
+      <button class="primary" id="b-mic">Pornește ascultarea</button>
+      <span class="timer" id="timer">00:00</span>
+    </div>
+    <p class="note" id="mic-note">Ascultarea merge în Chrome sau Edge. Începe apelul cu: „Folosesc un asistent care îmi ia notițe, e în regulă?”</p>
+    <div class="warnbox" id="nosr" hidden>Browserul acesta nu are recunoaștere vocală. Deschide pagina în Chrome sau Edge. Butoanele „Clientul a zis…” merg oricum.</div>
+    <div class="transcript" id="tx" aria-live="polite"></div>
+  </section>
+</div>
+
+<dialog id="dlg">
+  <form method="dialog" id="dlg-form">
+    <h3 style="font-size:1.2rem;margin-bottom:6px">Clientul a zis DA</h3>
+    <p class="note" style="margin:0">Completează ce ai aflat. Motorul trimite confirmarea, cererea de avans, cererea de poze și construiește site-ul.</p>
+    <label for="d-email">Emailul clientului</label><input id="d-email" type="email" required placeholder="nume@exemplu.ro">
+    <label for="d-name">Numele persoanei</label><input id="d-name">
+    <label for="d-wa">WhatsApp (opțional)</label><input id="d-wa">
+    <label for="d-pack">Pachet</label>
+    <select id="d-pack"></select>
+    <label for="d-notes">Ce și-a dorit (servicii, culori, alte cereri)</label><textarea id="d-notes"></textarea>
+    <div class="row" style="margin-top:14px;justify-content:flex-end">
+      <button value="cancel" formnovalidate>Renunță</button>
+      <button class="primary" value="ok" id="d-ok">Deschide emailul de confirmare</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+(function(){
+const OWNER="huszageorge25@gmail.com";
+const PACKS=[
+  {id:"standard",name:"Standard",price:2500,dep:1250,txt:"până la 5 pagini, programări sau cerere de ofertă, profil Google"},
+  {id:"starter",name:"Starter",price:1500,dep:750,txt:"până la 3 pagini, pozele lor"},
+  {id:"starter-full",name:"Starter plătit integral azi",price:1300,dep:1300,txt:"o singură plată"},
+  {id:"starter-rate",name:"Starter în 3 rate",price:1560,dep:520,txt:"3 × 520 lei, prima rată pornește lucrul"},
+  {id:"one",name:"Pagină unică",price:1000,dep:500,txt:"propunerea exact cum a văzut-o, cu pozele lor"},
+  {id:"one-care",name:"Pagină unică + mentenanță",price:800,dep:400,txt:"800 lei + 150 lei/lună, minim 3 luni"}
+];
+const $=id=>document.getElementById(id);
+const q=new URLSearchParams(location.search);
+const L={biz:q.get("b")||"",phone:q.get("p")||"",city:q.get("c")||"",prob:q.get("pr")||"",idea:q.get("i")||"",concept:q.get("u")||"",id:q.get("id")||""};
+const nm=()=>L.biz||"afacerea dumneavoastră";
+
+function renderLead(){
+  $("v-biz").textContent=L.biz||"—"; $("v-phone").textContent=L.phone||"—"; $("v-city").textContent=L.city||"—";
+  $("v-prob").textContent=L.prob||"—"; $("v-idea").textContent=L.idea||"—";
+  const vc=$("v-concept"); vc.textContent="";
+  if(L.concept){const a=document.createElement("a");a.href=L.concept;a.target="_blank";a.rel="noopener";a.textContent="deschide";vc.append(a)} else vc.textContent="încă nu există";
+  ["biz","phone","city","prob","idea","concept","id"].forEach(k=>$("f-"+k).value=L[k]);
+  renderStep();
+}
+$("b-apply").onclick=()=>{["biz","phone","city","prob","idea","concept","id"].forEach(k=>L[k]=$("f-"+k).value.trim());renderLead()};
+
+/* ---------- script ---------- */
+const STEPS=[
+ {k:"Deschidere",say:()=>`Bună ziua, vorbesc cu proprietarul de la ${nm()}? Sunt George din Sighișoara, fac site-uri pentru afaceri locale. Vă rețin un minut, am văzut ceva la profilul dumneavoastră de pe Google.`,
+  tip:"Calm și rar. Apoi: „Folosesc un asistent care îmi ia notițe, e în regulă?” Dacă nu e patronul: „Când îl găsesc?”"},
+ {k:"Problema",say:()=>L.prob?`Am observat că ${lc(L.prob)} Cine vă caută de pe telefon vrea să vadă repede programul și să sune dintr-un click. Dacă nu găsește, sună la următorul.`:`Cine vă caută de pe telefon vrea să vadă repede programul, serviciile și să sune dintr-un click. Acum asta e greu de găsit, așa că o parte din oameni sună la următorul.`,
+  tip:"Spune o singură problemă, în clienți pierduți, nu în termeni tehnici. Apoi taci și lasă-l să răspundă."},
+ {k:"Propunerea",say:()=>L.concept?`V-am pregătit deja o propunere de pagină pentru ${nm()}, cu datele dumneavoastră reale${L.idea?", și cu "+lc(L.idea):""}. Pot să v-o trimit pe email sau pe WhatsApp, să vă uitați în liniște? Nu costă nimic să vă uitați.`:`Pot să vă fac o propunere de pagină pentru ${nm()}, cu datele dumneavoastră reale, gata azi. Vi-o trimit pe email sau pe WhatsApp să vă uitați? Nu costă nimic.`,
+  tip:"Scopul apelului: emailul sau WhatsApp-ul lui și un „da, trimiteți”. Notează adresa exact, liter cu literă."},
+ {k:"Prețul",say:()=>`Site-ul complet costă 1.500 de lei. Plătiți jumătate la început, 750, și restul doar după ce vă place. Dacă primul design nu vă place, vă dau avansul înapoi. E gata în aceeași zi după ce primim pozele și textele.`,
+  tip:"Spune prețul o dată, clar, apoi taci. Primul care vorbește după preț pierde."},
+ {k:"Închiderea",say:()=>`Atunci vă trimit acum pe email confirmarea și propunerea, ca să le aveți pe toate în scris. Pe ce adresă vă scriu?`,
+  tip:"După ce îți dă emailul, apasă „Clientul a zis DA”. Mulțumește și închide scurt."}
+];
+let step=0;
+function lc(s){s=s.trim();return s.charAt(0).toLowerCase()+s.slice(1)+(/[.!?]$/.test(s)?"":".")}
+function renderStep(){
+  const box=$("steps"); box.textContent="";
+  STEPS.forEach((s,i)=>{const b=document.createElement("button");b.textContent=s.k;b.setAttribute("role","listitem");if(i===step)b.setAttribute("aria-current","step");b.onclick=()=>{step=i;renderStep()};box.append(b)});
+  $("say-lbl").textContent=STEPS[step].k; $("say-text").textContent=STEPS[step].say(); $("say-tip").textContent=STEPS[step].tip;
+  $("b-prev").disabled=step===0; $("b-next").disabled=step===STEPS.length-1;
+}
+$("b-prev").onclick=()=>{if(step>0){step--;renderStep()}};
+$("b-next").onclick=()=>{if(step<STEPS.length-1){step++;hideObj();renderStep()}};
+
+/* ---------- objections ---------- */
+let priceHits=0;
+const LADDER=["Restabilești valoarea (fără reducere)","Starter plătit integral azi: 1.300 lei","Pagină unică: 1.000 lei","Pagină unică + mentenanță: 800 lei + 150 lei/lună (3 luni)","Sub atât: nu promite nimic, spune că revii (decide George)"];
+const OBJ=[
+ {id:"stop",lbl:"Nu mai sunați",re:/nu (ma|mai) (mai )?suna|stergeti|sterge-ma|scoate(ti)?-ma/,
+  say:()=>"Am înțeles, vă scot de pe listă și nu vă mai deranjez. O zi bună!",after:"Apasă „Nu e interesat”."},
+ {id:"no",lbl:"Nu e interesat",re:/nu (sunt|suntem) interesat|nu ma intereseaza|nu ne intereseaza|nu vreau|nu avem nevoie|nu am nevoie/,
+  say:()=>`Înțeleg perfect. Vă las doar propunerea pe email, fără alte telefoane, și dacă vreodată vă trebuie, o aveți. E în regulă așa?`,after:"Dacă tot nu: mulțumește și închide politicos."},
+ {id:"price",lbl:"E scump",re:/scump|prea mult|cam mult|nu am bani|n-am bani|nu avem bani|buget|mai ieftin|reducere|discount/,
+  say:()=>{priceHits++;return [
+    "Înțeleg. Ce anume vi se pare mult? Gândiți-vă că un singur client nou pe lună acoperă costul, iar dacă primul design nu vă place, vă dau avansul înapoi.",
+    "Dacă plătiți integral de la început, vă pot face Starter cu 1.300 de lei în loc de 1.500, pentru că așa lucrăm mai repede.",
+    "Dacă vă ajunge o singură pagină, exact ca propunerea pe care v-am făcut-o, cu pozele dumneavoastră, e 1.000 de lei.",
+    "Pot să vă fac pagina cu 800 de lei dacă luați și mentenanța, 150 de lei pe lună, minim trei luni. Includem găzduirea și micile schimbări.",
+    "Mai jos de atât nu pot promite acum. Las-mă să verific și revin eu la dumneavoastră până mâine."][Math.min(priceHits-1,4)]},ladder:true},
+ {id:"time",lbl:"N-am timp",re:/n-am timp|nu am timp|nu avem timp|ocupat|sunt la client|sunt prins|acum nu pot/,
+  say:()=>"Nu vă trebuie timp, facem noi tot din ce e deja online. Dumneavoastră doar vă uitați la propunere, două minute. Vă las pe email?",after:"Dacă e chiar ocupat: „Când vă pot suna două minute, mâine dimineață sau după-amiază?”"},
+ {id:"fb",lbl:"Am Facebook",re:/facebook|instagram|tiktok|pagina de fb|pe fb/,
+  say:()=>"Facebook e bun pentru cine vă urmărește deja. Cine vă caută pe Google nu vă găsește acolo. Un site cu programul și butonul de sunat apare pe Google și vă aduce oameni noi.",after:""},
+ {id:"site",lbl:"Avem deja site",re:/avem (deja )?site|am (deja )?site|avem pagina|ne face (un|cineva)|nepotul|fiul meu|un prieten/,
+  say:()=>L.prob?`Am văzut site-ul. ${L.prob.trim().replace(/[.]?$/,".")} Propunerea mea arată cum ar putea arăta, ca să comparați. Vă costă doar două minute să vă uitați.`:"Am văzut. Propunerea mea arată cum ar putea arăta mai bine pe telefon, ca să comparați. Vă las linkul?",after:""},
+ {id:"send",lbl:"Trimite-mi",re:/trimite|trimiteti|pe mail|pe email|adresa|whatsapp|pe watsap|pe whats/,
+  say:()=>"Perfect, vă trimit chiar acum. Îmi spuneți adresa de email, literă cu literă, ca să nu greșesc?",after:"Notează adresa, apoi „Clientul a zis DA” sau „Vrea propunerea”.",go:4},
+ {id:"cost",lbl:"Cât costă",re:/cat costa|cat ar costa|ce pret|pretul|cati bani|cat ma costa/,
+  say:()=>STEPS[3].say(),after:"Spune prețul și taci.",go:3},
+ {id:"think",lbl:"Mă gândesc",re:/ma gandesc|ne gandim|revin eu|va sun eu|mai tarziu|vorbesc cu|sotia|sotul|asociatul/,
+  say:()=>"Sigur, e normal. Vă trimit propunerea pe email ca s-o aveți în față când vă gândiți. Când e un moment bun să vă sun înapoi, mâine sau poimâine?",after:"Notează ziua și apasă „Revin altă dată”."},
+ {id:"who",lbl:"De unde aveți numărul",re:/de unde (aveti|ai)|cine (sunteti|esti)|cum ati gasit/,
+  say:()=>"Numărul e public pe profilul dumneavoastră de pe Google Maps. Sunt George, din Sighișoara, lucrez singur și fac site-uri pentru afaceri locale.",after:""},
+ {id:"risk",lbl:"Dacă nu-mi place",re:/daca nu (imi|ne) place|garantie|risc|si daca nu/,
+  say:()=>"Atunci vă dau avansul înapoi. Nu riscați nimic. Și aveți incluse două runde de modificări.",after:""},
+ {id:"domain",lbl:"Domeniu / găzduire",re:/domeniu|hosting|gazduire|server/,
+  say:()=>"Găzduirea e inclusă în mentenanță, 150 de lei pe lună. Domeniul, dacă îl aveți deja, îl conectăm împreună la telefon. Nu vă cer niciodată parole pe email.",after:""},
+ {id:"how",lbl:"Cum lucrați",re:/cum (lucrati|merge|functioneaza)|ce trebuie sa fac|ce va trebuie/,
+  say:()=>"Simplu: vă trimit propunerea, dacă vă place plătiți avansul, îmi trimiteți câteva poze și programul, iar site-ul e gata în aceeași zi.",after:""}
+];
+function norm(s){return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/ş|ș/g,"s").replace(/ţ|ț/g,"t")}
+function showObj(o){
+  $("obj").hidden=false; $("obj-lbl").textContent="Obiecție: "+o.lbl; $("obj-text").textContent=o.say();
+  const ld=$("ladder"); ld.textContent="";
+  if(o.ladder){ld.hidden=false;LADDER.forEach((t,i)=>{const li=document.createElement("li");li.textContent=t;if(i===Math.min(priceHits-1,4))li.className="cur";ld.append(li)})} else ld.hidden=true;
+  if(o.go!=null){step=o.go;renderStep()}
+}
+function hideObj(){$("obj").hidden=true}
+function detect(text){const t=norm(text);for(const o of OBJ){if(o.re.test(t)){showObj(o);return true}}return false}
+const qk=$("quick");
+OBJ.forEach(o=>{const b=document.createElement("button");b.textContent=o.lbl;b.onclick=()=>showObj(o);qk.append(b)});
+
+/* ---------- speech ---------- */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+let rec=null,listening=false,t0=0,tick=null,interimEl=null;
+function addLine(text,hit){const d=document.createElement("div");d.className="ln"+(hit?" hit":"");d.textContent=text;$("tx").append(d);$("tx").scrollTop=$("tx").scrollHeight}
+function fmt(ms){const s=Math.floor(ms/1000);return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+if(!SR){$("nosr").hidden=false;$("b-mic").disabled=true}
+else{
+  rec=new SR(); rec.lang="ro-RO"; rec.continuous=true; rec.interimResults=true;
+  rec.onresult=e=>{
+    let interim="";
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      const r=e.results[i], text=r[0].transcript.trim();
+      if(r.isFinal){ if(interimEl){interimEl.remove();interimEl=null} if(text) addLine(text,detect(text)); }
+      else interim+=text+" ";
+    }
+    if(interim){ if(!interimEl){interimEl=document.createElement("div");interimEl.className="ln interim";$("tx").append(interimEl)} interimEl.textContent=interim; $("tx").scrollTop=$("tx").scrollHeight }
+  };
+  rec.onerror=e=>{ if(e.error==="not-allowed"||e.error==="service-not-allowed"){stop();$("mic-note").textContent="Microfonul e blocat. Permite microfonul pentru această pagină din bara de adrese și încearcă iar."} };
+  rec.onend=()=>{ if(listening){ try{rec.start()}catch(_){} } };
+}
+function start(){ try{rec.start()}catch(_){} listening=true; $("mic").classList.add("on"); $("b-mic").textContent="Oprește"; t0=Date.now(); tick=setInterval(()=>$("timer").textContent=fmt(Date.now()-t0),500) }
+function stop(){ listening=false; try{rec&&rec.stop()}catch(_){} $("mic").classList.remove("on"); $("b-mic").textContent="Pornește ascultarea"; clearInterval(tick) }
+$("b-mic").onclick=()=>listening?stop():start();
+
+/* ---------- outcomes ---------- */
+function transcriptText(){return [...$("tx").querySelectorAll(".ln:not(.interim)")].map(d=>d.textContent).join("\n")}
+function gmail(subject,body){
+  const u="https://mail.google.com/mail/?view=cm&fs=1&to="+encodeURIComponent(OWNER)+"&su="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+  window.open(u,"_blank","noopener");
+}
+function base(){return `Lead ID: ${L.id||"-"}\nAfacere: ${L.biz||"-"}\nOraș: ${L.city||"-"}\nTelefon: ${L.phone||"-"}\nPropunere: ${L.concept||"-"}\nDurata apelului: ${$("timer").textContent}\n`}
+const ps=$("d-pack"); PACKS.forEach(p=>{const o=document.createElement("option");o.value=p.id;o.textContent=`${p.name} · ${p.price.toLocaleString("ro-RO")} lei (${p.txt})`;ps.append(o)}); ps.value="starter";
+$("o-yes").onclick=()=>{stop();$("dlg").showModal()};
+$("dlg-form").addEventListener("submit",ev=>{
+  if(ev.submitter&&ev.submitter.value!=="ok")return;
+  const p=PACKS.find(x=>x.id===ps.value);
+  gmail(`✅ DA: ${L.biz||"client nou"} (${p.name}, ${p.price} lei)`,
+   base()+`\nREZULTAT: DA\nEmail client: ${$("d-email").value}\nNume: ${$("d-name").value||"-"}\nWhatsApp: ${$("d-wa").value||"-"}\nPachet: ${p.name}\nPreț: ${p.price} lei\nAvans: ${p.dep} lei\nDetalii pachet: ${p.txt}\nCe și-a dorit: ${$("d-notes").value||"-"}\n\nTranscriere:\n${transcriptText()||"-"}`);
+});
+$("o-send").onclick=()=>{stop();gmail(`📩 TRIMITE PROPUNEREA: ${L.biz||"-"}`,base()+`\nREZULTAT: vrea propunerea pe email\nEmail client: (scrie aici)\n\nTranscriere:\n${transcriptText()||"-"}`)};
+$("o-later").onclick=()=>{stop();gmail(`🕒 REVIN: ${L.biz||"-"}`,base()+`\nREZULTAT: revin altă dată\nCând: (scrie aici ziua și ora)\n\nTranscriere:\n${transcriptText()||"-"}`)};
+$("o-none").onclick=()=>{stop();gmail(`📵 NU A RĂSPUNS: ${L.biz||"-"}`,base()+`\nREZULTAT: nu a răspuns`)};
+$("o-no").onclick=()=>{stop();gmail(`⛔ NU: ${L.biz||"-"}`,base()+`\nREZULTAT: nu e interesat (Do not contact)\n\nTranscriere:\n${transcriptText()||"-"}`)};
+
+if(!L.biz){L.biz="Frizeria Exemplu";L.city="Sighișoara";L.phone="0700 000 000";L.prob="Profilul de Google nu are program și nici site.";L.idea="buton de programare direct de pe Google";L.concept="";L.id="exemplu"}
+renderLead();
+})();
+</script>
+</body>
+</html>
