@@ -33,7 +33,7 @@ SITES = [
        rating=4.8, reviews=551, src="Google", rating2="4,99 pe MERO, din 5.585 de evaluări",
        hours={"Mon": "9:00-20:00", "Tue": "9:00-20:00", "Wed": "9:00-20:00", "Thu": "9:00-19:00", "Fri": "9:00-20:00", "Sat": "9:00-20:00", "Sun": None},
        book="https://mero.ro/p/thedenbarbershop", cta="Programează-te",
-       headline="Kron life,\npe Crișului.", lede="Tuns, barbă și prosop fierbinte în Cosmopolit, Brașov. Programare online în 10 secunde.",
+       headline="Kron life,\npe Crișului.", lede="Tuns, barbă și prosop fierbinte în Cosmopolit, Brașov. Programare online, direct pe MERO.",
        services=[("Tuns + spălat", "45 min - 1 oră", "100-110 lei"), ("Tuns, barbă + spălat", "1 oră - 1 oră 20 min", "130-140 lei"),
                  ("Aranjat barbă", "20-30 min", "60-70 lei"), ("Tuns student", "1 oră", "80 lei"), ("Special package", "1 oră 30 min", "250 lei")],
        sig=("Special package.", "Tuns personalizat, barbă conturată, spălat, sprâncene, prosop fierbinte și frecție a scalpului. O oră și jumătate doar pentru tine."),
@@ -328,13 +328,13 @@ def page(s):
 <p class="lab">Recenzii reale, copiate exact cum au fost scrise de clienți.</p></div></section>
 <section id="meniu" class="panel"><div class="w two"><div><h2 class="d up">{menu_title}</h2><p class="muted">{E(menu_note)}</p><a class="b1" href="{E(book)}"{tgt}>{E(s['cta'])} <i>→</i></a></div><ul class="menu up">{menu}</ul></div></section>
 <section><div class="w sig"><figure class="up"><img src="{img(s['photo2'], 1200)}" alt="" loading="lazy"><span class="pn">Poză exemplu</span></figure>
-<div class="up"><p class="d big">{big}</p><h2 class="d">{E(s['sig'][0])}</h2><p class="muted" style="font-size:1.15rem;max-width:44ch">{E(s['sig'][1])}</p></div></div></section>
+<div class="up"><p class="d big">{num(s["reviews"])}</p><p class="muted" style="margin:-4px 0 18px;font-weight:600">recenzii pe {s["src"]}, nota {big}</p><h2 class="d">{E(s['sig'][0])}</h2><p class="muted" style="font-size:1.15rem;max-width:44ch">{E(s['sig'][1])}</p></div></div></section>
 <section id="vizita" class="panel"><div class="w vis"><div><h2 class="d up">Vino pe la noi.</h2><address>{E(s['name'])}<br>{E(s['address'])}<br>{E(s['zip'])}</address>
 <a class="ph" href="tel:{tel(s['phone'])}">{E(s['phone'])}</a><div class="row"><a class="b1" href="{maps(s)}" target="_blank" rel="noopener">Indicații <i>↗</i></a><a class="b2" href="tel:{tel(s['phone'])}">Sună acum</a></div></div>
 <div><h2 class="d up">Program</h2>{open_b}<div style="height:14px"></div>{hours_rows(s)}</div></div></section>
 <section id="oferta" class="of"><div class="w"><p class="for">Pentru proprietarul {E(s['name'])}</p>
 <h2 class="d" style="max-width:18ch">{num(s['reviews'])} de oameni v-au lăudat pe {s['src']}. Restul nu vă găsesc.</h2>
-<p class="muted" style="max-width:62ch;font-size:1.12rem">Cine vă caută acum pe telefon ajunge la {E(s['now'])}. Nu vede dintr-o privire {"prețurile, programul și butonul de programare" if s["kind"] == "barber" else "meniul, programul și butonul de sunat"}, așa că alege localul de alături. Pagina de mai sus e făcută deja cu datele voastre reale.</p>
+<p class="muted" style="max-width:62ch;font-size:1.12rem">{'Cine vă caută acum pe telefon nu găsește niciun site al vostru.' if s['now']=='niciun site' else 'Cine vă caută acum pe telefon găsește doar ' + E(s['now']) + '.'} Nu vede dintr-o privire {"prețurile, programul și butonul de programare" if s["kind"] == "barber" else "meniul, programul și butonul de sunat"}, așa că alege localul de alături. Pagina de mai sus e făcută deja cu datele voastre reale.</p>
 <div class="cmp"><div><h3>Acum</h3><ul><li>{E(s['now'][0].upper() + s['now'][1:])}</li><li>{"Prețurile nu se văd pe Google" if s["kind"] == "barber" else "Meniul nu se vede pe Google"}</li><li>Recenziile bune stau ascunse</li></ul></div>
 <div class="y"><h3>Cu site-ul acesta</h3><ul><li>Un site al vostru, pe domeniul vostru</li><li>Buton de sunat, indicații și {"programare" if s["book"] else "rezervare"} dintr-un click</li><li>Recenziile voastre, la vedere, pe prima pagină</li></ul></div></div>
 <div class="pr"><div class="pk"><p style="margin:0;font-weight:700">Starter</p><p class="d">1.500 lei</p><p class="muted" style="margin:0">Până la 3 pagini. Exact ce vedeți aici, terminat cu pozele și textele voastre.</p></div>
