@@ -8,10 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: three working columns (lead / what to say now / live transcript), stacked on phones */
+/* Layout: tabs (Apel live / Scripturi / Setări). Live = three working columns: lead / what to say now / what is heard */
 :root{
   --bg:#F2F3EF; --panel:#FFFFFF; --ink:#16201C; --muted:#5D6A64; --line:#D9DED8;
-  --accent:#0F7B5F; --accent-ink:#FFFFFF; --say:#E7F3EE; --warn:#B4541A; --warn-bg:#FBEDE3; --bad:#A5282C;
+  --accent:#0F7B5F; --accent-ink:#FFFFFF; --say:#E7F3EE; --ai:#E9EEFB; --ai-ink:#2C46A8;
+  --warn:#B4541A; --warn-bg:#FBEDE3; --bad:#A5282C;
   --display:'Bricolage Grotesque',ui-sans-serif,system-ui,sans-serif;
   --body:'Figtree',ui-sans-serif,system-ui,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
@@ -19,40 +20,49 @@
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#0F1513; --panel:#17201D; --ink:#E7EEEA; --muted:#94A39C; --line:#2A3632;
-  --accent:#3CC79C; --accent-ink:#06261C; --say:#163028; --warn:#F09A5E; --warn-bg:#3A2416; --bad:#F07A7E; color-scheme:dark}}
+  --accent:#3CC79C; --accent-ink:#06261C; --say:#163028; --ai:#1A2240; --ai-ink:#9DB2FF;
+  --warn:#F09A5E; --warn-bg:#3A2416; --bad:#F07A7E; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0F1513; --panel:#17201D; --ink:#E7EEEA; --muted:#94A39C; --line:#2A3632;
-  --accent:#3CC79C; --accent-ink:#06261C; --say:#163028; --warn:#F09A5E; --warn-bg:#3A2416; --bad:#F07A7E; color-scheme:dark}
+  --accent:#3CC79C; --accent-ink:#06261C; --say:#163028; --ai:#1A2240; --ai-ink:#9DB2FF;
+  --warn:#F09A5E; --warn-bg:#3A2416; --bad:#F07A7E; color-scheme:dark}
 *{box-sizing:border-box}
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--body);padding:16px max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}
 h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance}
 h1{font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
 h2{font-size:.78rem;font-family:var(--body);font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px}
+h3{font-size:1.15rem;font-weight:700;margin:0 0 8px}
 header{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-bottom:16px}
-header .sub{color:var(--muted);font-size:.9rem}
-.grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.4fr) minmax(0,1fr);gap:16px;align-items:start}
+nav{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+nav button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.45fr) minmax(0,1fr);gap:16px;align-items:start}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px;min-width:0}
 .stack{display:grid;gap:16px;min-width:0}
 label{display:block;font-size:.8rem;color:var(--muted);margin:10px 0 4px}
 input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
 textarea{min-height:64px;resize:vertical}
 button{font:inherit;font-weight:600;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:9px 14px;cursor:pointer}
+button:disabled{opacity:.5;cursor:default}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 button.big{padding:14px 18px;font-size:1.05rem}
 .row{display:flex;flex-wrap:wrap;gap:8px}
-.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
 .phone{font-family:var(--mono);font-size:1.25rem;font-weight:600;user-select:all}
 .facts{margin:8px 0 0;padding:0;list-style:none;display:grid;gap:6px;font-size:.92rem}
 .facts b{color:var(--muted);font-weight:500}
 .steps{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 .steps button{padding:5px 10px;font-size:.85rem;font-weight:500}
 .steps button[aria-current="step"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.say{background:var(--say);border-radius:var(--r);padding:18px 20px}
+.ai{background:var(--ai);border-radius:var(--r);padding:16px 18px;margin-bottom:12px}
+.ai .lbl{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ai-ink);font-weight:600;display:flex;gap:8px;align-items:center}
+.ai .lbl .st{font-weight:500;text-transform:none;letter-spacing:0;color:var(--muted)}
+.ai p{font-family:var(--display);font-weight:600;font-size:clamp(1.2rem,2.3vw,1.6rem);line-height:1.32;margin:6px 0 0}
+.ai .next{font-size:.92rem;color:var(--muted);margin-top:8px}
+.say{background:var(--say);border-radius:var(--r);padding:16px 18px}
 .say .lbl{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-weight:600}
-.say p{font-family:var(--display);font-weight:600;font-size:clamp(1.15rem,2.2vw,1.5rem);line-height:1.35;margin:6px 0 0}
-.say .tip{font-family:var(--body);font-weight:400;font-size:.92rem;color:var(--muted);margin-top:10px}
+.say p{font-family:var(--display);font-weight:600;font-size:clamp(1.05rem,1.9vw,1.3rem);line-height:1.35;margin:6px 0 0}
+.say .tip{font-size:.9rem;color:var(--muted);margin-top:8px}
 .obj{background:var(--warn-bg);border-left:4px solid var(--warn);border-radius:8px;padding:12px 14px;margin-top:12px}
 .obj .lbl{color:var(--warn);font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
 .obj p{margin:4px 0 0;font-size:1.05rem;font-weight:600}
@@ -63,7 +73,7 @@ button.big{padding:14px 18px;font-size:1.05rem}
 .on .dot{background:var(--bad);animation:pulse 1.2s infinite}
 @keyframes pulse{50%{opacity:.35}}
 @media (prefers-reduced-motion:reduce){.on .dot{animation:none}}
-.transcript{height:360px;overflow:auto;font-size:.95rem;display:grid;align-content:start;gap:6px;margin-top:10px;padding-right:4px}
+.transcript{height:380px;overflow:auto;font-size:.95rem;display:grid;align-content:start;gap:6px;margin-top:10px;padding-right:4px}
 .transcript .ln{padding:6px 8px;border-radius:8px;background:var(--bg)}
 .transcript .ln.hit{background:var(--warn-bg)}
 .transcript .interim{color:var(--muted);font-style:italic}
@@ -71,22 +81,44 @@ button.big{padding:14px 18px;font-size:1.05rem}
 .out button{flex:1 1 140px}
 .out .yes{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .note{font-size:.85rem;color:var(--muted)}
-.warnbox{background:var(--warn-bg);color:var(--ink);border-radius:8px;padding:10px 12px;font-size:.9rem;margin-top:10px}
+.warnbox{background:var(--warn-bg);border-radius:8px;padding:10px 12px;font-size:.9rem;margin-top:10px}
 dialog{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);color:var(--ink);max-width:520px;width:calc(100% - 32px)}
 dialog::backdrop{background:rgba(0,0,0,.45)}
 .ladder{font-size:.88rem;margin:8px 0 0;padding-left:18px;color:var(--muted)}
 .ladder li.cur{color:var(--ink);font-weight:600}
-@media (max-width:1000px){.grid{grid-template-columns:1fr}}
+/* scripts */
+.lib{display:grid;grid-template-columns:220px minmax(0,1fr);gap:16px;align-items:start}
+.toc{position:sticky;top:12px;display:grid;gap:4px}
+.toc a{color:var(--ink);text-decoration:none;padding:6px 10px;border-radius:8px;font-size:.92rem}
+.toc a:hover{background:var(--panel)}
+.lib section{scroll-margin-top:12px}
+.lib .card{margin-bottom:16px}
+.line{background:var(--say);border-radius:8px;padding:10px 12px;margin:8px 0;font-weight:600}
+.line em{font-style:normal;color:var(--muted);font-weight:500}
+.lib p,.lib li{max-width:70ch}
+.lib ul,.lib ol{padding-left:20px;margin:6px 0}
+.pair{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.6fr);gap:6px 14px;border-top:1px solid var(--line);padding:10px 0}
+.pair .q{color:var(--warn);font-weight:600}
+.ind{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.ind div{background:var(--bg);border-radius:8px;padding:10px 12px;font-size:.93rem}
+.ind b{display:block;margin-bottom:2px}
+@media (max-width:1000px){.grid{grid-template-columns:1fr}.lib{grid-template-columns:1fr}.toc{position:static;grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}}
+@media (max-width:600px){.pair{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <header>
   <h1>Asistent apeluri</h1>
-  <span class="sub">Storefront Studio · George · scriptul și răspunsurile apar aici în timp ce vorbești</span>
+  <nav role="tablist" aria-label="Secțiuni">
+    <button role="tab" id="t-live" aria-selected="true" aria-controls="p-live">Apel live</button>
+    <button role="tab" id="t-lib" aria-selected="false" aria-controls="p-lib">Scripturi</button>
+    <button role="tab" id="t-set" aria-selected="false" aria-controls="p-set">Setări AI</button>
+  </nav>
 </header>
 
+<!-- ================= LIVE ================= -->
+<div id="p-live" role="tabpanel" aria-labelledby="t-live">
 <div class="grid">
-  <!-- Lead -->
   <section class="card" aria-labelledby="h-lead">
     <h2 id="h-lead">Pe cine suni</h2>
     <div class="phone" id="v-phone">—</div>
@@ -102,20 +134,35 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
       <label for="f-biz">Afacere</label><input id="f-biz">
       <label for="f-phone">Telefon</label><input id="f-phone">
       <label for="f-city">Oraș</label><input id="f-city">
+      <label for="f-ind">Domeniu</label>
+      <select id="f-ind"><option value="">—</option><option>frizerie</option><option>salon</option><option>unghii</option><option>stomatologie</option><option>restaurant</option><option>cafenea</option><option>patiserie</option><option>service auto</option><option>detailing</option><option>instalator</option><option>electrician</option><option>acoperișuri</option><option>curățenie</option><option>fitness</option><option>pensiune</option><option>veterinar</option><option>florărie</option></select>
       <label for="f-prob">Problema găsită (pe înțelesul patronului)</label><textarea id="f-prob"></textarea>
       <label for="f-idea">Idee pentru ei</label><input id="f-idea">
       <label for="f-concept">Link propunere</label><input id="f-concept">
       <label for="f-id">Lead ID</label><input id="f-id">
       <div class="row" style="margin-top:10px"><button id="b-apply">Aplică</button></div>
     </details>
+    <div class="say" style="margin-top:14px">
+      <div class="lbl">Înainte să suni (30 de secunde)</div>
+      <ul class="note" style="margin:6px 0 0;padding-left:18px">
+        <li>Deschide propunerea, ca să o poți descrie.</li>
+        <li>Stai în picioare și zâmbește: se aude în voce.</li>
+        <li>Scopul: emailul lui și un „da, trimiteți”. Nu vinzi tot la telefon.</li>
+      </ul>
+    </div>
   </section>
 
-  <!-- Coach -->
   <section class="stack" aria-labelledby="h-say">
     <div class="card">
       <h2 id="h-say">Spune acum</h2>
+      <div class="ai" id="ai-box" aria-live="polite">
+        <div class="lbl">Asistent AI <span class="st" id="ai-st">pornește ascultarea, iar replica apare aici</span></div>
+        <p id="ai-say">—</p>
+        <div class="next" id="ai-next"></div>
+        <div class="row" style="margin-top:10px"><button id="b-ask">Ce zic acum?</button></div>
+      </div>
       <div class="steps" id="steps" role="list"></div>
-      <div class="say" aria-live="polite">
+      <div class="say">
         <div class="lbl" id="say-lbl">Deschidere</div>
         <p id="say-text">—</p>
         <div class="tip" id="say-tip"></div>
@@ -143,11 +190,10 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
         <button id="o-none">Nu a răspuns</button>
         <button id="o-no">Nu e interesat</button>
       </div>
-      <p class="note">Fiecare buton deschide Gmail cu un email gata scris către tine. Apeși Trimite și motorul face restul la următoarea rulare.</p>
+      <p class="note">Fiecare buton deschide Gmail cu un email gata scris către tine. Apeși Trimite și motorul face restul.</p>
     </div>
   </section>
 
-  <!-- Transcript -->
   <section class="card" aria-labelledby="h-live">
     <h2 id="h-live">Ce se aude</h2>
     <div class="mic" id="mic">
@@ -155,25 +201,173 @@ dialog::backdrop{background:rgba(0,0,0,.45)}
       <button class="primary" id="b-mic">Pornește ascultarea</button>
       <span class="timer" id="timer">00:00</span>
     </div>
-    <p class="note" id="mic-note">Ascultarea merge în Chrome sau Edge. Începe apelul cu: „Folosesc un asistent care îmi ia notițe, e în regulă?”</p>
+    <p class="note" id="mic-note">Merge în Chrome sau Edge. Începe cu: „Folosesc un asistent care îmi ia notițe, e în regulă?”</p>
     <div class="warnbox" id="nosr" hidden>Browserul acesta nu are recunoaștere vocală. Deschide pagina în Chrome sau Edge. Butoanele „Clientul a zis…” merg oricum.</div>
+    <div class="warnbox" id="nokey" hidden>Asistentul AI e oprit: lipsește cheia. Pune-o în tabul „Setări AI”. Până atunci primești replicile din script.</div>
     <div class="transcript" id="tx" aria-live="polite"></div>
   </section>
+</div>
+</div>
+
+<!-- ================= SCRIPTS ================= -->
+<div id="p-lib" role="tabpanel" aria-labelledby="t-lib" hidden>
+<div class="lib">
+  <div class="toc">
+    <a href="#s-reguli">Regulile vocii</a><a href="#s-deschidere">Deschideri</a><a href="#s-poarta">Nu e patronul</a>
+    <a href="#s-intrebari">Întrebări</a><a href="#s-propunere">Propunerea</a><a href="#s-pret">Prețul</a>
+    <a href="#s-inchidere">Închiderea</a><a href="#s-obiectii">Obiecții</a><a href="#s-domenii">Pe domenii</a>
+    <a href="#s-voce">Mesagerie</a><a href="#s-revenire">Revenire</a><a href="#s-whatsapp">După apel</a>
+  </div>
+  <div>
+    <section id="s-reguli" class="card">
+      <h3>Regulile vocii</h3>
+      <ul>
+        <li>Vorbește rar, cu 20% mai încet decât crezi că e normal. Cine vorbește repede sună a vânzător.</li>
+        <li>Spui „dumneavoastră” până îți spune el altfel.</li>
+        <li>O idee pe frază. După fiecare întrebare taci și numeri în gând până la trei.</li>
+        <li>Nu te scuza („scuzați deranjul…”). Ești un om din zonă cu ceva util, nu un deranj.</li>
+        <li>Folosește numele afacerii lui de două ori în apel. Numele clientului, dacă îl afli.</li>
+        <li>Scopul apelului nu e să vinzi site-ul. E să obții „da, trimiteți-mi propunerea” și emailul. Vânzarea o face propunerea.</li>
+        <li>Spui adevărul mereu: lucrezi singur, ești din Sighișoara, avansul se returnează dacă nu-i place primul design.</li>
+      </ul>
+    </section>
+
+    <section id="s-deschidere" class="card">
+      <h3>Deschideri (alege una)</h3>
+      <p class="note">Cu propunerea deja făcută (cea mai puternică):</p>
+      <div class="line">„Bună ziua, vorbesc cu proprietarul de la [Afacere]? Sunt George, din Sighișoara. Vă rețin un minut: v-am făcut deja o propunere de pagină de internet, cu programul și serviciile dumneavoastră reale, și voiam să v-o trimit să vă uitați.”</div>
+      <p class="note">Când au doar Facebook sau nimic:</p>
+      <div class="line">„Bună ziua, sunt George, fac site-uri pentru afaceri din zonă. V-am căutat pe Google și am găsit doar pagina de Facebook. Oamenii care vă caută de pe telefon nu văd repede programul sau prețurile. V-am pregătit o variantă, pot să v-o trimit?”</div>
+      <p class="note">Când au site vechi:</p>
+      <div class="line">„Bună ziua, sunt George, din Sighișoara. Am intrat pe site-ul dumneavoastră și am observat [problema]. Cine intră de pe telefon renunță repede. V-am făcut o variantă nouă, cu datele dumneavoastră, ca să comparați.”</div>
+      <p class="note">Imediat după deschidere:</p>
+      <div class="line">„Folosesc un asistent care îmi ia notițe în timpul apelului, e în regulă?”</div>
+    </section>
+
+    <section id="s-poarta" class="card">
+      <h3>Nu e patronul</h3>
+      <div class="line">„Nicio problemă. Cum îl cheamă pe patron și când îl găsesc cel mai ușor, dimineața sau după-amiaza?”</div>
+      <div class="line">„Pot să vă las un email unde să-i trimit propunerea? Durează două minute s-o vadă.” <em>(doar dacă îți dau ei adresa de bunăvoie)</em></div>
+      <p class="note">Nu vinde angajatului. Află numele și ora, apoi apasă „Revin altă dată”.</p>
+    </section>
+
+    <section id="s-intrebari" class="card">
+      <h3>Întrebări care îl fac să vorbească</h3>
+      <ol>
+        <li>„Clienții noi de unde vin acum, mai mult din recomandări sau vă găsesc pe Google?”</li>
+        <li>„Vă sună des oameni doar ca să întrebe de program sau de prețuri?”</li>
+        <li>„Dacă ar veni câțiva clienți noi pe lună de pe Google, v-ar ajuta sau sunteți plin?”</li>
+        <li>„Ce vă place cel mai mult la afacerea dumneavoastră, ce ar trebui să vadă oamenii primul?”</li>
+      </ol>
+      <p class="note">Ascultă răspunsul și folosește exact cuvintele lui în propunere.</p>
+    </section>
+
+    <section id="s-propunere" class="card">
+      <h3>Propunerea</h3>
+      <div class="line">„Pe scurt: o pagină care se deschide bine pe telefon, cu programul, serviciile, butonul de sunat și drumul până la dumneavoastră. Plus [ideea pentru ei]. V-am pus deja datele reale.”</div>
+      <div class="line">„Vi-o trimit pe email sau pe WhatsApp, cum vă e mai ușor?”</div>
+      <p class="note">Întrebarea „email sau WhatsApp?” presupune deja un da. Notează adresa literă cu literă și citește-o înapoi.</p>
+    </section>
+
+    <section id="s-pret" class="card">
+      <h3>Prețul</h3>
+      <div class="line">„Site-ul complet e 1.500 de lei. Plătiți jumătate la început, 750, și restul doar după ce vă place. Dacă primul design nu vă place, vă dau avansul înapoi. E gata în aceeași zi după ce primim pozele.”</div>
+      <p class="note">Spui prețul o dată, clar, apoi taci. Primul care vorbește după preț pierde. Dacă vrea mai mult (programări online, mai multe pagini): Standard, 2.500 de lei.</p>
+    </section>
+
+    <section id="s-inchidere" class="card">
+      <h3>Închiderea</h3>
+      <div class="line">„Atunci vă trimit acum pe email propunerea și confirmarea, ca să le aveți în scris. Pe ce adresă?”</div>
+      <div class="line">„Pozele le puteți face chiar azi cu telefonul: fața localului, interiorul, câteva lucrări. Când credeți că mi le trimiteți, azi sau mâine?”</div>
+      <div class="line">„Mulțumesc, [nume]. Vă scriu în următoarele minute. O zi bună!”</div>
+      <p class="note">După ce închizi: „Clientul a zis DA”.</p>
+    </section>
+
+    <section id="s-obiectii" class="card">
+      <h3>Obiecții</h3>
+      <div class="pair"><span class="q">„E scump.”</span><span>„Înțeleg. Ce anume vi se pare mult? Un singur client nou pe lună acoperă costul, și dacă primul design nu vă place, vă dau avansul înapoi.” Apoi, câte o treaptă: integral azi 1.300 lei → pagină unică 1.000 lei → 800 lei + mentenanță 150 lei/lună (3 luni). Sub atât decide George.</span></div>
+      <div class="pair"><span class="q">„N-am timp.”</span><span>„Nu vă trebuie timp, facem noi tot din ce e deja online. Dumneavoastră doar vă uitați două minute.”</span></div>
+      <div class="pair"><span class="q">„Am Facebook.”</span><span>„Facebook e bun pentru cine vă urmărește deja. Cine vă caută pe Google nu vă găsește acolo. Site-ul aduce oameni noi.”</span></div>
+      <div class="pair"><span class="q">„Avem deja site.”</span><span>„L-am văzut. [problema]. Propunerea mea vă arată cum ar putea arăta, ca să comparați. Nu vă costă nimic să vă uitați.”</span></div>
+      <div class="pair"><span class="q">„Mi-l face nepotul / un prieten.”</span><span>„Foarte bine. Uitați-vă totuși la propunere, poate vă dă idei, iar dacă nu iese cum vreți, aveți o variantă gata.”</span></div>
+      <div class="pair"><span class="q">„Trimiteți-mi pe email.”</span><span>„Sigur. Pe ce adresă? Și, ca să nu se piardă printre emailuri, pot să vă sun mâine două minute să-mi spuneți ce credeți?”</span></div>
+      <div class="pair"><span class="q">„Mă gândesc.”</span><span>„E normal. Ce anume ați vrea să vedeți ca să vă hotărâți? Vă trimit propunerea și vă sun poimâine.”</span></div>
+      <div class="pair"><span class="q">„Vorbesc cu soția / asociatul.”</span><span>„Perfect, trimit propunerea și dumneaei / dumnealui. Când vă pot suna după ce vorbiți?”</span></div>
+      <div class="pair"><span class="q">„Nu sunt interesat.”</span><span>„Înțeleg. Vă las doar propunerea pe email, fără alte telefoane, ca s-o aveți dacă vă trebuie vreodată. E în regulă?” Dacă tot nu: mulțumești și închizi.</span></div>
+      <div class="pair"><span class="q">„Nu mă mai sunați.”</span><span>„Am înțeles, vă scot de pe listă. O zi bună!” Apoi „Nu e interesat”.</span></div>
+      <div class="pair"><span class="q">„De unde aveți numărul?”</span><span>„E public pe profilul dumneavoastră de pe Google Maps.”</span></div>
+      <div class="pair"><span class="q">„Dacă nu-mi place?”</span><span>„Vă dau avansul înapoi. Și aveți două runde de modificări incluse.”</span></div>
+      <div class="pair"><span class="q">„Am avut o experiență proastă cu cineva.”</span><span>„Îmi pare rău. Tocmai de aceea nu plătiți nimic până nu vedeți designul, iar avansul se returnează dacă nu vă place.”</span></div>
+      <div class="pair"><span class="q">„Lucrați cu firmă?”</span><span>Spune adevărul despre forma ta legală. Factura o trimiți doar dacă o poți emite legal.</span></div>
+      <div class="pair"><span class="q">„Domeniu / găzduire?”</span><span>„Găzduirea e inclusă în mentenanță, 150 de lei pe lună. Domeniul îl conectăm împreună la telefon, nu vă cer parole pe email.”</span></div>
+      <div class="pair"><span class="q">„Sunteți AI / robot?”</span><span>„Nu, sunt George, om în carne și oase, din Sighișoara. Asistentul doar îmi ia notițe.”</span></div>
+    </section>
+
+    <section id="s-domenii" class="card">
+      <h3>Cârlige pe domenii (o frază după problemă)</h3>
+      <div class="ind">
+        <div><b>Frizerie</b>Clienții ar putea vedea liber sau ocupat și să-și facă programare de pe Google, fără să vă sune în timp ce tundeți.</div>
+        <div><b>Salon / unghii</b>O galerie cu lucrările dumneavoastră vinde mai bine decât orice text, iar programarea se face fără telefoane.</div>
+        <div><b>Stomatologie</b>Pacienții noi caută „dentist lângă mine”. Cu prețuri orientative și programare online, aleg cabinetul care îi lasă să se programeze.</div>
+        <div><b>Restaurant / cafenea</b>Meniul pe telefon, nu în PDF, plus butonul de rezervare și drumul pe hartă.</div>
+        <div><b>Patiserie</b>Comenzi de torturi cu formular și poze, fără zeci de mesaje pe Facebook.</div>
+        <div><b>Service auto / detailing</b>Lista de servicii cu prețuri de la, plus buton de programare. Oamenii aleg service-ul care le răspunde primul.</div>
+        <div><b>Instalator / electrician</b>Un buton mare „Sună acum” pentru urgențe și zonele unde ajungeți. Cine are o țeavă spartă sună primul număr găsit.</div>
+        <div><b>Acoperișuri / curățenie</b>Formular de cerere de ofertă cu poze, ca să primiți doar cereri serioase.</div>
+        <div><b>Fitness</b>Orarul claselor și abonamentele pe telefon, plus o primă ședință gratuită de rezervat online.</div>
+        <div><b>Pensiune</b>Rezervare directă, fără comisionul de pe platformele de rezervări.</div>
+      </div>
+    </section>
+
+    <section id="s-voce" class="card">
+      <h3>Mesagerie vocală (maxim 20 de secunde)</h3>
+      <div class="line">„Bună ziua, sunt George, din Sighișoara. Am făcut o propunere de pagină de internet pentru [Afacere], cu datele dumneavoastră. Vă mai sun mâine dimineață. Numărul meu e [numărul tău]. O zi bună.”</div>
+    </section>
+
+    <section id="s-revenire" class="card">
+      <h3>Revenire după ce i-ai trimis propunerea</h3>
+      <div class="line">„Bună ziua, sunt George, v-am trimis ieri propunerea pentru [Afacere]. Ați apucat să vă uitați? Ce v-a plăcut cel mai mult?”</div>
+      <p class="note">Dacă i-a plăcut: treci la preț și închidere. Dacă nu s-a uitat: „Vă rețin un minut, o deschidem împreună acum?”</p>
+    </section>
+
+    <section id="s-whatsapp" class="card">
+      <h3>Mesaj după apel (doar dacă ți-a cerut WhatsApp)</h3>
+      <div class="line">„Bună ziua, sunt George, am vorbit adineauri. Aici e propunerea pentru [Afacere]: [link]. Spuneți-mi ce credeți, iar dacă vreți s-o facem, o punem online în aceeași zi.”</div>
+    </section>
+  </div>
+</div>
+</div>
+
+<!-- ================= SETTINGS ================= -->
+<div id="p-set" role="tabpanel" aria-labelledby="t-set" hidden>
+  <div class="card" style="max-width:640px">
+    <h3>Asistentul AI</h3>
+    <p class="note">Cheia se ia de pe console.anthropic.com (API Keys). Rămâne doar în acest browser, pe laptopul tău, și se trimite doar către Anthropic. Costul e de câțiva cenți pe apel.</p>
+    <label for="k-key">Cheie API Claude</label><input id="k-key" type="password" autocomplete="off" placeholder="sk-ant-...">
+    <label for="k-model">Model</label><input id="k-model" value="claude-haiku-4-5">
+    <label for="k-auto">Sugestii automate</label>
+    <select id="k-auto"><option value="1">Da, după fiecare frază</option><option value="0">Nu, doar când apăs „Ce zic acum?”</option></select>
+    <div class="row" style="margin-top:12px">
+      <button class="primary" id="k-save">Salvează</button>
+      <button id="k-test">Testează</button>
+      <button id="k-clear">Șterge cheia</button>
+    </div>
+    <p class="note" id="k-msg"></p>
+  </div>
 </div>
 
 <dialog id="dlg">
   <form method="dialog" id="dlg-form">
-    <h3 style="font-size:1.2rem;margin-bottom:6px">Clientul a zis DA</h3>
-    <p class="note" style="margin:0">Completează ce ai aflat. Motorul trimite confirmarea, cererea de avans, cererea de poze și construiește site-ul.</p>
+    <h3>Clientul a zis DA</h3>
+    <p class="note" style="margin:0">Completează ce ai aflat. Motorul trimite confirmarea cu linkul de plată, cererea de poze și construiește site-ul.</p>
     <label for="d-email">Emailul clientului</label><input id="d-email" type="email" required placeholder="nume@exemplu.ro">
     <label for="d-name">Numele persoanei</label><input id="d-name">
     <label for="d-wa">WhatsApp (opțional)</label><input id="d-wa">
-    <label for="d-pack">Pachet</label>
-    <select id="d-pack"></select>
-    <label for="d-notes">Ce și-a dorit (servicii, culori, alte cereri)</label><textarea id="d-notes"></textarea>
+    <label for="d-pack">Pachet</label><select id="d-pack"></select>
+    <label for="d-notes">Ce și-a dorit</label><textarea id="d-notes"></textarea>
     <div class="row" style="margin-top:14px;justify-content:flex-end">
       <button value="cancel" formnovalidate>Renunță</button>
-      <button class="primary" value="ok" id="d-ok">Deschide emailul de confirmare</button>
+      <button class="primary" value="ok">Deschide emailul de confirmare</button>
     </div>
   </form>
 </dialog>
@@ -190,35 +384,42 @@ const PACKS=[
   {id:"one-care",name:"Pagină unică + mentenanță",price:800,dep:400,txt:"800 lei + 150 lei/lună, minim 3 luni"}
 ];
 const $=id=>document.getElementById(id);
-const q=new URLSearchParams(location.search);
-const L={biz:q.get("b")||"",phone:q.get("p")||"",city:q.get("c")||"",prob:q.get("pr")||"",idea:q.get("i")||"",concept:q.get("u")||"",id:q.get("id")||""};
-const nm=()=>L.biz||"afacerea dumneavoastră";
+const store={get(k){try{return localStorage.getItem(k)}catch(_){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(_){}} ,del(k){try{localStorage.removeItem(k)}catch(_){}}};
 
+/* tabs */
+const TABS=[["t-live","p-live"],["t-lib","p-lib"],["t-set","p-set"]];
+TABS.forEach(([t,p])=>$(t).onclick=()=>TABS.forEach(([t2,p2])=>{$(t2).setAttribute("aria-selected",t2===t);$(p2).hidden=p2!==p}));
+
+/* lead */
+const q=new URLSearchParams(location.search);
+const L={biz:q.get("b")||"",phone:q.get("p")||"",city:q.get("c")||"",ind:q.get("d")||"",prob:q.get("pr")||"",idea:q.get("i")||"",concept:q.get("u")||"",id:q.get("id")||""};
+const nm=()=>L.biz||"afacerea dumneavoastră";
+const FIELDS=["biz","phone","city","ind","prob","idea","concept","id"];
 function renderLead(){
   $("v-biz").textContent=L.biz||"—"; $("v-phone").textContent=L.phone||"—"; $("v-city").textContent=L.city||"—";
   $("v-prob").textContent=L.prob||"—"; $("v-idea").textContent=L.idea||"—";
   const vc=$("v-concept"); vc.textContent="";
   if(L.concept){const a=document.createElement("a");a.href=L.concept;a.target="_blank";a.rel="noopener";a.textContent="deschide";vc.append(a)} else vc.textContent="încă nu există";
-  ["biz","phone","city","prob","idea","concept","id"].forEach(k=>$("f-"+k).value=L[k]);
+  FIELDS.forEach(k=>$("f-"+k).value=L[k]);
   renderStep();
 }
-$("b-apply").onclick=()=>{["biz","phone","city","prob","idea","concept","id"].forEach(k=>L[k]=$("f-"+k).value.trim());renderLead()};
+$("b-apply").onclick=()=>{FIELDS.forEach(k=>L[k]=$("f-"+k).value.trim());renderLead()};
 
-/* ---------- script ---------- */
+/* script steps */
+function lc(s){s=s.trim();return s.charAt(0).toLowerCase()+s.slice(1)+(/[.!?]$/.test(s)?"":".")}
 const STEPS=[
- {k:"Deschidere",say:()=>`Bună ziua, vorbesc cu proprietarul de la ${nm()}? Sunt George din Sighișoara, fac site-uri pentru afaceri locale. Vă rețin un minut, am văzut ceva la profilul dumneavoastră de pe Google.`,
-  tip:"Calm și rar. Apoi: „Folosesc un asistent care îmi ia notițe, e în regulă?” Dacă nu e patronul: „Când îl găsesc?”"},
+ {k:"Deschidere",say:()=>L.concept?`Bună ziua, vorbesc cu proprietarul de la ${nm()}? Sunt George, din Sighișoara. Vă rețin un minut: v-am făcut deja o propunere de pagină de internet, cu programul și serviciile dumneavoastră reale, și voiam să v-o trimit.`:`Bună ziua, vorbesc cu proprietarul de la ${nm()}? Sunt George, din Sighișoara, fac site-uri pentru afaceri din zonă. Vă rețin un minut, am văzut ceva la profilul dumneavoastră de pe Google.`,
+  tip:"Apoi: „Folosesc un asistent care îmi ia notițe, e în regulă?” Dacă nu e patronul: află numele și ora."},
  {k:"Problema",say:()=>L.prob?`Am observat că ${lc(L.prob)} Cine vă caută de pe telefon vrea să vadă repede programul și să sune dintr-un click. Dacă nu găsește, sună la următorul.`:`Cine vă caută de pe telefon vrea să vadă repede programul, serviciile și să sune dintr-un click. Acum asta e greu de găsit, așa că o parte din oameni sună la următorul.`,
-  tip:"Spune o singură problemă, în clienți pierduți, nu în termeni tehnici. Apoi taci și lasă-l să răspundă."},
- {k:"Propunerea",say:()=>L.concept?`V-am pregătit deja o propunere de pagină pentru ${nm()}, cu datele dumneavoastră reale${L.idea?", și cu "+lc(L.idea):""}. Pot să v-o trimit pe email sau pe WhatsApp, să vă uitați în liniște? Nu costă nimic să vă uitați.`:`Pot să vă fac o propunere de pagină pentru ${nm()}, cu datele dumneavoastră reale, gata azi. Vi-o trimit pe email sau pe WhatsApp să vă uitați? Nu costă nimic.`,
-  tip:"Scopul apelului: emailul sau WhatsApp-ul lui și un „da, trimiteți”. Notează adresa exact, liter cu literă."},
- {k:"Prețul",say:()=>`Site-ul complet costă 1.500 de lei. Plătiți jumătate la început, 750, și restul doar după ce vă place. Dacă primul design nu vă place, vă dau avansul înapoi. E gata în aceeași zi după ce primim pozele și textele.`,
-  tip:"Spune prețul o dată, clar, apoi taci. Primul care vorbește după preț pierde."},
- {k:"Închiderea",say:()=>`Atunci vă trimit acum pe email confirmarea și propunerea, ca să le aveți pe toate în scris. Pe ce adresă vă scriu?`,
-  tip:"După ce îți dă emailul, apasă „Clientul a zis DA”. Mulțumește și închide scurt."}
+  tip:"O singură problemă, în clienți pierduți. Apoi întreabă: „Clienții noi de unde vin acum?” și taci."},
+ {k:"Propunerea",say:()=>`O pagină care se deschide bine pe telefon, cu programul, serviciile, butonul de sunat și drumul până la dumneavoastră${L.idea?", plus "+lc(L.idea).replace(/\.$/,""):""}. Vi-o trimit pe email sau pe WhatsApp, cum vă e mai ușor?`,
+  tip:"„Email sau WhatsApp?” presupune deja un da. Notează adresa literă cu literă și citește-o înapoi."},
+ {k:"Prețul",say:()=>"Site-ul complet e 1.500 de lei. Plătiți jumătate la început, 750, și restul doar după ce vă place. Dacă primul design nu vă place, vă dau avansul înapoi. E gata în aceeași zi după ce primim pozele.",
+  tip:"Spune prețul o dată, clar, apoi taci."},
+ {k:"Închiderea",say:()=>"Atunci vă trimit acum pe email propunerea și confirmarea, ca să le aveți în scris. Pe ce adresă? Și pozele, credeți că mi le trimiteți azi sau mâine?",
+  tip:"După ce îți dă emailul: mulțumești, închizi, apeși „Clientul a zis DA”."}
 ];
 let step=0;
-function lc(s){s=s.trim();return s.charAt(0).toLowerCase()+s.slice(1)+(/[.!?]$/.test(s)?"":".")}
 function renderStep(){
   const box=$("steps"); box.textContent="";
   STEPS.forEach((s,i)=>{const b=document.createElement("button");b.textContent=s.k;b.setAttribute("role","listitem");if(i===step)b.setAttribute("aria-current","step");b.onclick=()=>{step=i;renderStep()};box.append(b)});
@@ -226,55 +427,104 @@ function renderStep(){
   $("b-prev").disabled=step===0; $("b-next").disabled=step===STEPS.length-1;
 }
 $("b-prev").onclick=()=>{if(step>0){step--;renderStep()}};
-$("b-next").onclick=()=>{if(step<STEPS.length-1){step++;hideObj();renderStep()}};
+$("b-next").onclick=()=>{if(step<STEPS.length-1){step++;$("obj").hidden=true;renderStep()}};
 
-/* ---------- objections ---------- */
+/* rule-based objections (always on, instant) */
 let priceHits=0;
-const LADDER=["Restabilești valoarea (fără reducere)","Starter plătit integral azi: 1.300 lei","Pagină unică: 1.000 lei","Pagină unică + mentenanță: 800 lei + 150 lei/lună (3 luni)","Sub atât: nu promite nimic, spune că revii (decide George)"];
+const LADDER=["Restabilești valoarea (fără reducere)","Starter plătit integral azi: 1.300 lei","Pagină unică: 1.000 lei","Pagină unică + mentenanță: 800 lei + 150 lei/lună (3 luni)","Sub atât: nu promite nimic, revii (decide George)"];
 const OBJ=[
- {id:"stop",lbl:"Nu mai sunați",re:/nu (ma|mai) (mai )?suna|stergeti|sterge-ma|scoate(ti)?-ma/,
-  say:()=>"Am înțeles, vă scot de pe listă și nu vă mai deranjez. O zi bună!",after:"Apasă „Nu e interesat”."},
- {id:"no",lbl:"Nu e interesat",re:/nu (sunt|suntem) interesat|nu ma intereseaza|nu ne intereseaza|nu vreau|nu avem nevoie|nu am nevoie/,
-  say:()=>`Înțeleg perfect. Vă las doar propunerea pe email, fără alte telefoane, și dacă vreodată vă trebuie, o aveți. E în regulă așa?`,after:"Dacă tot nu: mulțumește și închide politicos."},
- {id:"price",lbl:"E scump",re:/scump|prea mult|cam mult|nu am bani|n-am bani|nu avem bani|buget|mai ieftin|reducere|discount/,
-  say:()=>{priceHits++;return [
-    "Înțeleg. Ce anume vi se pare mult? Gândiți-vă că un singur client nou pe lună acoperă costul, iar dacă primul design nu vă place, vă dau avansul înapoi.",
+ {lbl:"Nu mai sunați",re:/nu (ma|mai) (mai )?suna|stergeti|sterge-ma|scoate(ti)?-ma/,say:()=>"Am înțeles, vă scot de pe listă și nu vă mai deranjez. O zi bună!"},
+ {lbl:"Nu e interesat",re:/nu (sunt|suntem) interesat|nu ma intereseaza|nu ne intereseaza|nu vreau|nu avem nevoie|nu am nevoie/,say:()=>"Înțeleg perfect. Vă las doar propunerea pe email, fără alte telefoane, ca s-o aveți dacă vă trebuie vreodată. E în regulă așa?"},
+ {lbl:"E scump",re:/scump|prea mult|cam mult|nu am bani|n-am bani|nu avem bani|buget|mai ieftin|reducere|discount/,ladder:true,say:()=>{priceHits++;return [
+    "Înțeleg. Ce anume vi se pare mult? Un singur client nou pe lună acoperă costul, și dacă primul design nu vă place, vă dau avansul înapoi.",
     "Dacă plătiți integral de la început, vă pot face Starter cu 1.300 de lei în loc de 1.500, pentru că așa lucrăm mai repede.",
-    "Dacă vă ajunge o singură pagină, exact ca propunerea pe care v-am făcut-o, cu pozele dumneavoastră, e 1.000 de lei.",
-    "Pot să vă fac pagina cu 800 de lei dacă luați și mentenanța, 150 de lei pe lună, minim trei luni. Includem găzduirea și micile schimbări.",
-    "Mai jos de atât nu pot promite acum. Las-mă să verific și revin eu la dumneavoastră până mâine."][Math.min(priceHits-1,4)]},ladder:true},
- {id:"time",lbl:"N-am timp",re:/n-am timp|nu am timp|nu avem timp|ocupat|sunt la client|sunt prins|acum nu pot/,
-  say:()=>"Nu vă trebuie timp, facem noi tot din ce e deja online. Dumneavoastră doar vă uitați la propunere, două minute. Vă las pe email?",after:"Dacă e chiar ocupat: „Când vă pot suna două minute, mâine dimineață sau după-amiază?”"},
- {id:"fb",lbl:"Am Facebook",re:/facebook|instagram|tiktok|pagina de fb|pe fb/,
-  say:()=>"Facebook e bun pentru cine vă urmărește deja. Cine vă caută pe Google nu vă găsește acolo. Un site cu programul și butonul de sunat apare pe Google și vă aduce oameni noi.",after:""},
- {id:"site",lbl:"Avem deja site",re:/avem (deja )?site|am (deja )?site|avem pagina|ne face (un|cineva)|nepotul|fiul meu|un prieten/,
-  say:()=>L.prob?`Am văzut site-ul. ${L.prob.trim().replace(/[.]?$/,".")} Propunerea mea arată cum ar putea arăta, ca să comparați. Vă costă doar două minute să vă uitați.`:"Am văzut. Propunerea mea arată cum ar putea arăta mai bine pe telefon, ca să comparați. Vă las linkul?",after:""},
- {id:"send",lbl:"Trimite-mi",re:/trimite|trimiteti|pe mail|pe email|adresa|whatsapp|pe watsap|pe whats/,
-  say:()=>"Perfect, vă trimit chiar acum. Îmi spuneți adresa de email, literă cu literă, ca să nu greșesc?",after:"Notează adresa, apoi „Clientul a zis DA” sau „Vrea propunerea”.",go:4},
- {id:"cost",lbl:"Cât costă",re:/cat costa|cat ar costa|ce pret|pretul|cati bani|cat ma costa/,
-  say:()=>STEPS[3].say(),after:"Spune prețul și taci.",go:3},
- {id:"think",lbl:"Mă gândesc",re:/ma gandesc|ne gandim|revin eu|va sun eu|mai tarziu|vorbesc cu|sotia|sotul|asociatul/,
-  say:()=>"Sigur, e normal. Vă trimit propunerea pe email ca s-o aveți în față când vă gândiți. Când e un moment bun să vă sun înapoi, mâine sau poimâine?",after:"Notează ziua și apasă „Revin altă dată”."},
- {id:"who",lbl:"De unde aveți numărul",re:/de unde (aveti|ai)|cine (sunteti|esti)|cum ati gasit/,
-  say:()=>"Numărul e public pe profilul dumneavoastră de pe Google Maps. Sunt George, din Sighișoara, lucrez singur și fac site-uri pentru afaceri locale.",after:""},
- {id:"risk",lbl:"Dacă nu-mi place",re:/daca nu (imi|ne) place|garantie|risc|si daca nu/,
-  say:()=>"Atunci vă dau avansul înapoi. Nu riscați nimic. Și aveți incluse două runde de modificări.",after:""},
- {id:"domain",lbl:"Domeniu / găzduire",re:/domeniu|hosting|gazduire|server/,
-  say:()=>"Găzduirea e inclusă în mentenanță, 150 de lei pe lună. Domeniul, dacă îl aveți deja, îl conectăm împreună la telefon. Nu vă cer niciodată parole pe email.",after:""},
- {id:"how",lbl:"Cum lucrați",re:/cum (lucrati|merge|functioneaza)|ce trebuie sa fac|ce va trebuie/,
-  say:()=>"Simplu: vă trimit propunerea, dacă vă place plătiți avansul, îmi trimiteți câteva poze și programul, iar site-ul e gata în aceeași zi.",after:""}
+    "Dacă vă ajunge o singură pagină, exact ca propunerea, cu pozele dumneavoastră, e 1.000 de lei.",
+    "Pot face pagina cu 800 de lei dacă luați și mentenanța, 150 de lei pe lună, minim trei luni. Găzduirea și micile schimbări sunt incluse.",
+    "Mai jos de atât nu pot promite acum. Verific și revin eu la dumneavoastră până mâine."][Math.min(priceHits-1,4)]}},
+ {lbl:"N-am timp",re:/n-am timp|nu am timp|nu avem timp|ocupat|sunt la client|sunt prins|acum nu pot/,say:()=>"Nu vă trebuie timp, facem noi tot din ce e deja online. Dumneavoastră doar vă uitați două minute. Vă las pe email?"},
+ {lbl:"Am Facebook",re:/facebook|instagram|tiktok|pe fb/,say:()=>"Facebook e bun pentru cine vă urmărește deja. Cine vă caută pe Google nu vă găsește acolo. Un site cu programul și butonul de sunat vă aduce oameni noi."},
+ {lbl:"Avem deja site",re:/avem (deja )?site|am (deja )?site|avem pagina/,say:()=>L.prob?`L-am văzut. ${L.prob.trim().replace(/[.]?$/,".")} Propunerea mea arată cum ar putea arăta, ca să comparați. Nu vă costă nimic să vă uitați.`:"L-am văzut. Propunerea mea arată cum ar putea arăta mai bine pe telefon, ca să comparați."},
+ {lbl:"Mi-l face cineva",re:/nepotul|fiul meu|fiica mea|un prieten|cunostinta|ne face cineva/,say:()=>"Foarte bine. Uitați-vă totuși la propunere, poate vă dă idei, iar dacă nu iese cum vreți, aveți o variantă gata."},
+ {lbl:"Trimite-mi",re:/trimite|trimiteti|pe mail|pe email|adresa|whatsapp|pe watsap|pe whats/,go:4,say:()=>"Sigur, vă trimit acum. Îmi spuneți adresa literă cu literă? Și pot să vă sun mâine două minute să-mi spuneți ce credeți?"},
+ {lbl:"Cât costă",re:/cat costa|cat ar costa|ce pret|pretul|cati bani|cat ma costa/,go:3,say:()=>STEPS[3].say()},
+ {lbl:"Mă gândesc",re:/ma gandesc|ne gandim|revin eu|va sun eu|mai tarziu/,say:()=>"E normal. Ce anume ați vrea să vedeți ca să vă hotărâți? Vă trimit propunerea și vă sun poimâine, e bine?"},
+ {lbl:"Vorbesc cu cineva",re:/sotia|sotul|asociatul|partenerul|seful/,say:()=>"Perfect, trimit propunerea și pentru dumneaei sau dumnealui. Când vă pot suna după ce vorbiți?"},
+ {lbl:"De unde aveți numărul",re:/de unde (aveti|ai)|cum ati gasit/,say:()=>"Numărul e public pe profilul dumneavoastră de pe Google Maps. Sunt George, din Sighișoara, lucrez singur."},
+ {lbl:"Dacă nu-mi place",re:/daca nu (imi|ne) place|garantie|risc|si daca nu/,say:()=>"Atunci vă dau avansul înapoi. Și aveți două runde de modificări incluse."},
+ {lbl:"Experiență proastă",re:/ne-a pacalit|am mai avut|experienta proasta|tepuit|teapa/,say:()=>"Îmi pare rău. Tocmai de aceea nu plătiți nimic până nu vedeți designul, iar avansul se returnează dacă nu vă place."},
+ {lbl:"Domeniu / găzduire",re:/domeniu|hosting|gazduire|server/,say:()=>"Găzduirea e inclusă în mentenanță, 150 de lei pe lună. Domeniul îl conectăm împreună la telefon, nu vă cer parole pe email."},
+ {lbl:"Sunteți robot?",re:/robot|inteligenta artificiala|esti ai|sunteti ai/,say:()=>"Nu, sunt George, om în carne și oase, din Sighișoara. Asistentul doar îmi ia notițe."}
 ];
-function norm(s){return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/ş|ș/g,"s").replace(/ţ|ț/g,"t")}
+function norm(s){return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")}
 function showObj(o){
   $("obj").hidden=false; $("obj-lbl").textContent="Obiecție: "+o.lbl; $("obj-text").textContent=o.say();
   const ld=$("ladder"); ld.textContent="";
   if(o.ladder){ld.hidden=false;LADDER.forEach((t,i)=>{const li=document.createElement("li");li.textContent=t;if(i===Math.min(priceHits-1,4))li.className="cur";ld.append(li)})} else ld.hidden=true;
   if(o.go!=null){step=o.go;renderStep()}
 }
-function hideObj(){$("obj").hidden=true}
 function detect(text){const t=norm(text);for(const o of OBJ){if(o.re.test(t)){showObj(o);return true}}return false}
-const qk=$("quick");
-OBJ.forEach(o=>{const b=document.createElement("button");b.textContent=o.lbl;b.onclick=()=>showObj(o);qk.append(b)});
+OBJ.forEach(o=>{const b=document.createElement("button");b.textContent=o.lbl;b.onclick=()=>{showObj(o);addLine("[clientul: "+o.lbl+"]",true);askAI()};$("quick").append(b)});
+
+/* ---------- AI coach ---------- */
+const cfg={key:store.get("sf_key")||"",model:store.get("sf_model")||"claude-haiku-4-5",auto:(store.get("sf_auto")??"1")==="1"};
+$("k-key").value=cfg.key; $("k-model").value=cfg.model; $("k-auto").value=cfg.auto?"1":"0";
+function refreshKeyUI(){$("nokey").hidden=!!cfg.key;$("ai-st").textContent=cfg.key?"pornește ascultarea, iar replica apare aici":"oprit: pune cheia în Setări AI"}
+refreshKeyUI();
+$("k-save").onclick=()=>{cfg.key=$("k-key").value.trim();cfg.model=$("k-model").value.trim()||"claude-haiku-4-5";cfg.auto=$("k-auto").value==="1";store.set("sf_key",cfg.key);store.set("sf_model",cfg.model);store.set("sf_auto",cfg.auto?"1":"0");$("k-msg").textContent="Salvat.";refreshKeyUI()};
+$("k-clear").onclick=()=>{cfg.key="";store.del("sf_key");$("k-key").value="";$("k-msg").textContent="Cheia a fost ștearsă din browser.";refreshKeyUI()};
+$("k-test").onclick=async()=>{$("k-save").onclick();$("k-msg").textContent="Testez…";try{const t=await callClaude([{role:"user",content:"Răspunde doar cu: Merge."}],null,20);$("k-msg").textContent="Răspuns: "+t}catch(e){$("k-msg").textContent="Eroare: "+e.message}};
+
+function systemPrompt(){
+ return `Ești coach-ul de vânzări live al lui George (Storefront Studio, Sighișoara). George sună acum, la telefon, proprietarul unei afaceri locale din România ca să-i ofere un site. Tu vezi transcrierea live (fără etichete de vorbitor: deduci tu cine vorbește din context; George se prezintă și oferă, clientul răspunde).
+
+Afacerea sunată: ${L.biz||"necunoscută"}${L.city?", "+L.city:""}${L.ind?" ("+L.ind+")":""}.
+Problema găsită: ${L.prob||"nu e notată"}.
+Idee pentru ei: ${L.idea||"-"}.
+Propunere deja făcută: ${L.concept?"DA (link gata de trimis)":"nu încă (se poate face în aceeași zi)"}.
+
+Ce vinde George (doar asta, nimic inventat):
+- Starter 1.500 lei (până la 3 pagini). Standard 2.500 lei (până la 5 pagini, programări sau cerere de ofertă, profil Google). Mentenanță 150 lei/lună (găzduire și mici schimbări).
+- Avans 50%, restul după ce îi place. Avansul se returnează dacă primul design nu îi place. Gata în aceeași zi după ce primește pozele și textele. 2 runde de modificări incluse.
+- La obiecția de preț cobori O SINGURĂ treaptă pe rând, cu motiv real: valoare (fără reducere) → Starter plătit integral 1.300 lei → pagină unică 1.000 lei → 800 lei + mentenanță 150 lei/lună minim 3 luni. Sub atât nu promiți nimic: George spune că verifică și revine.
+- George lucrează singur, e din Sighișoara. Numărul clientului e public pe Google Maps.
+
+Scopul apelului: un „da, trimiteți-mi propunerea” și adresa de email sau WhatsApp, apoi, dacă vrea, pachetul și avansul.
+Reguli: română vorbită, naturală, politicoasă, cu „dumneavoastră”. Calm, sigur, fără presiune, fără trucuri, fără urgență falsă, fără clienți, cifre sau rezultate inventate. Dacă cere să nu mai fie sunat: George mulțumește și închide. Dacă întreabă dacă vorbește cu un robot: George e om, asistentul doar ia notițe.
+
+Răspunde EXACT în formatul acesta, scurt:
+SPUNE: <ce să spună George acum, maxim 2 propoziții, gata de citit cu voce tare>
+PAS: <în 3-8 cuvinte, ce urmează sau la ce să fie atent>`;
+}
+async function callClaude(messages,onText,maxTokens,signal){
+ if(!cfg.key)throw new Error("lipsește cheia");
+ const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",signal,
+   headers:{"content-type":"application/json","x-api-key":cfg.key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+   body:JSON.stringify({model:cfg.model,max_tokens:maxTokens||220,stream:!!onText,system:onText?systemPrompt():undefined,messages})});
+ if(!res.ok){let m=res.status+"";try{const j=await res.json();m=(j.error&&j.error.message)||m}catch(_){}throw new Error(m)}
+ if(!onText){const j=await res.json();return (j.content||[]).map(c=>c.text||"").join("")}
+ const rd=res.body.getReader(),dec=new TextDecoder();let buf="",text="";
+ for(;;){const {done,value}=await rd.read();if(done)break;buf+=dec.decode(value,{stream:true});
+   let i;while((i=buf.indexOf("\n"))>=0){const line=buf.slice(0,i).trim();buf=buf.slice(i+1);
+     if(!line.startsWith("data:"))continue;try{const ev=JSON.parse(line.slice(5));if(ev.type==="content_block_delta"&&ev.delta&&ev.delta.text){text+=ev.delta.text;onText(text)}}catch(_){}}}
+ return text;
+}
+let aiCtl=null,aiTimer=null;
+function renderAI(t){
+  const s=t.match(/SPUNE:\s*([\s\S]*?)(?:\n\s*PAS:|$)/i), p=t.match(/PAS:\s*([\s\S]*)$/i);
+  $("ai-say").textContent=(s?s[1]:t).trim()||"…"; $("ai-next").textContent=p?("Următorul pas: "+p[1].trim()):"";
+}
+async function askAI(){
+  if(!cfg.key){refreshKeyUI();return}
+  const lines=[...$("tx").querySelectorAll(".ln:not(.interim)")].map(d=>d.textContent).slice(-24);
+  if(aiCtl)aiCtl.abort(); aiCtl=new AbortController();
+  $("ai-st").textContent="gândește…";
+  try{
+    const t=await callClaude([{role:"user",content:"Transcrierea de până acum (cea mai nouă la final):\n"+(lines.join("\n")||"(apelul abia începe)")+"\n\nPasul curent din script: "+STEPS[step].k+".\nCe spune George ACUM?"}],renderAI,220,aiCtl.signal);
+    renderAI(t); $("ai-st").textContent="actualizat "+new Date().toLocaleTimeString("ro-RO",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+  }catch(e){ if(e.name!=="AbortError") $("ai-st").textContent="eroare: "+e.message }
+}
+$("b-ask").onclick=askAI;
+function scheduleAI(){ if(!cfg.key||!cfg.auto)return; clearTimeout(aiTimer); aiTimer=setTimeout(askAI,900) }
 
 /* ---------- speech ---------- */
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
@@ -288,7 +538,7 @@ else{
     let interim="";
     for(let i=e.resultIndex;i<e.results.length;i++){
       const r=e.results[i], text=r[0].transcript.trim();
-      if(r.isFinal){ if(interimEl){interimEl.remove();interimEl=null} if(text) addLine(text,detect(text)); }
+      if(r.isFinal){ if(interimEl){interimEl.remove();interimEl=null} if(text){addLine(text,detect(text));scheduleAI()} }
       else interim+=text+" ";
     }
     if(interim){ if(!interimEl){interimEl=document.createElement("div");interimEl.className="ln interim";$("tx").append(interimEl)} interimEl.textContent=interim; $("tx").scrollTop=$("tx").scrollHeight }
@@ -296,31 +546,29 @@ else{
   rec.onerror=e=>{ if(e.error==="not-allowed"||e.error==="service-not-allowed"){stop();$("mic-note").textContent="Microfonul e blocat. Permite microfonul pentru această pagină din bara de adrese și încearcă iar."} };
   rec.onend=()=>{ if(listening){ try{rec.start()}catch(_){} } };
 }
-function start(){ try{rec.start()}catch(_){} listening=true; $("mic").classList.add("on"); $("b-mic").textContent="Oprește"; t0=Date.now(); tick=setInterval(()=>$("timer").textContent=fmt(Date.now()-t0),500) }
+function start(){ try{rec.start()}catch(_){} listening=true; $("mic").classList.add("on"); $("b-mic").textContent="Oprește"; t0=Date.now(); tick=setInterval(()=>$("timer").textContent=fmt(Date.now()-t0),500); askAI() }
 function stop(){ listening=false; try{rec&&rec.stop()}catch(_){} $("mic").classList.remove("on"); $("b-mic").textContent="Pornește ascultarea"; clearInterval(tick) }
 $("b-mic").onclick=()=>listening?stop():start();
 
 /* ---------- outcomes ---------- */
 function transcriptText(){return [...$("tx").querySelectorAll(".ln:not(.interim)")].map(d=>d.textContent).join("\n")}
-function gmail(subject,body){
-  const u="https://mail.google.com/mail/?view=cm&fs=1&to="+encodeURIComponent(OWNER)+"&su="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
-  window.open(u,"_blank","noopener");
-}
-function base(){return `Lead ID: ${L.id||"-"}\nAfacere: ${L.biz||"-"}\nOraș: ${L.city||"-"}\nTelefon: ${L.phone||"-"}\nPropunere: ${L.concept||"-"}\nDurata apelului: ${$("timer").textContent}\n`}
+function gmail(subject,body){window.open("https://mail.google.com/mail/?view=cm&fs=1&to="+encodeURIComponent(OWNER)+"&su="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body),"_blank","noopener")}
+function base(){return `Lead ID: ${L.id||"-"}\nAfacere: ${L.biz||"-"}\nOraș: ${L.city||"-"}\nDomeniu: ${L.ind||"-"}\nTelefon: ${L.phone||"-"}\nPropunere: ${L.concept||"-"}\nDurata apelului: ${$("timer").textContent}\n`}
 const ps=$("d-pack"); PACKS.forEach(p=>{const o=document.createElement("option");o.value=p.id;o.textContent=`${p.name} · ${p.price.toLocaleString("ro-RO")} lei (${p.txt})`;ps.append(o)}); ps.value="starter";
 $("o-yes").onclick=()=>{stop();$("dlg").showModal()};
 $("dlg-form").addEventListener("submit",ev=>{
   if(ev.submitter&&ev.submitter.value!=="ok")return;
   const p=PACKS.find(x=>x.id===ps.value);
+  const pay=`https://huszageorge25-wq.github.io/plata/?s=${p.dep}&r=${encodeURIComponent("Avans site "+(L.biz||""))}`;
   gmail(`✅ DA: ${L.biz||"client nou"} (${p.name}, ${p.price} lei)`,
-   base()+`\nREZULTAT: DA\nEmail client: ${$("d-email").value}\nNume: ${$("d-name").value||"-"}\nWhatsApp: ${$("d-wa").value||"-"}\nPachet: ${p.name}\nPreț: ${p.price} lei\nAvans: ${p.dep} lei\nDetalii pachet: ${p.txt}\nCe și-a dorit: ${$("d-notes").value||"-"}\n\nTranscriere:\n${transcriptText()||"-"}`);
+   base()+`\nREZULTAT: DA\nEmail client: ${$("d-email").value}\nNume: ${$("d-name").value||"-"}\nWhatsApp: ${$("d-wa").value||"-"}\nPachet: ${p.name}\nPreț: ${p.price} lei\nAvans: ${p.dep} lei\nLink plată avans: ${pay}\nDetalii pachet: ${p.txt}\nCe și-a dorit: ${$("d-notes").value||"-"}\n\nTranscriere:\n${transcriptText()||"-"}`);
 });
 $("o-send").onclick=()=>{stop();gmail(`📩 TRIMITE PROPUNEREA: ${L.biz||"-"}`,base()+`\nREZULTAT: vrea propunerea pe email\nEmail client: (scrie aici)\n\nTranscriere:\n${transcriptText()||"-"}`)};
 $("o-later").onclick=()=>{stop();gmail(`🕒 REVIN: ${L.biz||"-"}`,base()+`\nREZULTAT: revin altă dată\nCând: (scrie aici ziua și ora)\n\nTranscriere:\n${transcriptText()||"-"}`)};
 $("o-none").onclick=()=>{stop();gmail(`📵 NU A RĂSPUNS: ${L.biz||"-"}`,base()+`\nREZULTAT: nu a răspuns`)};
 $("o-no").onclick=()=>{stop();gmail(`⛔ NU: ${L.biz||"-"}`,base()+`\nREZULTAT: nu e interesat (Do not contact)\n\nTranscriere:\n${transcriptText()||"-"}`)};
 
-if(!L.biz){L.biz="Frizeria Exemplu";L.city="Sighișoara";L.phone="0700 000 000";L.prob="Profilul de Google nu are program și nici site.";L.idea="buton de programare direct de pe Google";L.concept="";L.id="exemplu"}
+if(!L.biz){L.biz="Frizeria Exemplu";L.city="Sighișoara";L.ind="frizerie";L.phone="0700 000 000";L.prob="Profilul de Google nu are program și nici site.";L.idea="buton de programare direct de pe Google";L.id="exemplu"}
 renderLead();
 })();
 </script>
