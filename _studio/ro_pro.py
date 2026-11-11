@@ -189,7 +189,7 @@ def num(n):
 
 
 def nota(r):
-    return f"{r:.1f}".replace(".", ",")
+    return (f"{r:.1f}" if round(r, 1) == r else f"{r:.2f}").replace(".", ",")
 
 
 def hours_rows(s):
@@ -362,3 +362,9 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+try:  # leaduri adăugate zilnic
+    from ro_data_unghii import SITES as _U
+    SITES += _U
+except ImportError:
+    pass

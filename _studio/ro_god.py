@@ -27,6 +27,11 @@ IMG = {
   "voynich-cafe-pub-sighisoara": (H.format("c429634a-0bff-4f8d-ba85-9a9a83018c80"), [P.format("100542_ca789888-a0ef-41e9-8497-c95a33d42364")], P.format("100541_eb848b90-a300-46b0-866b-23114648bb5f")),
   "vintage-lounge-sighisoara": (H.format("53c8acc7-1003-4db1-9c84-2d28499328b2"), [P.format("100650_d7bd79a0-02f4-4610-b58e-c3f26e012346")], P.format("100647_432922dd-b13e-4403-b14b-450737322089")),
 }
+try:
+    from ro_data_unghii import IMG as _UI
+    IMG.update(_UI)
+except ImportError:
+    pass
 
 
 def words(text):
@@ -304,7 +309,7 @@ def page(s):
 <div class="scue" aria-hidden="true"><i></i></div></section>
 <div class="mq" aria-hidden="true"><div class="tr">{mq1 * 4}</div><div class="tr rev">{mq2 * 4}</div></div>
 <section class="st"><div class="w"><span class="eb">Despre noi</span><p>{fill_words(statement)}</p>
-<div class="stats"><div><div class="n" data-count="{s['rating']}" data-dec="1">{nota(s['rating'])}</div><p>nota pe {s['src']}</p></div><div><div class="n" data-count="{s['reviews']}">{num(s['reviews'])}</div><p>recenzii de la clienți</p></div>{stat3}</div></div></section>
+<div class="stats"><div><div class="n" data-count="{s['rating']}" data-dec="{1 if round(s['rating'], 1) == s['rating'] else 2}">{nota(s['rating'])}</div><p>nota pe {s['src']}</p></div><div><div class="n" data-count="{s['reviews']}">{num(s['reviews'])}</div><p>recenzii de la clienți</p></div>{stat3}</div></div></section>
 <section id="servicii" class="sv"><div class="w"><div class="hd"><div><span class="eb">{"Servicii" if s["kind"] == "barber" else "Meniu"}</span><h2 class="d" data-sp>{words("Servicii și prețuri" if s["kind"] == "barber" else "Ce găsești la noi")}</h2></div><a class="b1 mag" href="{E(book)}"{tgt}>{E(s['cta'])} <i>→</i></a></div>
 <ul class="ls">{svc}</ul><p class="note">{E(note)}</p></div></section>
 <section class="hz"><div class="in"><div class="intro"><span class="eb">Atmosfera</span><h2 class="d">{words("Intră și simte locul.")}</h2><p>Aici intră pozele voastre reale. Pentru propunere am pus poze exemplu.</p></div>{gal_html}</div></section>
