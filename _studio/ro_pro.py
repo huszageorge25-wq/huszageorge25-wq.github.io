@@ -368,3 +368,8 @@ try:  # leaduri adăugate zilnic
     SITES += _U
 except ImportError:
     pass
+try:
+    from ro_data_stoma import SITES as _S
+    SITES += _S
+except ImportError:
+    pass

@@ -32,6 +32,11 @@ try:
     IMG.update(_UI)
 except ImportError:
     pass
+try:
+    from ro_data_stoma import IMG as _SI
+    IMG.update(_SI)
+except ImportError:
+    pass
 
 
 def words(text):
@@ -276,6 +281,10 @@ def page(s):
     labels = [x[0] for x in s["services"]] + [s["city"]] * 4
     gal_html = "".join(f'<figure><img src="{u}" alt="" loading="lazy"><figcaption>{E(labels[i])}</figcaption><span class="pn">Poză exemplu</span></figure>' for i, u in enumerate(pics[:4]))
     cards = "".join(f'<div class="card {"" if i == 0 else "a" if i == 1 else "k"}"><span class="st5">★★★★★</span><blockquote><p>„{E(x)}”</p><cite>{E(a)}</cite></blockquote></div>' for i, (x, a) in enumerate(q))
+    lab = (f"<p class=\"lab\">Copiate exact cum le-au scris clienții, pe {s['src'] if all(s['src'] in a for _, a in q) else 'Google, MERO sau Fresha'}.</p>" if q else "")
+    if not q:
+        cards = f'<div class="card"><span class="st5">★★★★★</span><blockquote><p>Nota {nota(s["rating"])} din {num(s["reviews"])} de recenzii pe {s["src"]}.</p><cite>Pe site-ul final aici intră recenziile voastre de pe Google, copiate exact.</cite></blockquote></div>'
+        mq1 = f"<span>{nota(s['rating'])} din {num(s['reviews'])} de recenzii pe {s['src']}</span>"
     statement = f"{num(s['reviews'])} de oameni au scris despre {s['name']}. {s['sig'][1]}"
     days = open_days(s)
     stat3 = (f'<div><div class="n" data-count="{days}">{days}</div><p>zile pe săptămână deschis</p></div>' if days else
@@ -313,7 +322,7 @@ def page(s):
 <section id="servicii" class="sv"><div class="w"><div class="hd"><div><span class="eb">{"Servicii" if s["kind"] == "barber" else "Meniu"}</span><h2 class="d" data-sp>{words("Servicii și prețuri" if s["kind"] == "barber" else "Ce găsești la noi")}</h2></div><a class="b1 mag" href="{E(book)}"{tgt}>{E(s['cta'])} <i>→</i></a></div>
 <ul class="ls">{svc}</ul><p class="note">{E(note)}</p></div></section>
 <section class="hz"><div class="in"><div class="intro"><span class="eb">Atmosfera</span><h2 class="d">{words("Intră și simte locul.")}</h2><p>Aici intră pozele voastre reale. Pentru propunere am pus poze exemplu.</p></div>{gal_html}</div></section>
-<section id="recenzii" class="rs"><div class="w"><span class="eb">Recenzii reale</span><h2 class="d" data-sp>{words("Ce spun clienții.")}</h2><div style="height:30px"></div>{cards}<p class="lab">Copiate exact cum le-au scris clienții, pe {s['src'] if all(s['src'] in a for _, a in q) else "Google, MERO sau Fresha"}.</p></div></section>
+<section id="recenzii" class="rs"><div class="w"><span class="eb">Recenzii reale</span><h2 class="d" data-sp>{words("Ce spun clienții.")}</h2><div style="height:30px"></div>{cards}{lab}</div></section>
 <section><div class="w sg"><figure data-par><img src="{pics[1]}" alt="" loading="lazy"><span class="pn">Poză exemplu</span></figure><div data-up><span class="eb">De ce noi</span><h2 class="d">{E(s['sig'][0])}</h2><p class="mu" style="font-size:1.2rem;max-width:44ch">{E(s['sig'][1])}</p><a class="b1 mag" href="{E(book)}"{tgt}>{E(s['cta'])} <i>→</i></a></div></div></section>
 <section id="vizita" class="vs"><div class="w vgrid"><div data-up><span class="eb">Vizită</span><h2 class="d">Vino pe la noi.</h2><address>{E(s['name'])}<br>{E(s['address'])}<br>{E(s['zip'])}</address>
 <a class="ph" href="tel:{tel(s['phone'])}">{E(s['phone'])}</a><div class="btns"><a class="b1 mag" href="{maps(s)}" target="_blank" rel="noopener">Indicații <i>↗</i></a><a class="b2" href="tel:{tel(s['phone'])}" style="color:var(--ink)">Sună acum</a></div></div>
