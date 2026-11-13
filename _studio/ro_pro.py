@@ -373,3 +373,8 @@ try:
     SITES += _S
 except ImportError:
     pass
+try:
+    from ro_data_rest import SITES as _R
+    SITES += _R
+except ImportError:
+    pass
