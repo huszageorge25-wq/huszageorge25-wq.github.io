@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bandit Barbers · Cluj-Napoca (concept)</title>
+    <meta name="description" content="Bandit Barbers, barbershop în Cluj-Napoca, Strada Gheorghe Șincai 12. Concept de site realizat de Storefront Studio Romania." />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#0b0b0c" />
+    <link rel="icon" type="image/svg+xml" href="/concepts/bandit-barbers-cluj-3d/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,500&display=swap" rel="stylesheet" />
+    <script type="module" crossorigin src="/concepts/bandit-barbers-cluj-3d/assets/index-CY1IRyHt.js"></script>
+    <link rel="stylesheet" crossorigin href="/concepts/bandit-barbers-cluj-3d/assets/index-CMbnpjJR.css">
+  </head>
+  <body>
+    <div id="loader" aria-hidden="true">
+      <span class="loader-mark">BANDIT</span>
+      <span class="loader-bar"><i id="loader-fill"></i></span>
+      <span class="loader-pct"><b id="loader-pct">0</b>%</span>
+    </div>
+
+    <div id="cursor" aria-hidden="true"></div>
+    <canvas id="gl" aria-hidden="true"></canvas>
+
+    <header class="nav">
+      <a class="brand" href="#hero">Bandit <span>Barbers</span></a>
+      <nav class="nav-links" aria-label="Secțiuni">
+        <a href="#tur">Salonul</a>
+        <a href="#servicii">Servicii</a>
+        <a href="#recenzii">Recenzii</a>
+        <a href="#vizita">Contact</a>
+      </nav>
+      <a class="btn btn-gold btn-sm" href="https://banditbarbers.ro" target="_blank" rel="noopener">Rezervă</a>
+    </header>
+
+    <main>
+      <!-- 1. HERO -->
+      <section class="track" id="hero" style="--len: 260vh">
+        <div class="stage">
+          <canvas class="scrub" data-seq="bar"></canvas>
+          <div class="shade shade-hero"></div>
+          <div class="hero-copy" id="hero-copy">
+            <p class="eyebrow">Barbershop · Cluj-Napoca</p>
+            <h1>Bandit<br /><em>Barbers</em></h1>
+            <p class="lead">Tuns, fade și barbă, făcute cu atenție la detalii. Pe Strada Gheorghe Șincai 12.</p>
+            <p class="rating-chip"><span class="stars" aria-hidden="true">★★★★★</span> <b>4,9</b> din 2.762 de recenzii Google</p>
+            <div class="cta-row">
+              <a class="btn btn-gold" href="https://banditbarbers.ro" target="_blank" rel="noopener">Rezervă un loc</a>
+              <a class="btn btn-ghost" href="tel:+40744227237">Sună: 0744 227 237</a>
+            </div>
+          </div>
+          <p class="scroll-hint" id="scroll-hint"><i></i>Derulează ca să intri</p>
+        </div>
+      </section>
+
+      <!-- 2. TUR -->
+      <section class="track" id="tur" style="--len: 380vh">
+        <div class="stage">
+          <canvas class="scrub" data-seq="walk"></canvas>
+          <div class="shade shade-side"></div>
+          <p class="eyebrow stage-eyebrow">Turul salonului</p>
+          <div class="captions">
+            <article class="caption" data-from="0" data-to="0.34">
+              <span class="num">01</span>
+              <h2>Întâi, barul.</h2>
+              <p>Clienții povestesc în recenzii că sunt primiți cu ceva de băut.</p>
+            </article>
+            <article class="caption" data-from="0.34" data-to="0.68">
+              <span class="num">02</span>
+              <h2>Apoi, scaunele.</h2>
+              <p>Scaune clasice de frizerie, oglinzi cu ramă aurie și lumină caldă.</p>
+            </article>
+            <article class="caption" data-from="0.68" data-to="1.01">
+              <span class="num">03</span>
+              <h2>Și locul tău.</h2>
+              <p>Un scaun rezervat pe numele tău, la ora pe care o alegi.</p>
+            </article>
+          </div>
+          <div class="progress-rail"><i id="tur-rail"></i></div>
+        </div>
+      </section>
+
+      <!-- 3. ZOOM PE DETALII -->
+      <section class="track" id="statie" style="--len: 300vh">
+        <div class="stage" id="statie-stage">
+          <canvas class="scrub" data-seq="station"></canvas>
+          <div class="shade shade-bottom"></div>
+          <canvas id="lens" width="520" height="520" aria-hidden="true"></canvas>
+          <div class="zoom-copy">
+            <p class="eyebrow">Privește de aproape</p>
+            <h2>Fiecare detaliu,<br />la vedere.</h2>
+            <p class="hint-fine">Mișcă cursorul peste imagine ca să mărești.</p>
+            <p class="hint-touch">Derulează ca să te apropii.</p>
+            <p class="fact"><b>29</b> de recenzii Google menționează atenția la detalii.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. FILM -->
+      <section class="track" id="film" style="--len: 260vh">
+        <div class="stage film-stage">
+          <p class="eyebrow film-eyebrow">Filmul</p>
+          <div class="film-frame" id="film-frame">
+            <video id="film-video" src="/concepts/bandit-barbers-cluj-3d/video/team.mp4" muted loop playsinline preload="metadata"></video>
+            <div class="film-title" id="film-title">
+              <h2>O zi obișnuită<br /><em>la Bandit.</em></h2>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. SERVICII -->
+      <section class="track" id="servicii" style="--len: 420vh">
+        <div class="stage services-stage">
+          <div class="services-bg" id="services-bg"></div>
+          <div class="services-copy">
+            <p class="eyebrow">Servicii</p>
+            <ol class="service-list" id="service-list">
+              <li class="is-active"><span>01</span><div><h3>Tuns</h3><p>Tuns clasic, cu foarfecă și mașină.</p></div></li>
+              <li><span>02</span><div><h3>Fade</h3><p>Trecere curată, de la zero la lungime.</p></div></li>
+              <li><span>03</span><div><h3>Barbă</h3><p>Contur, scurtare și finisare.</p></div></li>
+              <li><span>04</span><div><h3>Tuns și barbă</h3><p>Pachetul complet, într-o singură vizită.</p></div></li>
+            </ol>
+            <p class="services-note">Prețurile și programările sunt pe <a href="https://banditbarbers.ro" target="_blank" rel="noopener">banditbarbers.ro</a>.</p>
+          </div>
+          <p class="service-big" id="service-big" aria-hidden="true">Tuns</p>
+        </div>
+      </section>
+
+      <!-- 6. RECENZII -->
+      <section class="block" id="recenzii">
+        <div class="wrap">
+          <div class="score reveal">
+            <p class="eyebrow">Ce spun clienții</p>
+            <p class="score-num"><span id="score-num">4,9</span><small>/ 5</small></p>
+            <p class="score-sub"><span class="stars" aria-hidden="true">★★★★★</span> 2.762 de recenzii pe Google</p>
+            <ul class="tags">
+              <li>atmosferă <b>63</b></li>
+              <li>atenție la detalii <b>29</b></li>
+              <li>personal primitor <b>8</b></li>
+              <li>vorbesc engleză <b>5</b></li>
+            </ul>
+          </div>
+          <div class="quotes">
+            <figure class="quote tilt reveal">
+              <blockquote>“Had a perfect fade cut for a super decent price!”</blockquote>
+              <figcaption>Ruben van S <span>Local Guide · Google</span></figcaption>
+            </figure>
+            <figure class="quote tilt reveal">
+              <blockquote>“Very impressed with the place. Cool clean great service.”</blockquote>
+              <figcaption>George Howells <span>Google</span></figcaption>
+            </figure>
+            <figure class="quote tilt reveal">
+              <blockquote>“My haircut and beard are just perfect!”</blockquote>
+              <figcaption>Allan SARAGA <span>Google</span></figcaption>
+            </figure>
+          </div>
+          <p class="source reveal">Recenzii și cifre de pe Google Maps, noiembrie 2026.</p>
+        </div>
+      </section>
+
+      <!-- 7. VIZITĂ -->
+      <section class="block" id="vizita">
+        <div class="wrap visit">
+          <div class="door reveal" id="door">
+            <canvas class="scrub" data-seq="door"></canvas>
+            <span class="door-tag">Strada Gheorghe Șincai 12</span>
+          </div>
+          <div class="visit-copy">
+            <p class="eyebrow reveal">Vino pe la noi</p>
+            <h2 class="reveal">Ușa e deschisă.</h2>
+            <dl class="info reveal">
+              <div><dt>Adresă</dt><dd>Strada Gheorghe Șincai 12, 400004 Cluj-Napoca</dd></div>
+              <div><dt>Telefon</dt><dd><a href="tel:+40744227237">0744 227 237</a></dd></div>
+              <div><dt>Web</dt><dd><a href="https://banditbarbers.ro" target="_blank" rel="noopener">banditbarbers.ro</a></dd></div>
+              <div><dt>Plus code</dt><dd>QH9P+8C Cluj-Napoca</dd></div>
+            </dl>
+            <p class="friendly reveal">LGBTQ+ friendly</p>
+            <div class="cta-row reveal">
+              <a class="btn btn-gold" href="https://banditbarbers.ro" target="_blank" rel="noopener">Rezervă un loc</a>
+              <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&query=Bandit+Barbers+Strada+Gheorghe+Sincai+12+Cluj-Napoca" target="_blank" rel="noopener">Indicații</a>
+              <a class="btn btn-ghost" href="tel:+40744227237">Sună</a>
+            </div>
+          </div>
+          <div class="map reveal">
+            <iframe title="Hartă: Bandit Barbers, Cluj-Napoca" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Bandit%20Barbers%2C%20Strada%20Gheorghe%20%C8%98incai%2012%2C%20Cluj-Napoca&output=embed"></iframe>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p class="footer-brand">Bandit <span>Barbers</span></p>
+      <p class="footer-note">Concept de prezentare realizat de Storefront Studio Romania. Nu este site-ul oficial Bandit Barbers.</p>
+    </footer>
+
+  </body>
+</html>
