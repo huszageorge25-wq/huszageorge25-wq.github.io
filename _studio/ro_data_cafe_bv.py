@@ -1,0 +1,43 @@
+"""Leaduri România: cafenele, Brașov (găsite 2026-11-16). Doar fapte reale (date Google prin Wanderlog)."""
+from ro_data_rest import VOY, VIN, POP, GAL, T, FR, OU, BR
+
+SITES = [
+  dict(slug="lavender-cafe-brasov", name="Lavender Cafe & Wine Bar", kind="cafe", city="Brașov",
+       address="Strada Calcarului 19b", zip="500271 Brașov", phone="0770 394 270",
+       rating=4.7, reviews=1265, src="Google", rating2=None, hours=None,
+       book=None, cta="Sună-ne",
+       headline="Cafea, prăjituri\nși vin bun.", lede="Lavender Cafe & Wine Bar, Strada Calcarului 19b, Brașov. Cafea, deserturi de casă și un pahar de vin seara.",
+       services=[("Cafea", None, None), ("Deserturi și prăjituri", None, None), ("Vin", "Seara, la un pahar", None)],
+       sig=("Peste 1.200 de recenzii.", "Clienții v-au dat nota 4,7 pe Google pentru Lavender."),
+       quotes=[], now="o pagină de Facebook", photo=VIN[0], photo2=VIN[2],
+       theme=T("#F4F1F7", "#2B2236", "#6E6478", "#7B5EA7", "#E9E3F0", "#FFFFFF", "Fraunces", FR)),
+  dict(slug="zatz-coffee-house-brasov", name="ZATZ Coffee House", kind="cafe", city="Brașov",
+       address="Strada Plevnei 1", zip="500187 Brașov", phone="0772 012 080",
+       rating=4.8, reviews=262, src="Google", rating2=None, hours=None,
+       book=None, cta="Sună-ne",
+       headline="Cafea de specialitate\npe Plevnei.", lede="ZATZ Coffee House, Strada Plevnei 1, Brașov. Cappuccino, V60 cu boabe etiopiene și banana bread.",
+       services=[("Cappuccino", None, None), ("V60", "Cafea filtru, boabe etiopiene", None), ("Banana bread", None, None)],
+       sig=("Nota 4,8 pe Google.", "Peste 260 de clienți v-au lăsat o recenzie pe Google."),
+       quotes=[], now="niciun site", photo=VOY[0], photo2=VOY[2],
+       theme=T("#F5F1EA", "#1F1A15", "#6F665C", "#C0782F", "#ECE5D9", "#FFFFFF", "Bricolage Grotesque", BR)),
+  dict(slug="street-cafe-pub-brasov", name="Street Cafe & Pub", kind="cafe", city="Brașov",
+       address="Strada Republicii 56", zip="500030 Brașov", phone="0756 694 221",
+       rating=4.6, reviews=1056, src="Google", rating2=None, hours=None,
+       book=None, cta="Sună-ne",
+       headline="Cafea și mic dejun\npe Republicii.", lede="Street Cafe & Pub, Strada Republicii 56, Brașov. Cafea, ceaiuri, omlete și croissante.",
+       services=[("Cafea și ceai", None, None), ("Omlete", "La micul dejun", None), ("Croissante", None, None)],
+       sig=("Peste 1.000 de recenzii.", "Clienții v-au dat nota 4,6 pe Google, pe strada Republicii."),
+       quotes=[], now="o pagină de Facebook", photo=POP[0], photo2=POP[2],
+       theme=T("#101418", "#EEF1F4", "#9AA4AE", "#E8A33A", "#182027", "#101418", "Outfit", OU)),
+  dict(slug="ch9-specialty-coffee-brasov", name="CH9 Specialty Coffee", kind="cafe", city="Brașov",
+       address="Curtea Honterus 9", zip="500025 Brașov", phone="0723 774 240",
+       rating=4.5, reviews=1546, src="Google", rating2=None, hours=None,
+       book=None, cta="Sună-ne",
+       headline="Cafea prăjită local,\nîn Curtea Honterus.", lede="CH9 Specialty Coffee, Curtea Honterus 9, Brașov. Cafea prăjită local și latte cu sirop de lavandă.",
+       services=[("Cafea de specialitate", "Prăjită local", None), ("Latte cu lavandă", None, None), ("Espresso și filtru", None, None)],
+       sig=("Peste 1.500 de recenzii.", "Clienții v-au dat nota 4,5 pe Google, lângă Biserica Neagră."),
+       quotes=[], now="o pagină de Facebook", photo=GAL[0], photo2=GAL[2],
+       theme=T("#EEF0F2", "#232A31", "#5F6A74", "#2F7D6D", "#E2E6EA", "#FFFFFF", "Fraunces", FR)),
+]
+
+IMG = {"lavender-cafe-brasov": VIN, "zatz-coffee-house-brasov": VOY, "street-cafe-pub-brasov": POP, "ch9-specialty-coffee-brasov": GAL}

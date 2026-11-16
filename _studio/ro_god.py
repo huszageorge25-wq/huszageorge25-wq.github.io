@@ -42,6 +42,11 @@ try:
     IMG.update(_RI)
 except ImportError:
     pass
+try:
+    from ro_data_cafe_bv import IMG as _CI
+    IMG.update(_CI)
+except ImportError:
+    pass
 
 
 def words(text):

@@ -378,3 +378,8 @@ try:
     SITES += _R
 except ImportError:
     pass
+try:
+    from ro_data_cafe_bv import SITES as _C
+    SITES += _C
+except ImportError:
+    pass
