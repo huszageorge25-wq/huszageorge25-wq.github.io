@@ -47,6 +47,11 @@ try:
     IMG.update(_CI)
 except ImportError:
     pass
+try:
+    from ro_data_patis_cj import IMG as _PI
+    IMG.update(_PI)
+except ImportError:
+    pass
 
 
 def words(text):

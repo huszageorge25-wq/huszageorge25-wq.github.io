@@ -383,3 +383,8 @@ try:
     SITES += _C
 except ImportError:
     pass
+try:
+    from ro_data_patis_cj import SITES as _PC
+    SITES += _PC
+except ImportError:
+    pass
