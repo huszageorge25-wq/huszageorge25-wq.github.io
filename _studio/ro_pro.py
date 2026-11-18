@@ -388,3 +388,8 @@ try:
     SITES += _PC
 except ImportError:
     pass
+try:
+    from ro_data_auto_ab import SITES as _AA
+    SITES += _AA
+except ImportError:
+    pass

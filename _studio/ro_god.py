@@ -52,6 +52,11 @@ try:
     IMG.update(_PI)
 except ImportError:
     pass
+try:
+    from ro_data_auto_ab import IMG as _AI
+    IMG.update(_AI)
+except ImportError:
+    pass
 
 
 def words(text):
