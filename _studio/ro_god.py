@@ -57,6 +57,11 @@ try:
     IMG.update(_AI)
 except ImportError:
     pass
+try:
+    from ro_data_spal_od import IMG as _SOI
+    IMG.update(_SOI)
+except ImportError:
+    pass
 
 
 def words(text):

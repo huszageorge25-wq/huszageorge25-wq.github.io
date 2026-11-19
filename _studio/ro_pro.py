@@ -393,3 +393,8 @@ try:
     SITES += _AA
 except ImportError:
     pass
+try:
+    from ro_data_spal_od import SITES as _SO
+    SITES += _SO
+except ImportError:
+    pass
