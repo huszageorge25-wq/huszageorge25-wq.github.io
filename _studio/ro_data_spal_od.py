@@ -57,6 +57,15 @@ SITES = [
        sig=("Deschis și sâmbăta.", "Sâmbăta sunteți deschiși 9-14, dar cine vă caută pe telefon nu vede asta."),
        quotes=[], now="niciun site", photo=PX.format(6873076, 2000), photo2=PX.format(6872572, 1400),
        theme=T("#F5F3EE", "#1B1A17", "#64615A", "#1F8A5B", "#E9E6DE", "#FFFFFF", "Space Grotesk", SG)),
+  dict(slug="car-wash-babilon-odorheiu", name="Car Wash Babilon", kind="barber", city="Odorheiu Secuiesc",
+       address="Strada Wesselényi Miklós 7", zip="535600 Odorheiu Secuiesc", phone="0744 505 411",
+       rating=4.0, reviews=23, src="Google", rating2=None, hours=H("9:00-18:00", "8:00-17:00", None),
+       book=None, cta="Sună pentru programare",
+       headline="Spălătorie auto\npe Wesselényi Miklós.", lede="Car Wash Babilon, Strada Wesselényi Miklós 7, Odorheiu Secuiesc. Luni-vineri 9-18, sâmbătă 8-17. Sunați și vă spunem când puteți veni.",
+       services=[("Spălătorie auto", "Sunați și aflați când aveți loc", None), ("Programare la telefon", "Un click și sunați direct", None), ("Sâmbăta deschis", "8:00 - 17:00", None)],
+       sig=("Deschis toată ziua sâmbăta.", "Sâmbăta sunteți deschiși 8-17, dar pe Google la site apare doar Facebook-ul firmei de decorațiuni din piatră."),
+       quotes=[], now="doar Facebook-ul altei firme", photo=PX.format(6873123, 2000), photo2=PX.format(6872169, 1400),
+       theme=T("#0F1419", "#EEF3F7", "#9AA6B2", "#F2A93B", "#172029", "#0F1419", "Outfit", OU)),
 ]
 
 IMG = {s["slug"]: (s["photo"], [s["photo2"]], None) for s in SITES}
