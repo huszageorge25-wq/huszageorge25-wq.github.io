@@ -302,9 +302,9 @@ def page(s):
     mq_items = "".join(f"<span>„{E(q)}” {E(a.split(',')[0])}</span>" for q, a in s["quotes"])
     menu = "".join(f'<li><div><h3>{E(n)}</h3>{f"<p>{E(d)}</p>" if d else ""}</div>{f"<b>{E(p)}</b>" if p else ""}</li>' for n, d, p in s["services"])
     has_prices = any(p for _, _, p in s["services"])
-    menu_note = ("Prețurile sunt cele publicate pe pagina de programare." if has_prices
+    menu_note = s.get("menu_note") or ("Prețurile sunt cele publicate pe pagina de programare." if has_prices
                  else "Pe site-ul final aici intră meniul vostru complet, cu prețuri, ca oamenii să știe ce comandă înainte să vină.")
-    menu_title = "Servicii și prețuri" if s["kind"] == "barber" else "Ce găsești la noi"
+    menu_title = s.get("menu_title") or ("Servicii și prețuri" if s["kind"] == "barber" else "Ce găsești la noi")
     q0, a0 = s["quotes"][0]
     qs = "".join(f"<blockquote><p>„{E(q)}”</p><cite>{E(a)}</cite></blockquote>" for q, a in s["quotes"][1:])
     big = nota(s["rating"])
@@ -334,7 +334,7 @@ def page(s):
 <div><h2 class="d up">Program</h2>{open_b}<div style="height:14px"></div>{hours_rows(s)}</div></div></section>
 <section id="oferta" class="of"><div class="w"><p class="for">Pentru proprietarul {E(s['name'])}</p>
 <h2 class="d" style="max-width:18ch">{num(s['reviews'])} de oameni v-au lăudat pe {s['src']}. Restul nu vă găsesc.</h2>
-<p class="muted" style="max-width:62ch;font-size:1.12rem">{'Cine vă caută acum pe telefon nu găsește niciun site al vostru.' if s['now']=='niciun site' else 'Cine vă caută acum pe telefon găsește doar ' + E(s['now']) + '.'} Nu vede dintr-o privire {"prețurile, programul și butonul de programare" if s["kind"] == "barber" else "meniul, programul și butonul de sunat"}, așa că alege localul de alături. Pagina de mai sus e făcută deja cu datele voastre reale.</p>
+<p class="muted" style="max-width:62ch;font-size:1.12rem">{'Cine vă caută acum pe telefon nu găsește niciun site al vostru.' if s['now']=='niciun site' else 'Cine vă caută acum pe telefon găsește doar ' + E(s['now']) + '.'} {s.get("need") or ("Nu vede dintr-o privire " + ("prețurile, programul și butonul de programare" if s["kind"] == "barber" else "meniul, programul și butonul de sunat") + ", așa că alege localul de alături.")} Pagina de mai sus e făcută deja cu datele voastre reale.</p>
 <div class="cmp"><div><h3>Acum</h3><ul><li>{E(s['now'][0].upper() + s['now'][1:])}</li><li>{"Prețurile nu se văd pe Google" if s["kind"] == "barber" else "Meniul nu se vede pe Google"}</li><li>Recenziile bune stau ascunse</li></ul></div>
 <div class="y"><h3>Cu site-ul acesta</h3><ul><li>Un site al vostru, pe domeniul vostru</li><li>Buton de sunat, indicații și {"programare" if s["book"] else "rezervare"} dintr-un click</li><li>Recenziile voastre, la vedere, pe prima pagină</li></ul></div></div>
 <div class="pr"><div class="pk"><p style="margin:0;font-weight:700">Starter</p><p class="d">1.500 lei</p><p class="muted" style="margin:0">Până la 3 pagini. Exact ce vedeți aici, terminat cu pozele și textele voastre.</p></div>
@@ -396,5 +396,10 @@ except ImportError:
 try:
     from ro_data_spal_od import SITES as _SO
     SITES += _SO
+except ImportError:
+    pass
+try:
+    from ro_data_pens_dv import SITES as _PD
+    SITES += _PD
 except ImportError:
     pass
